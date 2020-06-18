@@ -565,7 +565,8 @@ function ModWrangler:DisplayBadMods()
 					{
 						{text=STRINGS.UI.MAINSCREEN.SCRIPTERRORQUIT, cb = function() TheSim:ForceAbort() end},
 						{text=STRINGS.UI.MAINSCREEN.MODQUIT, cb = function()
-																	KnownModIndex:DisableAllMods()
+																	--[me] turn off disable failed mods
+																	-- KnownModIndex:DisableAllMods()
 																	ForceAssetReset()
 																	KnownModIndex:Save(function()
 																		SimReset()
@@ -729,7 +730,8 @@ function ModWrangler:SetPostEnv()
 					{
 						{text=STRINGS.UI.MAINSCREEN.TESTINGYES, cb = function() TheFrontEnd:PopScreen() end},
 						{text=STRINGS.UI.MAINSCREEN.MODQUIT, cb = function()
-																		KnownModIndex:DisableAllMods()
+																		--[me] turn off disable failed mods
+																		-- KnownModIndex:DisableAllMods()
 																		ForceAssetReset()
 																		KnownModIndex:Save(function()
 																			SimReset()
