@@ -311,16 +311,18 @@ end
 
 function Combat:EngageTarget(target)
     if target then
-        local oldtarget = self.target
-        self.target = target
-        self.inst:PushEvent("newcombattarget", {target=target, oldtarget=oldtarget})
-        self:StartTrackingTarget(target)
-        if self.keeptargetfn then
-            self.inst:StartUpdatingComponent(self)
-        end
-        if self.inst.components.follower and self.inst.components.follower.leader == target and self.inst.components.follower.leader.components.leader then
-            self.inst.components.follower.leader.components.leader:RemoveFollower(self.inst)
-        end
+		if not (self.inst.components.follower and self.inst.components.follower.leader == target and self.inst.components.follower.leader.components.leader ~= nil and self.inst.components.follower.keepleaderonattacked) then
+	        local oldtarget = self.target
+			self.target = target
+			self.inst:PushEvent("newcombattarget", {target=target, oldtarget=oldtarget})
+			self:StartTrackingTarget(target)
+			if self.keeptargetfn then
+				self.inst:StartUpdatingComponent(self)
+			end
+			if self.inst.components.follower and self.inst.components.follower.leader == target and self.inst.components.follower.leader.components.leader then
+				self.inst.components.follower.leader.components.leader:RemoveFollower(self.inst)
+			end
+		end
     end
 end
 

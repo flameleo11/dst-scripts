@@ -71,39 +71,6 @@ local function ForceStopHeavyLifting(inst)
     end
 end
 
-local function SetSleeperSleepState(inst)
-    if inst.components.grue ~= nil then
-        inst.components.grue:AddImmunity("sleeping")
-    end
-    if inst.components.talker ~= nil then
-        inst.components.talker:IgnoreAll("sleeping")
-    end
-    if inst.components.firebug ~= nil then
-        inst.components.firebug:Disable()
-    end
-
-    inst:OnSleepIn()
-    inst.components.inventory:Hide()
-    inst:PushEvent("ms_closepopups")
-    inst:ShowActions(false)
-end
-
-local function SetSleeperAwakeState(inst)
-    if inst.components.grue ~= nil then
-        inst.components.grue:RemoveImmunity("sleeping")
-    end
-    if inst.components.talker ~= nil then
-        inst.components.talker:StopIgnoringAll("sleeping")
-    end
-    if inst.components.firebug ~= nil then
-        inst.components.firebug:Enable()
-    end
-
-    inst:OnWakeUp()
-    inst.components.inventory:Show()
-    inst:ShowActions(true)
-end
-
 local function DoEmoteFX(inst, prefab)
     local fx = SpawnPrefab(prefab)
     if fx ~= nil then
@@ -495,7 +462,9 @@ local events =
         end),
     EventHandler("eat_food",
         function(inst)
-            inst.sg:GoToState("eat")
+            if not inst.sg:HasStateTag("busy") then
+                inst.sg:GoToState("eat")
+            end
         end),
     EventHandler("tossitem",
         function(inst)
@@ -535,33 +504,6 @@ local statue_symbols =
 
 local states =
 {
-    State{
-        name = "wakeup",
-        tags = { "busy", "waking", "nomorph", "nodangle" },
-
-        onenter = function(inst)
-            if inst.AnimState:IsCurrentAnimation("bedroll") or
-                inst.AnimState:IsCurrentAnimation("bedroll_sleep_loop") then
-                inst.AnimState:PlayAnimation("bedroll_wakeup")
-            elseif not (inst.AnimState:IsCurrentAnimation("bedroll_wakeup") or
-                        inst.AnimState:IsCurrentAnimation("wakeup")) then
-                inst.AnimState:PlayAnimation("wakeup")
-            end
-        end,
-
-        events =
-        {
-            EventHandler("animover", function(inst)
-                if inst.AnimState:AnimDone() then
-                    inst.sg:GoToState("idle")
-                end
-            end),
-        },
-
-        onexit = function(inst)
-            SetSleeperAwakeState(inst)
-        end,
-    },
 
     --------------------------------------------------------------------------
 
@@ -2558,8 +2500,10 @@ local states =
                     end
        
                     for i,gift in ipairs(inst.itemstotoss) do
-                        inst.components.inventory:DropItem(gift)
-                        inst.components.lootdropper:FlingItem(gift)
+                        if gift and gift:IsValid() then
+                            inst.components.inventory:DropItem(gift)
+                            inst.components.lootdropper:FlingItem(gift)
+                        end
                     end
                     inst.itemstotoss = nil
                 end
