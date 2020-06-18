@@ -737,7 +737,8 @@ end
 
 function ModIndex:DisableAllMods()
 	for k,v in pairs(self.savedata.known_mods) do
-		self:Disable(k)
+		--[me] turn off disable failed mods
+		-- self:Disable(k)
 	end
 end
 
