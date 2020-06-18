@@ -228,9 +228,17 @@ local function fn()
 
 	inst.OnSave = OnSave
 	inst.OnPreLoad = OnPreLoad
+    
+    inst.restart_firepit = function( inst )
+        local fuel_percent = inst.components.fueled:GetPercent()
+        inst.components.fueled:MakeEmpty()
+        inst.components.fueled:SetPercent( fuel_percent )
+    end
 
     return inst
 end
+
+
 
 return Prefab("firepit", fn, assets, prefabs),
     MakePlacer("firepit_placer", "firepit", "firepit", "preview")
