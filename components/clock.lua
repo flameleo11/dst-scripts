@@ -90,13 +90,13 @@ function self:GetTimeUntilPhase(phase)
 	local cur_phase = _phase:value()
 	if target_phase ~= nil and target_phase ~= cur_phase then
 		local time = _remainingtimeinphase:value()
-		
+
 		cur_phase = (cur_phase % #PHASE_NAMES) + 1
 		while (cur_phase ~= target_phase) do
 			time = time + (_segs[cur_phase]:value() * TUNING.SEG_TIME)
 			cur_phase = (cur_phase % #PHASE_NAMES) + 1
 		end
-		
+
 		return time
 	end
 
@@ -250,6 +250,19 @@ inst:StartUpdatingComponent(self)
 --[[ Update ]]
 --------------------------------------------------------------------------
 
+function self:next_cycle_loop()
+-- --Advance to next cycle
+-- _cycles:set(_cycles:value() + 1)
+  -- local nextday = _cycles:value() + 1
+  local nextday = (_cycles:value() + 1) % 10
+  if (TheWorld and TheWorld.state) then
+    if (TheWorld.state.remainingdaysinseason <= 1) then
+        nextday = 0
+    end
+  end
+  _cycles:set(nextday)
+end
+
 --[[
     Client updates time on its own, while server force syncs to correct it
     at the end of each segment.  Client cannot change segments on its own,
@@ -285,8 +298,9 @@ function self:OnUpdate(dt)
             _remainingtimeinphase:set(_totaltimeinphase:value())
 
             if _phase:value() == 1 then
-                --Advance to next cycle
-                _cycles:set(_cycles:value() + 1)
+                -- change by me
+                self:next_cycle_loop()
+
                 _world:PushEvent("ms_cyclecomplete", _cycles:value())
             --V2C: After waxing/waning changes, moon phase is
             --     now advanced at the beginning of each day.
@@ -444,7 +458,7 @@ function self:Dump()
        print("phase ",  PHASE_NAMES[_phase:value()])
        print("moonphase2 ",  MOON_PHASE_NAMES[_moonphase:value()])
        print("moonwaxing ",  _mooniswaxing:value())
-	   
+
        print("totaltimeinphase ",  _totaltimeinphase:value())
        print("remainingtimeinphase ",  _remainingtimeinphase:value())
        print("total segs phase ",  _totaltimeinphase:value()/TUNING.SEG_TIME)
