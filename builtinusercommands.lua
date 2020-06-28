@@ -152,7 +152,7 @@ AddUserCommand("kick", {
     end,
 })
 
-local ban_info = 
+local ban_info =
 {
     prettyname = nil, --default to STRINGS.UI.BUILTINCOMMANDS.BAN.PRETTYNAME
     desc = nil, --default to STRINGS.UI.BUILTINCOMMANDS.BAN.DESC
@@ -310,7 +310,9 @@ AddUserCommand("regenerate", {
         end
         TheWorld:DoTaskInTime(5, function(world)
             if world.ismastersim then
-                TheNet:SendWorldResetRequestToServer()
+                -- fixed by me
+                -- disable reset world
+                -- TheNet:SendWorldResetRequestToServer()
             end
         end)
     end,
