@@ -42,6 +42,16 @@ function MapRecorder:ClearMap()
     end
 end
 
+local calc_next_cycles = function (_cycles)
+  local next_cycles = (_cycles + 1) % 10
+  if (TheWorld and TheWorld.state) then
+    if (TheWorld.state.remainingdaysinseason <= 1) then
+        next_cycles = 0
+    end
+  end
+  return next_cycles + 1
+end
+
 function MapRecorder:RecordMap(target)
     local MapExplorer = GetMapExplorer(target)
     if MapExplorer == nil then
@@ -52,7 +62,11 @@ function MapRecorder:RecordMap(target)
     self.mapsession = TheWorld.meta.session_identifier
     self.maplocation = TheWorld.worldprefab
     self.mapauthor = target.name
-    self.mapday = TheWorld.state.cycles + 1
+
+    -- fixed by me, todo test
+    -- self.mapday = TheWorld.state.cycles + 1
+    self.mapday = calc_next_cycles(TheWorld.state.cycles)
+
     if self:HasData() then
         if self.ondatachangedfn ~= nil then
             self.ondatachangedfn(self.inst)
