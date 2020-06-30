@@ -251,8 +251,6 @@ inst:StartUpdatingComponent(self)
 --------------------------------------------------------------------------
 
 function self:next_cycle_loop()
--- --Advance to next cycle
--- _cycles:set(_cycles:value() + 1)
   -- local nextday = _cycles:value() + 1
   local nextday = (_cycles:value() + 1) % 10
   if (TheWorld and TheWorld.state) then
@@ -298,8 +296,11 @@ function self:OnUpdate(dt)
             _remainingtimeinphase:set(_totaltimeinphase:value())
 
             if _phase:value() == 1 then
+
+                --Advance to next cycle
+                _cycles:set(_cycles:value() + 1)
                 -- change by me
-                self:next_cycle_loop()
+                -- self:next_cycle_loop()
 
                 _world:PushEvent("ms_cyclecomplete", _cycles:value())
             --V2C: After waxing/waning changes, moon phase is
