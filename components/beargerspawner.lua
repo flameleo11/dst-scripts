@@ -55,9 +55,9 @@ local function CanSpawnBearger()
 	--print("numspawned", _numSpawned, _targetNum)
 	--print("lastkillday", _lastBeargerKillDay)
 	return (TheWorld.state.isautumn == true) and
-	 		TheWorld.state.cycles > TUNING.NO_BOSS_TIME and 
+	 		TheWorld.state.cycles2 > TUNING.NO_BOSS_TIME and 
 	 		(_numSpawned < _targetNum or 
-			(not _lastBeargerKillDay or ((TheWorld.state.cycles - _lastBeargerKillDay) > TUNING.NO_BOSS_TIME)))
+			(not _lastBeargerKillDay or ((TheWorld.state.cycles2 - _lastBeargerKillDay) > TUNING.NO_BOSS_TIME)))
 end
 
 local function IsEligible(player)
@@ -126,7 +126,7 @@ local function ReleaseHassler(targetPlayer)
 end
 
 local function SpawnBearger()
-    if _numSpawned < _targetNum and TheWorld.state.isautumn and TheWorld.state.cycles > TUNING.NO_BOSS_TIME then
+    if _numSpawned < _targetNum and TheWorld.state.isautumn and TheWorld.state.cycles2 > TUNING.NO_BOSS_TIME then
         local spawndelay = .25 * TheWorld.state.remainingdaysinseason * TUNING.TOTAL_DAY_TIME / _targetNum
         local spawnrandom = .25 * spawndelay
         if _timetospawn == nil or _timetospawn > spawndelay + spawnrandom then
@@ -150,7 +150,7 @@ local function OnSeasonTick(src, data)
 	-- a fairly large number of days has passed since the kill. 
 	--print("BeargerSpawner got isautumn event", _lastBeargerKillDay or "nil", TheWorld.state.cycles)
 
-	if data.season == "autumn" and (not _lastBeargerKillDay or ((TheWorld.state.cycles - _lastBeargerKillDay) > TUNING.NO_BOSS_TIME)) then
+	if data.season == "autumn" and (not _lastBeargerKillDay or ((TheWorld.state.cycles2 - _lastBeargerKillDay) > TUNING.NO_BOSS_TIME)) then
 		_targetNum = 0
 		local chance = math.random()
 		--print("Spawning first bearger?", chance, _firstBeargerSpawnChance)
@@ -228,7 +228,7 @@ local function OnHasslerKilled(src, hassler)
 		_numSpawned = _numSpawned - 1
 		SpawnBearger()
 	else
-		_lastBeargerKillDay = TheWorld.state.cycles
+		_lastBeargerKillDay = TheWorld.state.cycles2
 		--print("Kill day is", _lastBeargerKillDay)
 	end
 end
