@@ -109,42 +109,74 @@ local function ResetAttacks()
 end
 
 local function TryStartAttacks(killed)
+	print("..>>>>>>>>>>...TryStartAttacks(killed)..AllowedToAttack()...", killed, AllowedToAttack())
     if AllowedToAttack() then
+  print(111)  	
         if _activehassler == nil and _attacksperwinter > 0 and _timetoattack == nil then
+  print(222)  	
+  
             -- Shorten the time used for winter to account for the time deerclops spends stomping around
             -- Then add one to _attacksperwinter to shift the attacks so the last attack isn't right when the season changes to spring
             local attackdelay = (TheWorld.state.winterlength - 1) * TUNING.TOTAL_DAY_TIME / (_attacksperwinter + 1) 
+  print(333, attackdelay)  	
+  
             if killed == true then
+  print(444)  	
+  
                 attackdelay = attackdelay * HASSLER_KILLED_DELAY_MULT
             end
+  print(555, attackdelay)  	
             -- Remove randomization in case that shifts it too far
             --local attackrandom = 0.1*attackdelay
             _timetoattack = GetRandomWithVariance(attackdelay, 0)
             --print("got time to attack", _timetoattack, attackdelay, attackrandom)
+  print(666, _timetoattack)  	
         end
 
+  print(666222, _timetoattack)  	
         self.inst:StartUpdatingComponent(self)
         self:StopWatchingWorldState("cycles", TryStartAttacks)
         self.inst.watchingcycles = nil
     else
+  print(777)  	
         PauseAttacks()
         if not self.inst.watchingcycles then
+  print(888)  	
             self:WatchWorldState("cycles", TryStartAttacks)  -- keep checking every day until NO_BOSS_TIME is up
             self.inst.watchingcycles = true
         end
     end
+  print(888222, _timetoattack)  	
+  if (TheWorld) then
+  	TheWorld.t_test = function ()
+  		print("...._timetoattack.....", _timetoattack)
+  	end
+  end
+
+  print(999, TheWorld and TheWorld.t_test, _timetoattack)  	
+  
 end
 
 local function TargetLost()
+	print(">>>>>>>.........1111")
     if _timetoattack == nil or (_timetoattack < _warnduration and _warning) then
+	print(">>>>>>>.........222")
+  
         _warning = false
         _timetoattack = _warnduration + 1
+	print(">>>>>>>.........333")
+  
     end
+	print(">>>>>>>.........444")
 
     PickAttackTarget()
+	print(">>>>>>>.........55")
     if _targetplayer == nil then
+	print(">>>>>>>.........66")
         PauseAttacks()
     end
+	print(">>>>>>>.........77")
+
 end
 
 local function GetSpawnPoint(pt)

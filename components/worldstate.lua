@@ -50,6 +50,21 @@ end
 --------------------------------------------------------------------------
 --[[ Private event handlers ]]
 --------------------------------------------------------------------------
+local last_remain_day = 1000
+
+local function change_cycles(cycles)
+  -- local nextday = _cycles:value() + 1
+  local day = cycles % 10
+  local remain_day = TheWorld.state.remainingdaysinseason
+  if (TheWorld and TheWorld.state) then
+    if (remain_day > last_remain_day) then
+        day = 1 
+    end
+    print(".....[change_cycles]..remain_day, last_remain_day, day: \n ...", remain_day, last_remain_day, day)
+    last_remain_day = remain_day
+  end
+  return day
+end
 
 local function OnClockTick(src, data)
     SetVariable("time", data.time)
@@ -57,7 +72,9 @@ local function OnClockTick(src, data)
 end
 
 local function OnCyclesChanged(src, cycles)
-    SetVariable("cycles", cycles)
+    SetVariable("cycles", change_cycles(cycles))
+    SetVariable("cycles2", cycles)
+
 end
 
 local function OnCavePhaseChanged(src, phase)
@@ -109,6 +126,9 @@ end
 
 local function OnSeasonTick(src, data)
     SetVariable("season", data.season)
+    SetVariable("season2", data.season)
+    -- SetVariable("season", "autumn")
+    
     SetVariable("isautumn", data.season == "autumn", "autumn")
     SetVariable("iswinter", data.season == "winter", "winter")
     SetVariable("isspring", data.season == "spring", "spring")
@@ -174,6 +194,8 @@ end
 self.data.time = 0
 self.data.timeinphase = 0
 self.data.cycles = 0
+self.data.cycles2 = 0
+
 self.data.phase = _iscave and "night" or "day"
 self.data.isday = not _iscave
 self.data.isdusk = false
@@ -212,6 +234,8 @@ inst:ListenForEvent("nightmarephasechanged", OnNightmarePhaseChanged)
 
 --Season
 self.data.season = "autumn"
+self.data.season2 = "autumn"
+
 self.data.isspring = false
 self.data.issummer = false
 self.data.isautumn = true

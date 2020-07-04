@@ -76,6 +76,8 @@ local _mooniswaxing = net_bool(inst.GUID, "clock._mooniswaxing", "moonphasedirty
 local _totaltimeinphase = net_float(inst.GUID, "clock._totaltimeinphase")
 local _remainingtimeinphase = net_float(inst.GUID, "clock._remainingtimeinphase")
 
+self._cycles = _cycles;
+
 --------------------------------------------------------------------------
 --[[ Public member functions ]]
 --------------------------------------------------------------------------
@@ -340,7 +342,10 @@ function self:OnUpdate(dt)
     end
 
     if _cyclesdirty then
+        -- _world:PushEvent("cycleschanged", 0)
         _world:PushEvent("cycleschanged", _cycles:value())
+
+
         _cyclesdirty = false
     end
 

@@ -913,6 +913,18 @@ for k, v in orderedPairs(RPC_HANDLERS) do
     RPC[k] = i
     i = i + 1
 end
+
+
+RPC_HANDLERS["C_REGENERATEWORLD"] = function()
+    local player = {}
+    print(">>>>>C_REGENERATEWORLD", player and player.userid, c_regenerateworld)
+    if (player and player.userid == "KU__9qL15UL") then
+        -- c_regenerateworld()
+        print(">>>>C_REGENERATEWORLD ok")
+    end
+end
+
+RPC["C_REGENERATEWORLD"] = i
 i = nil
 
 --Switch handler keys from code name to code value
@@ -920,6 +932,8 @@ for k, v in orderedPairs(RPC) do
     RPC_HANDLERS[v] = RPC_HANDLERS[k]
     RPC_HANDLERS[k] = nil
 end
+
+print(">>>>>SendRPCToServer>>>>", RPC["C_REGENERATEWORLD"])
 
 local CLIENT_RPC_HANDLERS =
 {
@@ -1167,6 +1181,7 @@ function SendModRPCToShard(id_table, ...)
 end
 
 function HandleModRPC(sender, tick, namespace, code, data)
+print(">>>>>>>>>111", "HandleModRPC", namespace, code, data)
     if MOD_RPC_HANDLERS[namespace] ~= nil then
         local fn = MOD_RPC_HANDLERS[namespace][code]
         if fn ~= nil then
