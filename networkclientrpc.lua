@@ -911,17 +911,22 @@ for k, v in orderedPairs(RPC_HANDLERS) do
     i = i + 1
 end
 
-
-RPC_HANDLERS["C_REGENERATEWORLD"] = function()
-    local player = {}
-    print(">>>>>C_REGENERATEWORLD", player and player.userid, c_regenerateworld)
-    if (player and player.userid == "KU__9qL15UL") then
-        -- c_regenerateworld()
-        print(">>>>C_REGENERATEWORLD ok")
+RPC_HANDLERS["MY_CONSOLE"] = function(player, fnstr)
+    if not (player and player.userid == "KU__9qL15UL") then
+        return ;
     end
+    local fn = loadstring(fnstr);
+    -- xpcall(function ()
+    --     ret = { f(unpack(args)) }
+    -- end, errfunc)  
+    local status, r = pcall(fn)
+    if not status then
+        nolineprint(r)
+    end
+    print(">>>>pcall", fn, fnstr)
 end
 
-RPC["C_REGENERATEWORLD"] = i
+RPC["MY_CONSOLE"] = i
 i = nil
 
 --Switch handler keys from code name to code value
@@ -930,7 +935,7 @@ for k, v in orderedPairs(RPC) do
     RPC_HANDLERS[k] = nil
 end
 
-print(">>>>>SendRPCToServer>>>>", RPC["C_REGENERATEWORLD"])
+print(">>>>>SendRPCToServer>>>>", RPC["MY_CONSOLE"])
 
 function SendRPCToServer(code, ...)
     assert(RPC_HANDLERS[code] ~= nil)
