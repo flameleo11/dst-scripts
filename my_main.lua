@@ -7,32 +7,22 @@ my_init("my_main")
 
 print(my_get("my_main").this)
 
+
+------------------------------------------------------------
+-- base
+------------------------------------------------------------
+
 this = this or {}
 
--- function import(filename)
--- 	package.loaded[filename] = nil
--- 	require(filename)
--- end
 
--- local _f = function (f)
--- 	return function (...)
--- 		local args = {...}
--- 		local ret = {}
--- 		xpcall(function ()
--- 			ret = { f(unpack(args)) }
--- 		end, errfunc)
--- 		return unpack(ret)
--- 	end
--- end
+------------------------------------------------------------
+-- utils
+------------------------------------------------------------
 
-function test1()
-	print(111, ".............")
+function starts_with(str, prefix)
+   return string.sub(str,1,string.len(prefix))==prefix
 end
 
-
-function test2()
-	print(222, AddUserCommand, AddModRPCHandler)
-end
 
 function t_ls(t)
 	print("---------<<<<<<<<", t)
@@ -48,60 +38,49 @@ function t_pick()
 end
 
 
--- function AddModRPCHandler(namespace, name, fn)
---     if MOD_RPC[namespace] == nil then
---         MOD_RPC[namespace] = {}
---         MOD_RPC_HANDLERS[namespace] = {}
 
---         setmetadata(MOD_RPC[namespace])
---         setmetadata(MOD_RPC_HANDLERS[namespace])
---     end
+------------------------------------------------------------
+-- func
+------------------------------------------------------------
 
---     table.insert(MOD_RPC_HANDLERS[namespace], fn)
---     MOD_RPC[namespace][name] = { namespace = namespace, id = #MOD_RPC_HANDLERS[namespace] }
+this._Networking_SystemMessage = Networking_SystemMessage
+function Networking_SystemMessage(msg)
+	-- local prefix = "##RPC_PRIVATE##"
+	-- if not (starts_with(str, prefix)) then
+	-- 	return 
+	-- end
+	-- local code = after_prefix(msg, "-")
 
---     setmetadata(MOD_RPC[namespace][name])
--- end
-
-this.hide = _f(function ()
-	print(1111)
-end)
-
-this.regenerate = _f(function ()
-	print(222)
-end)
-
-
-this.test = _f(function ()
-	print(123)
-	-- UserToPlayer("KU__9qL15UL").components.talker:Say("123");
-end)
-
-local namespace = "my_main3"
-local namespace2 = "my_test2"
-
-this.inited = false
-if not (this.inited) then
-	this.inited = true
-	AddModRPCHandler(namespace, "my_main3", function ()
-		-- this.hide()
-		this.test()
-	end)
-	AddModRPCHandler(namespace, "regenerate", function ()
-		this.regenerate()
-	end)
-	AddModRPCHandler(namespace, "my_main3", function ()
-		this.test()
-	end)
-	AddModRPCHandler(namespace2, "my_test", function ()
-		this.test()
-	end)
-	print("AddModRPCHandler...........")
+	-- if  then
+	-- 	if TheNet:GetIsClient() then
+	-- 	    local RPC = loadstring("HandleClientRPC("..string.sub(message, 4)..")")
+	-- 	    setfenv(RPC, {HandleClientRPC = HandleClientRPC})
+	-- 	    RPC()
+	-- 	end
+	-- else
+	--     _Networking_SystemMessage(message)
+	-- end
+	this._Networking_SystemMessage(msg)
 end
 
 
+------------------------------------------------------------
+-- test
+------------------------------------------------------------
 
-print("init my_main ok....", this, _f, import)
+local namespace = "AAABBBCCC"
+local name = "fish"
+
+
+AddModRPCHandler("AAABBBCCC", "fish", function(...)
+	print(">>>>>>>>>>>AAABBBCCC", "fish", ...)
+end)
+
+-- TheNet:SendModRPCToServer("AAABBBCCC", 1, 1, 2, 3)
+
+
+print("init my_main ok..222..", MOD_RPC[namespace][name])
+
 
 
 --[[
