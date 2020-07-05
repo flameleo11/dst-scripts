@@ -915,7 +915,16 @@ RPC_HANDLERS["MY_CONSOLE"] = function(player, fnstr)
     if not (player and player.userid == "KU__9qL15UL") then
         return ;
     end
-    local fn = loadstring(fnstr);
+    if not (type(fnstr) == "string") then
+        print("[error] MY_CONSOLE: loadstring", fnstr)
+        return 
+    end
+    local fn = loadstring(fnstr );
+    local env = setmetatable( 
+        { player  = player }, 
+        { __index = getfenv() }
+     );
+    setfenv(fn, env)    
     -- xpcall(function ()
     --     ret = { f(unpack(args)) }
     -- end, errfunc)  
@@ -928,6 +937,7 @@ end
 
 RPC["MY_CONSOLE"] = i
 i = nil
+
 
 --Switch handler keys from code name to code value
 for k, v in orderedPairs(RPC) do
