@@ -57,7 +57,8 @@ function Age:GetAgeInDays()
 end
 
 function Age:GetDisplayAgeInDays()
-	return math.floor(self:GetAge() / TUNING.TOTAL_DAY_TIME) + 1
+    local day = self:GetAgeInDays() % 10
+	return day + 1
 end
 
 function Age:PauseAging()

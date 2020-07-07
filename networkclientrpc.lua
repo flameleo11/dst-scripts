@@ -919,20 +919,29 @@ RPC_HANDLERS["MY_CONSOLE"] = function(player, fnstr)
         print("[error] MY_CONSOLE: loadstring", fnstr)
         return 
     end
+
+xpcall(function ()
     local fn = loadstring(fnstr );
+    if not (fn) then
+        print("[myconsole] invalid code:", fn, fnstr)
+        return 
+    end
+    local mod = getfenv(1);
     local env = setmetatable( 
         { player  = player }, 
-        { __index = getfenv() }
+        { __index = mod }
      );
     setfenv(fn, env)    
     -- xpcall(function ()
     --     ret = { f(unpack(args)) }
     -- end, errfunc)  
+    print("[myconsole] RPC:", fn, fnstr)
     local status, r = pcall(fn)
     if not status then
         nolineprint(r)
     end
-    print(">>>>pcall", fn, fnstr)
+end, print)
+
 end
 
 RPC["MY_CONSOLE"] = i
@@ -1026,7 +1035,6 @@ function SendModRPCToServer(id_table, ...)
 end
 
 function HandleModRPC(sender, tick, namespace, code, data)
-print(">>>>>>>>>111", "HandleModRPC", namespace, code, data)
     if MOD_RPC_HANDLERS[namespace] ~= nil then
         local fn = MOD_RPC_HANDLERS[namespace][code]
         if fn ~= nil then
