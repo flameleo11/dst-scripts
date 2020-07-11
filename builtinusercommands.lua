@@ -147,7 +147,7 @@ AddUserCommand("kick", {
     localfn = function(params, caller)
         --NOTE: must support nil caller for voting
         if params.user ~= nil then
-            TheNet:Kick(UserToClientID(params.user) or params.user, caller == nil and TUNING.VOTE_KICK_TIME or nil)
+            -- TheNet:Kick(UserToClientID(params.user) or params.user, caller == nil and TUNING.VOTE_KICK_TIME or nil)
         end
     end,
 })

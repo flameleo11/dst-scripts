@@ -54,10 +54,25 @@ local function CanSpawnBearger()
 	--print("No boss time?", TheWorld.state.cycles, TUNING.NO_BOSS_TIME)
 	--print("numspawned", _numSpawned, _targetNum)
 	--print("lastkillday", _lastBeargerKillDay)
-	return (TheWorld.state.isautumn == true) and
+	if (  TheWorld 
+		and TheWorld.state 
+		and TheWorld.state.round 
+		and TheWorld.state.round > 0) then
+		local ret = (TheWorld.state.isautumn == true) and
+		 		TheWorld.state.cycles2 > 16 and 
+		 		(_numSpawned < _targetNum or 
+				(not _lastBeargerKillDay or ((TheWorld.state.cycles2 - _lastBeargerKillDay) > TUNING.NO_BOSS_TIME)));
+print("..........CanSpawnBearger 111", ret)		
+		return ret
+	end
+
+	local ret = (TheWorld.state.isautumn == true) and
 	 		TheWorld.state.cycles2 > TUNING.NO_BOSS_TIME and 
 	 		(_numSpawned < _targetNum or 
-			(not _lastBeargerKillDay or ((TheWorld.state.cycles2 - _lastBeargerKillDay) > TUNING.NO_BOSS_TIME)))
+			(not _lastBeargerKillDay or ((TheWorld.state.cycles2 - _lastBeargerKillDay) > TUNING.NO_BOSS_TIME)));
+print("..........CanSpawnBearger 222", ret)		
+
+	return ret
 end
 
 local function IsEligible(player)
