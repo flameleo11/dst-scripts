@@ -45,21 +45,26 @@ SetSharedLootTable('minotaur',
 
 local chest_loot = 
 {
-	{item = {"armorruins", "ruinshat"}, count = 1},
-	{item = {"ruins_bat", "orangestaff", "yellowstaff"}, count = 1},
-	{item = {"firestaff", "icestaff", "telestaff", "multitool_axe_pickaxe"}, count = 1},
-	{item = {"thulecite"}, count = {5, 12}},
-	{item = {"thulecite_pieces"}, count = {12, 36}},
-	{item = {"redgem", "bluegem", "purplegem"}, count = {3, 5}},
-	{item = {"yellowgem", "orangegem", "greengem"}, count = {1, 3}},
-	{item = {"nightmarefuel"}, count = {5, 8}},
-	{item = {"gears"}, count = {3, 6}},
+    {item = {"armorruins", "ruinshat"}, count = 1},
+    -- {item = {"ruins_bat", "orangestaff", "yellowstaff"}, count = 1},
+    {item = {"firestaff", "icestaff", "telestaff", "multitool_axe_pickaxe"}, count = 1},
+    -- {item = {"thulecite"}, count = {5, 12}},
+    -- {item = {"thulecite_pieces"}, count = {12, 36}},
+    {item = {"thulecite"}, count = {2, 4}},
+    {item = {"thulecite_pieces"}, count = {4, 8}},
+
+    {item = {"redgem", "bluegem", "purplegem"}, count = {3, 5}},
+    -- {item = {"yellowgem", "orangegem", "greengem"}, count = {1, 3}},
+    -- {item = {"nightmarefuel"}, count = {5, 8}},
+    -- {item = {"gears"}, count = {3, 6}},
+    {item = {"nightmarefuel"}, count = {3, 6}},
+    {item = {"gears"}, count = {1, 3}},    
 }
 
 for _,v in ipairs(chest_loot) do
-	for _,item in ipairs(v.item) do
+    for _,item in ipairs(v.item) do
         table.insert(prefabs_chest, item)
-	end
+    end
 end
 
 local SLEEP_DIST_FROMHOME_SQ = 20 * 20

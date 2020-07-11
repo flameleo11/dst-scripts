@@ -97,12 +97,42 @@ function tprint(t, name, indent, verbose)
 	return arr
 end
 
-function t_ls(t)
+local function print_table(t)
 	print("---------<<<<<<<<", t)
 	for k,v in pairs(t) do
 		print(type(v), k, v)
 	end
 	print("--------->>>>>>>>", t)
+end
+
+local function print_userdata(v)
+	print("<<<<<<<<---------", v)
+	local t = getmetatable(v)
+	print("[1] meta:", t)
+	for k,v in pairs(t) do
+		print(type(v), k, v)
+	end
+	if (t.__index) then
+		print("[2] t.__index:", t.__index)
+		for k,v in pairs(t.__index) do
+			print(type(v), k, v)
+		end
+	end
+	print("--------->>>>>>>>", t)
+end
+
+function print_ls(t)
+	if (type(t) == "table") then
+		return print_table(t) 
+	end
+	if (type(t) == "userdata") then
+		return print_userdata(t)
+	end
+	return print_table(t) 
+end
+
+function t_ls(t)
+	print_ls(t)
 end
 
 return tprint
