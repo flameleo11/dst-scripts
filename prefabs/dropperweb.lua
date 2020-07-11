@@ -61,7 +61,7 @@ local function fn()
     inst.entity:AddMiniMapEntity()
     inst.entity:AddNetwork()
 
-    inst.GroundCreepEntity:SetRadius(5)
+    inst.GroundCreepEntity:SetRadius(7)
     inst:AddTag("cavedweller")
     inst:AddTag("spiderden")
     inst.MiniMapEntity:SetIcon("whitespider_den.png")
@@ -80,7 +80,7 @@ local function fn()
     inst:AddComponent("childspawner")
     inst.components.childspawner:SetRegenPeriod(120)
     inst.components.childspawner:SetSpawnPeriod(240)
-    inst.components.childspawner:SetMaxChildren(math.random(2, 3))
+    inst.components.childspawner:SetMaxChildren(math.random(2, 4))
     inst.components.childspawner:StartRegen()
     inst.components.childspawner.childname = "spider_dropper"
     inst.components.childspawner.emergencychildname = "spider_dropper"

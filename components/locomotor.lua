@@ -379,26 +379,75 @@ function LocoMotor:SetFasterOnGroundTile(ground_tile, is_faster)
 	end
 end
 
-function LocoMotor:UpdateGroundSpeedMultiplier()
-    local x, y, z = self.inst.Transform:GetWorldPosition()
-    local oncreep = self.triggerscreep and TheWorld.GroundCreep:OnCreep(x, y, z)
-    if oncreep then
-        -- if this ever needs to happen when self.enablegroundspeedmultiplier is set, need to move the check for self.enablegroundspeedmultiplier above
-        if not self.wasoncreep then
-            for _, v in ipairs(TheWorld.GroundCreep:GetTriggeredCreepSpawners(x, y, z)) do
-                v:PushEvent("creepactivate", { target = self.inst })
-            end
-            self.wasoncreep = true
-        end
-        self.groundspeedmultiplier = self.slowmultiplier
-    else
-        self.wasoncreep = false
+local function my_getInstAroundPoints(inst)
+  local x, y, z = inst.Transform:GetWorldPosition()
+  local offset = 1.5
+  if (TUNING) then
+    TUNING.FL_GROUNDCREEP_TEST_RANGE_OFFSET = TUNING.FL_GROUNDCREEP_TEST_RANGE_OFFSET or offset
+    offset = TUNING.FL_GROUNDCREEP_TEST_RANGE_OFFSET
+  end
 
-        local current_ground_tile = TheWorld.Map:GetTileAtPoint(x, 0, z)
-        self.groundspeedmultiplier = (self:IsFasterOnGroundTile(current_ground_tile) or (self:FasterOnRoad() and ((RoadManager ~= nil and RoadManager:IsOnRoad(x, 0, z)) or current_ground_tile == GROUND.ROAD)))
-									and self.fastmultiplier 
-									or 1
+  local offset2 = offset * 0.7
+  local arr = {}
+  table.insert(arr, {x, y, z})
+  table.insert(arr, {x+offset, y, z})
+  table.insert(arr, {x-offset, y, z})
+  table.insert(arr, {x, y, z+offset})
+  table.insert(arr, {x, y, z-offset})
+  table.insert(arr, {x+offset2, y, z+offset2})
+  table.insert(arr, {x+offset2, y, z-offset2})
+  table.insert(arr, {x-offset2, y, z+offset2})
+  table.insert(arr, {x-offset2, y, z-offset2})
+  return arr
+end
+
+local function my_testOnCreep(inst)
+  local arr = my_getInstAroundPoints(inst)
+  local oncreep
+  for i, v in ipairs(arr) do
+    local x, y, z = unpack(v)
+    oncreep = TheWorld.GroundCreep:OnCreep(x, y, z)
+    if (oncreep) then
+-- print(">>OnCreep point i=", i, inst, x, y, z, oncreep)
+      return oncreep
     end
+  end
+  return oncreep
+end
+
+local function my_testGetTriggeredCreepSpawners(inst)
+  local arr = my_getInstAroundPoints(inst)
+  for i, v in ipairs(arr) do
+    local x, y, z = unpack(v)
+    for _, v in ipairs(TheWorld.GroundCreep:GetTriggeredCreepSpawners(x, y, z)) do
+-- print(">>CreepSpawners point i=", i, inst, x, y, z, v)
+      v:PushEvent("creepactivate", { target = inst })
+    end
+  end
+end
+
+function LocoMotor:UpdateGroundSpeedMultiplier()
+xpcall(function ()
+  local inst = self.inst
+  local x, y, z = self.inst.Transform:GetWorldPosition()
+  local oncreep = self.triggerscreep and my_testOnCreep(inst)
+  if oncreep then
+    -- if this ever needs to happen when self.enablegroundspeedmultiplier is set, need to move the check for self.enablegroundspeedmultiplier above
+    if not self.wasoncreep then
+        my_testGetTriggeredCreepSpawners(inst)
+        self.wasoncreep = true
+    end
+    self.groundspeedmultiplier = self.slowmultiplier
+  else
+    self.wasoncreep = false
+
+    local current_ground_tile = TheWorld.Map:GetTileAtPoint(x, 0, z)
+    self.groundspeedmultiplier = (self:IsFasterOnGroundTile(current_ground_tile) or (self:FasterOnRoad() and ((RoadManager ~= nil and RoadManager:IsOnRoad(x, 0, z)) or current_ground_tile == GROUND.ROAD)))
+              and self.fastmultiplier 
+              or 1
+  end
+end, print)
+
 end
 
 function LocoMotor:PushTempGroundSpeedMultiplier(mult, tile)
