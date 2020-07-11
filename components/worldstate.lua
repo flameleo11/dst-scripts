@@ -60,7 +60,8 @@ local function change_cycles(cycles)
     if (remain_day > last_remain_day) then
         day = 1 
     end
-    print(".....[change_cycles]..remain_day, last_remain_day, day: \n ...", remain_day, last_remain_day, day)
+    print(".....[change_cycles]..remain_day, last_remain_day, day, cycles: \n ...", 
+        remain_day, last_remain_day, day, cycles)
     last_remain_day = remain_day
   end
   return day
@@ -195,6 +196,8 @@ self.data.time = 0
 self.data.timeinphase = 0
 self.data.cycles = 0
 self.data.cycles2 = 0
+self.data.round = 0
+
 
 self.data.phase = _iscave and "night" or "day"
 self.data.isday = not _iscave

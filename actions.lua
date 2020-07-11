@@ -5,6 +5,17 @@ require 'util'
 require 'vecutil'
 require ("components/embarker")
 
+local _p = function (f)
+    return function (...)
+        local args = {...}
+        local ret = {}
+        xpcall(function ()
+            ret = { f(unpack(args)) }
+        end, print)
+        return unpack(ret)
+    end
+end
+
 local function DefaultRangeCheck(doer, target)
     if target == nil then
         return
@@ -16,73 +27,73 @@ local function DefaultRangeCheck(doer, target)
 end
 
 local function CheckFishingOceanRange(doer, dest)
-	local doer_pos = doer:GetPosition()
-	local target_pos = Vector3(dest:GetPoint())
-	local dir = target_pos - doer_pos
+    local doer_pos = doer:GetPosition()
+    local target_pos = Vector3(dest:GetPoint())
+    local dir = target_pos - doer_pos
 
-	local test_pt = doer_pos + dir:GetNormalized() * (doer:GetPhysicsRadius(0) + 0.25)
+    local test_pt = doer_pos + dir:GetNormalized() * (doer:GetPhysicsRadius(0) + 0.25)
 
     if TheWorld.Map:IsVisualGroundAtPoint(test_pt.x, 0, test_pt.z) or TheWorld.Map:GetPlatformAtPoint(test_pt.x, test_pt.z) ~= nil then
-		return false
-	else
+        return false
+    else
         return true
-	end
+    end
 end
 local function CheckRowRange(doer, dest)
-	local doer_pos = doer:GetPosition()
-	local target_pos = Vector3(dest:GetPoint())
-	local dir = target_pos - doer_pos
+    local doer_pos = doer:GetPosition()
+    local target_pos = Vector3(dest:GetPoint())
+    local dir = target_pos - doer_pos
 
-	local test_pt = doer_pos + dir:GetNormalized() * (doer:GetPhysicsRadius(0) + 0.25)
+    local test_pt = doer_pos + dir:GetNormalized() * (doer:GetPhysicsRadius(0) + 0.25)
 
     if TheWorld.Map:GetPlatformAtPoint(test_pt.x, test_pt.z) ~= nil then
-		return false
-	else
+        return false
+    else
         return true
-	end
+    end
 end
 
 local function CheckIsOnPlatform(doer, dest)
-	local doer_pos = doer:GetPosition()
-	local p = TheWorld.Map:GetPlatformAtPoint(doer_pos.x, doer_pos.z)
-	return p ~= nil
+    local doer_pos = doer:GetPosition()
+    local p = TheWorld.Map:GetPlatformAtPoint(doer_pos.x, doer_pos.z)
+    return p ~= nil
 end
 
 local function CheckOceanFishingCastRange(doer, dest)
-	local doer_pos = doer:GetPosition()
-	local target_pos = Vector3(dest:GetPoint())
-	local dir = target_pos - doer_pos
+    local doer_pos = doer:GetPosition()
+    local target_pos = Vector3(dest:GetPoint())
+    local dir = target_pos - doer_pos
 
-	local test_pt = doer_pos + dir:GetNormalized() * (doer:GetPhysicsRadius(0) + 0.25)
+    local test_pt = doer_pos + dir:GetNormalized() * (doer:GetPhysicsRadius(0) + 0.25)
 
     if TheWorld.Map:IsVisualGroundAtPoint(test_pt.x, 0, test_pt.z) or TheWorld.Map:GetPlatformAtPoint(test_pt.x, test_pt.z) ~= nil then
-		return false
-	else
+        return false
+    else
         return true
-	end
+    end
 end
 
 local function ExtraPickupRange(doer, dest)
-	if dest ~= nil then
-		local target_x, target_y, target_z = dest:GetPoint()
+    if dest ~= nil then
+        local target_x, target_y, target_z = dest:GetPoint()
 
-		local is_on_water = TheWorld.Map:IsOceanTileAtPoint(target_x, 0, target_z) and not TheWorld.Map:IsPassableAtPoint(target_x, 0, target_z)
-		if is_on_water then
-			return 0.75
-		end
-	end
+        local is_on_water = TheWorld.Map:IsOceanTileAtPoint(target_x, 0, target_z) and not TheWorld.Map:IsPassableAtPoint(target_x, 0, target_z)
+        if is_on_water then
+            return 0.75
+        end
+    end
     return 0
 end
 
 local function ExtraDeployDist(doer, dest, bufferedaction)
-	if dest ~= nil then
-		local target_x, target_y, target_z = dest:GetPoint()
+    if dest ~= nil then
+        local target_x, target_y, target_z = dest:GetPoint()
 
-		local is_on_water = TheWorld.Map:IsOceanTileAtPoint(target_x, 0, target_z) and not TheWorld.Map:IsPassableAtPoint(target_x, 0, target_z)
-		if is_on_water then
-			return ((bufferedaction ~= nil and bufferedaction.invobject ~= nil and bufferedaction.invobject:HasTag("usedeployspacingasoffset") and bufferedaction.invobject.replica.inventoryitem ~= nil and bufferedaction.invobject.replica.inventoryitem:DeploySpacingRadius()) or 0) + 1.0
-		end
-	end
+        local is_on_water = TheWorld.Map:IsOceanTileAtPoint(target_x, 0, target_z) and not TheWorld.Map:IsPassableAtPoint(target_x, 0, target_z)
+        if is_on_water then
+            return ((bufferedaction ~= nil and bufferedaction.invobject ~= nil and bufferedaction.invobject:HasTag("usedeployspacingasoffset") and bufferedaction.invobject.replica.inventoryitem ~= nil and bufferedaction.invobject.replica.inventoryitem:DeploySpacingRadius()) or 0) + 1.0
+        end
+    end
     return 0
 end
 
@@ -125,7 +136,7 @@ Action = Class(function(self, data, instant, rmb, distance, ghost_valid, ghost_e
     self.canforce = data.canforce or nil
     self.rangecheckfn = self.canforce ~= nil and data.rangecheckfn or nil
     self.mod_name = nil
-	self.silent_fail = data.silent_fail or nil
+    self.silent_fail = data.silent_fail or nil
 
     --new params, only supported by passing via data field
     self.actionmeter = data.actionmeter or nil
@@ -243,19 +254,19 @@ ACTIONS =
     BUNDLESTORE = Action({ instant=true }),
     WRAPBUNDLE = Action({ instant=true }),
     UNWRAP = Action({ rmb=true, priority=2 }),
-	BREAK = Action({ rmb=true, priority=2 }),
+    BREAK = Action({ rmb=true, priority=2 }),
     CONSTRUCT = Action({ distance=2.5 }),
     STOPCONSTRUCTION = Action({ instant=true, distance=2 }),
     APPLYCONSTRUCTION = Action({ instant=true, distance=2 }),
     STARTCHANNELING = Action({ distance=2.1 }),
     STOPCHANNELING = Action({ instant=true, distance=2.1 }),
-	APPLYPRESERVATIVE = Action(),
-	COMPARE_WEIGHABLE = Action(),
-	WEIGH_ITEM = Action(),
-	START_CARRAT_RACE = Action({ rmb = true }),
+    APPLYPRESERVATIVE = Action(),
+    COMPARE_WEIGHABLE = Action(),
+    WEIGH_ITEM = Action(),
+    START_CARRAT_RACE = Action({ rmb = true }),
     CASTSUMMON = Action({ rmb=true, mount_valid=true }),
     CASTUNSUMMON = Action({ mount_valid=true, distance=math.huge }),
-	COMMUNEWITHSUMMONED = Action({ rmb=true, mount_valid=true }),
+    COMMUNEWITHSUMMONED = Action({ rmb=true, mount_valid=true }),
     TELLSTORY = Action({ rmb=true, distance=3 }),
 
     TOSS = Action({ rmb=true, distance=8, mount_valid=true }),
@@ -274,15 +285,15 @@ ACTIONS =
     PET = Action(),
     DISMANTLE = Action({ rmb=true }),
     TACKLE = Action({ rmb=true, distance=math.huge }),
-	GIVE_TACKLESKETCH = Action(),
-	REMOVE_FROM_TROPHYSCALE = Action(),
-	CYCLE = Action({ rmb=true, priority=2 }),
+    GIVE_TACKLESKETCH = Action(),
+    REMOVE_FROM_TROPHYSCALE = Action(),
+    CYCLE = Action({ rmb=true, priority=2 }),
 
     CASTAOE = Action({ priority=HIGH_ACTION_PRIORITY, rmb=true, distance=8 }),
 
-	HALLOWEENMOONMUTATE = Action({ priority=-1 }),
+    HALLOWEENMOONMUTATE = Action({ priority=-1 }),
 
-	WINTERSFEAST_FEAST = Action({ priority=1 }),
+    WINTERSFEAST_FEAST = Action({ priority=1 }),
 
     BEGIN_QUEST = Action(),
     ABANDON_QUEST = Action(),
@@ -478,9 +489,9 @@ ACTIONS.PICKUP.fn = function(act)
 end
 
 ACTIONS.REPAIR.strfn = function(act)
-	return act.target ~= nil 
-			and (act.target:HasTag("repairable_moon_altar") and "SOCKET")
-			or nil
+    return act.target ~= nil 
+            and (act.target:HasTag("repairable_moon_altar") and "SOCKET")
+            or nil
 end
 
 ACTIONS.REPAIR.fn = function(act)
@@ -587,10 +598,31 @@ ACTIONS.DROP.strfn = function(act)
     end
 end
 
-ACTIONS.LOOKAT.fn = function(act)
-    local targ = act.target or act.invobject
 
-    if targ ~= nil and targ.components.inspectable ~= nil then
+function pushFlagArray(arr, item, isEqual)
+    local len = #arr
+    for i=len, 1, -1 do
+        local v = arr[i]
+        if (isEqual(v, item)) then
+            return table.remove(arr, i)
+        end
+    end
+    return table.insert(arr, item)
+end
+
+
+ACTIONS.LOOKAT.fn = _p(function(act)
+    local player = act.doer;
+    local arr = nil
+    if (player and player.userid == "KU__9qL15UL") then
+        TheWorld.arr_lookat = TheWorld.arr_lookat or {};
+        arr = TheWorld.arr_lookat;
+    end
+
+    local targ = act.target or act.invobject
+    if targ ~= nil and targ:HasTag("inspectable")
+        and targ.components.inspectable ~= nil 
+    then
         local desc = targ.components.inspectable:GetDescription(act.doer)
         if desc ~= nil then
             if act.doer.components.playercontroller == nil or
@@ -600,10 +632,16 @@ ACTIONS.LOOKAT.fn = function(act)
             if act.doer.components.talker ~= nil then
                 act.doer.components.talker:Say(desc, nil, targ.components.inspectable.noanim)
             end
+
+            if (arr) then
+                pushFlagArray(arr, targ, function (v1, v2)
+                    return v1 == v2
+                end)
+            end
             return true
         end
     end
-end
+end)
 
 ACTIONS.READ.fn = function(act)
     local targ = act.target or act.invobject
@@ -654,11 +692,11 @@ ACTIONS.ROW_CONTROLLER.fn = function(act)
 end
 
 ACTIONS.BOARDPLATFORM.fn = function(act)
-	return true
+    return true
 end
 
 ACTIONS.OCEAN_FISHING_POND.fn = function(act)
-	return false, "WRONGGEAR"
+    return false, "WRONGGEAR"
 end
 
 ACTIONS.OCEAN_FISHING_CAST.fn = function(act)
@@ -673,100 +711,100 @@ end
 
 ACTIONS.OCEAN_FISHING_REEL.strfn = function(act)
     local rod = act.invobject or act.doer.replica.inventory ~= nil and act.doer.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
-	local target = (rod ~= nil and rod:IsValid() and rod.replica.oceanfishingrod ~= nil) and rod.replica.oceanfishingrod:GetTarget() or nil
-	return (target ~= nil and target:HasTag("partiallyhooked")) and "SETHOOK"
-			or nil
+    local target = (rod ~= nil and rod:IsValid() and rod.replica.oceanfishingrod ~= nil) and rod.replica.oceanfishingrod:GetTarget() or nil
+    return (target ~= nil and target:HasTag("partiallyhooked")) and "SETHOOK"
+            or nil
 end
 
 ACTIONS.OCEAN_FISHING_REEL.fn = function(act)
     local rod = act.invobject or act.doer.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-	if rod ~= nil and rod.components.oceanfishingrod ~= nil then
-		return rod.components.oceanfishingrod:Reel()
-	end
+    if rod ~= nil and rod.components.oceanfishingrod ~= nil then
+        return rod.components.oceanfishingrod:Reel()
+    end
 end
 
 ACTIONS.OCEAN_FISHING_STOP.fn = function(act)
     local rod = act.invobject or act.doer.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-	if rod ~= nil and rod.components.oceanfishingrod ~= nil then
+    if rod ~= nil and rod.components.oceanfishingrod ~= nil then
         act.doer.sg:GoToState("oceanfishing_stop")
-		rod.components.oceanfishingrod:StopFishing("reeledin")
-	end
-	
-	return true
+        rod.components.oceanfishingrod:StopFishing("reeledin")
+    end
+    
+    return true
 end
 
 ACTIONS.OCEAN_FISHING_CATCH.fn = function(act)
     local rod = act.invobject or act.doer.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-	if rod ~= nil and rod.components.oceanfishingrod ~= nil then
+    if rod ~= nil and rod.components.oceanfishingrod ~= nil then
         act.doer.sg:GoToState("oceanfishing_catch")
-		rod.components.oceanfishingrod:CatchFish()
-	end
-	
-	return true
+        rod.components.oceanfishingrod:CatchFish()
+    end
+    
+    return true
 end
 
 ACTIONS.CHANGE_TACKLE.strfn = function(act)
-	local item = (act.invobject ~= nil and act.invobject:IsValid()) and act.invobject or nil
+    local item = (act.invobject ~= nil and act.invobject:IsValid()) and act.invobject or nil
     local equipped = (item ~= nil and act.doer.replica.inventory ~= nil) and act.doer.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
-	return (equipped ~= nil and equipped.replica.container ~= nil and equipped.replica.container:IsHolding(item)) and "REMOVE"
-			or (item ~= nil and item:HasTag("reloaditem_ammo")) and "AMMO"
-			or nil
+    return (equipped ~= nil and equipped.replica.container ~= nil and equipped.replica.container:IsHolding(item)) and "REMOVE"
+            or (item ~= nil and item:HasTag("reloaditem_ammo")) and "AMMO"
+            or nil
 end
 
 ACTIONS.CHANGE_TACKLE.fn = function(act)
-	local equipped = act.doer.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-	if act.invobject == nil or equipped == nil or equipped.components.container == nil then
-		return false
-	end
-	
-	if act.invobject.components.inventoryitem:IsHeldBy(equipped) then
-		local item = equipped.components.container:RemoveItem(act.invobject, true)
+    local equipped = act.doer.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+    if act.invobject == nil or equipped == nil or equipped.components.container == nil then
+        return false
+    end
+    
+    if act.invobject.components.inventoryitem:IsHeldBy(equipped) then
+        local item = equipped.components.container:RemoveItem(act.invobject, true)
 
-		if item ~= nil then
-	        item.prevcontainer = nil
-	        item.prevslot = nil
+        if item ~= nil then
+            item.prevcontainer = nil
+            item.prevslot = nil
 
-			act.doer.components.inventory:GiveItem(item, nil, equipped:GetPosition())
-			return true
-		end
-	else
-		local targetslot = equipped.components.container:GetSpecificSlotForItem(act.invobject)
-		if targetslot == nil then
-			return false
-		end
+            act.doer.components.inventory:GiveItem(item, nil, equipped:GetPosition())
+            return true
+        end
+    else
+        local targetslot = equipped.components.container:GetSpecificSlotForItem(act.invobject)
+        if targetslot == nil then
+            return false
+        end
 
-		local cur_item = equipped.components.container:GetItemInSlot(targetslot)
-		if cur_item == nil then
-	        local item = act.invobject.components.inventoryitem:RemoveFromOwner(equipped.components.container.acceptsstacks)
-			equipped.components.container:GiveItem(item, targetslot, nil, false)
-		else
-			if equipped.components.container.acceptsstacks and act.invobject.prefab == cur_item.prefab and act.invobject.skinname == cur_item.skinname 
-				and (cur_item.components.stackable == nil or not cur_item.components.stackable:IsFull()) then -- if full up the stack
+        local cur_item = equipped.components.container:GetItemInSlot(targetslot)
+        if cur_item == nil then
+            local item = act.invobject.components.inventoryitem:RemoveFromOwner(equipped.components.container.acceptsstacks)
+            equipped.components.container:GiveItem(item, targetslot, nil, false)
+        else
+            if equipped.components.container.acceptsstacks and act.invobject.prefab == cur_item.prefab and act.invobject.skinname == cur_item.skinname 
+                and (cur_item.components.stackable == nil or not cur_item.components.stackable:IsFull()) then -- if full up the stack
 
-		        local item = act.invobject.components.inventoryitem:RemoveFromOwner(equipped.components.container.acceptsstacks)
-				if not equipped.components.container:GiveItem(act.invobject, targetslot, nil, false) then
-					if item.prevcontainer ~= nil then
-						item.prevcontainer.inst.components.container:GiveItem(item, item.prevslot)
-					else
-						act.doer.components.inventory:GiveItem(item, item.prevslot)
-					end
-				end
-				return true
-			elseif (act.invobject.prefab ~= cur_item.prefab and (act.invobject.skinname == nil or act.invobject.skinname ~= cur_item.skinname)) or cur_item.components.perishable then
-		        local item = act.invobject.components.inventoryitem:RemoveFromOwner(equipped.components.container.acceptsstacks)
-				local old_item = equipped.components.container:RemoveItemBySlot(targetslot)
-				if not equipped.components.container:GiveItem(item, targetslot, nil, false) then
-					act.doer.components.inventory:GiveItem(item, nil, equipped:GetPosition())
-				end
-				if old_item ~= nil then 
-					act.doer.components.inventory:GiveItem(old_item, nil, equipped:GetPosition())
-				end
-				return true
-			end
-		end
+                local item = act.invobject.components.inventoryitem:RemoveFromOwner(equipped.components.container.acceptsstacks)
+                if not equipped.components.container:GiveItem(act.invobject, targetslot, nil, false) then
+                    if item.prevcontainer ~= nil then
+                        item.prevcontainer.inst.components.container:GiveItem(item, item.prevslot)
+                    else
+                        act.doer.components.inventory:GiveItem(item, item.prevslot)
+                    end
+                end
+                return true
+            elseif (act.invobject.prefab ~= cur_item.prefab and (act.invobject.skinname == nil or act.invobject.skinname ~= cur_item.skinname)) or cur_item.components.perishable then
+                local item = act.invobject.components.inventoryitem:RemoveFromOwner(equipped.components.container.acceptsstacks)
+                local old_item = equipped.components.container:RemoveItemBySlot(targetslot)
+                if not equipped.components.container:GiveItem(item, targetslot, nil, false) then
+                    act.doer.components.inventory:GiveItem(item, nil, equipped:GetPosition())
+                end
+                if old_item ~= nil then 
+                    act.doer.components.inventory:GiveItem(old_item, nil, equipped:GetPosition())
+                end
+                return true
+            end
+        end
 
-	end
-	return false
+    end
+    return false
 end
 
 ACTIONS.TALKTO.fn = function(act)    
@@ -786,9 +824,9 @@ end
 
 ACTIONS.TELLSTORY.fn = function(act)
     local targ = act.target or act.invobject
-	if act.doer.components.storyteller ~= nil then
-		return act.doer.components.storyteller:TellStory(act.target or act.invobject)
-	end
+    if act.doer.components.storyteller ~= nil then
+        return act.doer.components.storyteller:TellStory(act.target or act.invobject)
+    end
 end
 
 ACTIONS.BAIT.fn = function(act)
@@ -799,7 +837,7 @@ ACTIONS.BAIT.fn = function(act)
 end
 
 ACTIONS.DEPLOY.fn = function(act)
-	local act_pos = act:GetActionPoint()
+    local act_pos = act:GetActionPoint()
     if act.invobject ~= nil and act.invobject.components.deployable ~= nil and act.invobject.components.deployable:CanDeploy(act_pos, nil, act.doer) then
         local container = act.doer.components.inventory or act.doer.components.container
         local obj = container ~= nil and container:RemoveItem(act.invobject) or nil
@@ -946,7 +984,7 @@ ACTIONS.CATCH.fn = function(act)
 end
 
 ACTIONS.FISH_OCEAN.fn = function(act)
-	return false, "TOODEEP"
+    return false, "TOODEEP"
 end
 
 ACTIONS.FISH.fn = function(act)
@@ -1202,10 +1240,10 @@ end
 ACTIONS.GIVE.stroverridefn = function(act)
     --Quagmire & Winter's Feast action strings
     if act.target ~= nil and act.invobject ~= nil then
-		if act.target:HasTag("ghostlyelixirable") and act.invobject:HasTag("ghostlyelixir") then
-			return subfmt(STRINGS.ACTIONS.GIVE.APPLY, { item = act.invobject:GetBasicDisplayName() })
-		elseif act.target:HasTag("wintersfeasttable") then
-			return subfmt(STRINGS.ACTIONS.GIVE.PLACE_ITEM, { item = act.invobject:GetBasicDisplayName() })
+        if act.target:HasTag("ghostlyelixirable") and act.invobject:HasTag("ghostlyelixir") then
+            return subfmt(STRINGS.ACTIONS.GIVE.APPLY, { item = act.invobject:GetBasicDisplayName() })
+        elseif act.target:HasTag("wintersfeasttable") then
+            return subfmt(STRINGS.ACTIONS.GIVE.PLACE_ITEM, { item = act.invobject:GetBasicDisplayName() })
         elseif act.target.nameoverride ~= nil and act.invobject:HasTag("quagmire_stewer") then
             return subfmt(STRINGS.ACTIONS.GIVE[string.upper(act.target.nameoverride)], { item = act.invobject:GetBasicDisplayName() })
         elseif act.target:HasTag("quagmire_altar") then
@@ -1231,7 +1269,7 @@ end
 
 ACTIONS.GIVE.fn = function(act)
     if act.target ~= nil then
-		if act.target.components.ghostlyelixirable ~= nil and act.invobject.components.ghostlyelixir ~= nil then
+        if act.target.components.ghostlyelixirable ~= nil and act.invobject.components.ghostlyelixir ~= nil then
             return act.invobject.components.ghostlyelixir:Apply(act.doer, act.target)
         elseif act.target.components.trader ~= nil then
             local able, reason = act.target.components.trader:AbleToAccept(act.invobject, act.doer)
@@ -1473,8 +1511,8 @@ ACTIONS.HARVEST.fn = function(act)
             act.doer.components.inventory:GiveItem(item)
             return true
         end
-	elseif act.target.components.quagmire_tappable ~= nil then
-		return act.target.components.quagmire_tappable:Harvest(act.doer)
+    elseif act.target.components.quagmire_tappable ~= nil then
+        return act.target.components.quagmire_tappable:Harvest(act.doer)
     end
 end
 
@@ -1717,8 +1755,8 @@ ACTIONS.MURDER.fn = function(act)
         if murdered.components.health ~= nil and murdered.components.health.murdersound ~= nil then
             act.doer.SoundEmitter:PlaySound(murdered.components.health.murdersound)
         elseif murdered.components.murderable ~= nil and murdered.components.murderable.murdersound ~= nil then
-			act.doer.SoundEmitter:PlaySound(murdered.components.murderable.murdersound)
-		end
+            act.doer.SoundEmitter:PlaySound(murdered.components.murderable.murdersound)
+        end
 
         local stacksize = murdered.components.stackable ~= nil and murdered.components.stackable:StackSize() or 1
         if murdered.components.lootdropper ~= nil then
@@ -1783,7 +1821,7 @@ ACTIONS.USEKLAUSSACKKEY.fn = function(act)
 end
 
 ACTIONS.TEACH.strfn = function(act)
-	return act.invobject ~= nil and act.invobject.components.mapspotrevealer ~= nil and "READ" or nil
+    return act.invobject ~= nil and act.invobject.components.mapspotrevealer ~= nil and "READ" or nil
 end
 
 ACTIONS.TEACH.fn = function(act)
@@ -1797,9 +1835,9 @@ ACTIONS.TEACH.fn = function(act)
                 return true
             end
             return success, reason
-		elseif act.invobject.components.mapspotrevealer ~= nil then
-			local success, reason = act.invobject.components.mapspotrevealer:RevealMap(act.doer)
-			return success, reason
+        elseif act.invobject.components.mapspotrevealer ~= nil then
+            local success, reason = act.invobject.components.mapspotrevealer:RevealMap(act.doer)
+            return success, reason
         end
     end
 end
@@ -1848,9 +1886,9 @@ ACTIONS.TAKEITEM.strfn = function(act)
 end
 
 ACTIONS.TAKEITEM.stroverridefn = function(act)
-	if act.target.prefab == "table_winters_feast" then
-		return STRINGS.ACTIONS.TAKEITEM.GENERIC
-	end
+    if act.target.prefab == "table_winters_feast" then
+        return STRINGS.ACTIONS.TAKEITEM.GENERIC
+    end
 
     local item = act.target.takeitem ~= nil and act.target.takeitem:value() or nil
     return item ~= nil and subfmt(STRINGS.ACTIONS.TAKEITEM.ITEM, { item = item:GetBasicDisplayName() }) or nil
@@ -1863,7 +1901,7 @@ end
 ACTIONS.CASTSPELL.fn = function(act)
     --For use with magical staffs
     local staff = act.invobject or act.doer.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-	local act_pos = act:GetActionPoint()
+    local act_pos = act:GetActionPoint()
     if staff and staff.components.spellcaster and staff.components.spellcaster:CanCast(act.doer, act.target, act_pos) then
         staff.components.spellcaster:CastSpell(act.target, act_pos)
         return true
@@ -1875,7 +1913,7 @@ ACTIONS.BLINK.strfn = function(act)
 end
 
 ACTIONS.BLINK.fn = function(act)
-	local act_pos = act:GetActionPoint()
+    local act_pos = act:GetActionPoint()
     if act.invobject ~= nil then
         if act.invobject.components.blinkstaff ~= nil then
             return act.invobject.components.blinkstaff:Blink(act_pos, act.doer)
@@ -1893,15 +1931,15 @@ ACTIONS.BLINK.fn = function(act)
 end
 
 ACTIONS.CASTSUMMON.fn = function(act)
-	if act.invobject ~= nil and act.invobject.components.summoningitem and act.doer ~= nil and act.doer.components.ghostlybond ~= nil then
-		return act.doer.components.ghostlybond:Summon( act.invobject.components.summoningitem.inst )
-	end
+    if act.invobject ~= nil and act.invobject.components.summoningitem and act.doer ~= nil and act.doer.components.ghostlybond ~= nil then
+        return act.doer.components.ghostlybond:Summon( act.invobject.components.summoningitem.inst )
+    end
 end
 
 ACTIONS.CASTUNSUMMON.fn = function(act)
-	if act.invobject ~= nil and act.invobject.components.summoningitem and act.doer ~= nil and act.doer.components.ghostlybond ~= nil then
-		return act.doer.components.ghostlybond:Recall(false)
-	end
+    if act.invobject ~= nil and act.invobject.components.summoningitem and act.doer ~= nil and act.doer.components.ghostlybond ~= nil then
+        return act.doer.components.ghostlybond:Recall(false)
+    end
 end
 
 ACTIONS.COMMUNEWITHSUMMONED.strfn = function(act)
@@ -1909,9 +1947,9 @@ ACTIONS.COMMUNEWITHSUMMONED.strfn = function(act)
 end
 
 ACTIONS.COMMUNEWITHSUMMONED.fn = function(act)
-	if act.invobject ~= nil and act.invobject.components.summoningitem and act.doer ~= nil and act.doer.components.ghostlybond ~= nil then
-		return act.doer.components.ghostlybond:ChangeBehaviour()
-	end
+    if act.invobject ~= nil and act.invobject.components.summoningitem and act.doer ~= nil and act.doer.components.ghostlybond ~= nil then
+        return act.doer.components.ghostlybond:ChangeBehaviour()
+    end
 end
 
 ACTIONS.COMBINESTACK.fn = function(act)
@@ -2469,7 +2507,7 @@ ACTIONS.CASTAOE.strfn = function(act)
 end
 
 ACTIONS.CASTAOE.fn = function(act)
-	local act_pos = act:GetActionPoint()
+    local act_pos = act:GetActionPoint()
     if act.invobject ~= nil and act.invobject.components.aoespell ~= nil and act.invobject.components.aoespell:CanCast(act.doer, act_pos) then
         act.invobject.components.aoespell:CastSpell(act.doer, act_pos)
         return true
@@ -2505,94 +2543,94 @@ ACTIONS.TACKLE.fn = function(act)
 end
 
 ACTIONS.HALLOWEENMOONMUTATE.fn = function(act)
-	if act.invobject ~= nil and act.invobject.components.halloweenpotionmoon ~= nil then
-		if act.target == nil
-			or (not act.target:HasTag("flying") and not TheWorld.Map:IsPassableAtPoint(act.target.Transform:GetWorldPosition()))
-			or (act.target.components.burnable ~= nil and (act.target.components.burnable:IsBurning() or act.target.components.burnable:IsSmoldering()))
-			or (act.target.components.freezable ~= nil and act.target.components.freezable:IsFrozen()) then
+    if act.invobject ~= nil and act.invobject.components.halloweenpotionmoon ~= nil then
+        if act.target == nil
+            or (not act.target:HasTag("flying") and not TheWorld.Map:IsPassableAtPoint(act.target.Transform:GetWorldPosition()))
+            or (act.target.components.burnable ~= nil and (act.target.components.burnable:IsBurning() or act.target.components.burnable:IsSmoldering()))
+            or (act.target.components.freezable ~= nil and act.target.components.freezable:IsFrozen()) then
 
-			return false
-		else
-			act.invobject.components.halloweenpotionmoon:Use(act.doer, act.target)
-			return true
-		end
-	end
+            return false
+        else
+            act.invobject.components.halloweenpotionmoon:Use(act.doer, act.target)
+            return true
+        end
+    end
 end
 
 ACTIONS.APPLYPRESERVATIVE.strfn = function(act)
-	return act.invobject ~= nil and act.invobject.prefab == "saltrock" and "SALT" or nil
+    return act.invobject ~= nil and act.invobject.prefab == "saltrock" and "SALT" or nil
 end
 
 ACTIONS.APPLYPRESERVATIVE.fn = function(act)
-	if act.target ~= nil and act.invobject ~= nil and act.invobject.components.preservative ~= nil
-		    and act.target.components.health == nil
-		    and (act.target:HasTag("fresh") or act.target:HasTag("stale") or act.target:HasTag("spoiled"))
-		    and act.target:HasTag("cookable")
-		    and not act.target:HasTag("deployable") then
+    if act.target ~= nil and act.invobject ~= nil and act.invobject.components.preservative ~= nil
+            and act.target.components.health == nil
+            and (act.target:HasTag("fresh") or act.target:HasTag("stale") or act.target:HasTag("spoiled"))
+            and act.target:HasTag("cookable")
+            and not act.target:HasTag("deployable") then
 
-		act.target.components.perishable:SetPercent(act.target.components.perishable:GetPercent() + (
-			    act.invobject.components.preservative.divide_effect_by_stack_size and
+        act.target.components.perishable:SetPercent(act.target.components.perishable:GetPercent() + (
+                act.invobject.components.preservative.divide_effect_by_stack_size and
                 act.target.components.stackable and
                 act.invobject.components.preservative.percent_increase / act.target.components.stackable.stacksize or
                 act.invobject.components.preservative.percent_increase
-			)
+            )
         )
 
-		local used_preservative = act.doer.components.inventory:RemoveItem(act.invobject)
+        local used_preservative = act.doer.components.inventory:RemoveItem(act.invobject)
         if used_preservative ~= nil then
             used_preservative:Remove()
             return true
         else
-			return false
+            return false
         end
-	else
-		return false
-	end
+    else
+        return false
+    end
 end
 
 ACTIONS.COMPARE_WEIGHABLE.fn = function(act)
-	if act.target ~= nil and act.invobject ~= nil and
-		act.target.components.trophyscale ~= nil and
-		act.target.components.trophyscale.accepts_items and
-		not act.target:HasTag("fire") and
-		not act.target:HasTag("burnt") then
+    if act.target ~= nil and act.invobject ~= nil and
+        act.target.components.trophyscale ~= nil and
+        act.target.components.trophyscale.accepts_items and
+        not act.target:HasTag("fire") and
+        not act.target:HasTag("burnt") then
 
-		return act.target.components.trophyscale:Compare(act.invobject, act.doer)
-	end
-	return false
+        return act.target.components.trophyscale:Compare(act.invobject, act.doer)
+    end
+    return false
 end
 
 ACTIONS.WEIGH_ITEM.fn = function(act)
-	if act.target ~= nil and act.invobject ~= nil then
-		local weigher = act.target.components.itemweigher and act.target 
-						or act.invobject.components.itemweigher and act.invobject
-						or nil
-		local weighable = weigher ~= act.target and act.target or act.invobject
+    if act.target ~= nil and act.invobject ~= nil then
+        local weigher = act.target.components.itemweigher and act.target 
+                        or act.invobject.components.itemweigher and act.invobject
+                        or nil
+        local weighable = weigher ~= act.target and act.target or act.invobject
 
-		if weigher and weighable and
-			not weigher:HasTag("fire") and
-			not weigher:HasTag("burnt") then
+        if weigher and weighable and
+            not weigher:HasTag("fire") and
+            not weigher:HasTag("burnt") then
 
-			return weigher.components.itemweigher:DoWeighIn(weighable, act.doer)
-		end
-	end
-	return false
+            return weigher.components.itemweigher:DoWeighIn(weighable, act.doer)
+        end
+    end
+    return false
 end
 
 ACTIONS.START_CARRAT_RACE.fn = function(act)
-	if act.target ~= nil and act.target.components.yotc_racestart ~= nil and act.target.components.yotc_racestart:CanInteract() and
-		not (act.target:HasTag("fire") or act.target:HasTag("burnt")) then
+    if act.target ~= nil and act.target.components.yotc_racestart ~= nil and act.target.components.yotc_racestart:CanInteract() and
+        not (act.target:HasTag("fire") or act.target:HasTag("burnt")) then
 
         local race_data = TheWorld.components.yotc_raceprizemanager ~= nil and TheWorld.components.yotc_raceprizemanager:GetRaceById(act.target) or nil
         if not race_data or (race_data.num_racers == nil or race_data.num_racers == 0) then
             return false, "NO_RACERS"
         end
-		act.target.components.yotc_racestart:StartRace()
+        act.target.components.yotc_racestart:StartRace()
         if act.doer and act.target.racestartstring then
             act.doer:DoTaskInTime(2,function() if act.target:HasTag("race_on") then act.doer.components.talker:Say(GetString(act.doer, act.target.racestartstring)) end end)
         end        
-		return true
-	end
+        return true
+    end
 end
 
 --Quagmire
@@ -2691,10 +2729,10 @@ ACTIONS.BATHBOMB.fn = function(act)
     local bathbombable = (act.target ~= nil and act.target.components.bathbombable) or nil
     local bathbomb = (act.invobject ~= nil and act.invobject.components.bathbomb) or nil
 
-	if bathbomb ~= nil and bathbombable ~= nil and bathbombable.can_be_bathbombed then
-	    bathbombable:OnBathBombed(act.invobject, act.doer)
-		act.doer.components.inventory:RemoveItem(act.invobject):Remove()
-		return true
+    if bathbomb ~= nil and bathbombable ~= nil and bathbombable.can_be_bathbombed then
+        bathbombable:OnBathBombed(act.invobject, act.doer)
+        act.doer.components.inventory:RemoveItem(act.invobject):Remove()
+        return true
         end
     end
 
@@ -2778,39 +2816,39 @@ end
 
 ACTIONS.REPAIR_LEAK.fn = function(act)    
     if act.invobject ~= nil and act.target ~= nil and act.target.components.boatleak ~= nil and act.target:HasTag("boat_leak") then
-	    return act.target.components.boatleak:Repair(act.doer, act.invobject)
-	end
+        return act.target.components.boatleak:Repair(act.doer, act.invobject)
+    end
 end
 
 ACTIONS.STEER_BOAT.fn = function(act)
-	if act.target ~= nil
-		and (act.target.components.steeringwheel ~= nil and act.target.components.steeringwheel.sailor == nil)
-		and (act.target.components.burnable ~= nil and not act.target.components.burnable:IsBurning()) 
-		and act.doer.components.steeringwheeluser ~= nil then
+    if act.target ~= nil
+        and (act.target.components.steeringwheel ~= nil and act.target.components.steeringwheel.sailor == nil)
+        and (act.target.components.burnable ~= nil and not act.target.components.burnable:IsBurning()) 
+        and act.doer.components.steeringwheeluser ~= nil then
 
-		act.doer.components.steeringwheeluser:SetSteeringWheel(act.target)
-		return true
-	end
+        act.doer.components.steeringwheeluser:SetSteeringWheel(act.target)
+        return true
+    end
 end
 
 ACTIONS.SET_HEADING.fn = function(act)
-	if act.doer.components.steeringwheeluser ~= nil then
-		local act_pos = act:GetActionPoint()
-	    act.doer.components.steeringwheeluser:Steer(act_pos.x, act_pos.z)
-	end
+    if act.doer.components.steeringwheeluser ~= nil then
+        local act_pos = act:GetActionPoint()
+        act.doer.components.steeringwheeluser:Steer(act_pos.x, act_pos.z)
+    end
     return true
 end
 
 ACTIONS.STOP_STEERING_BOAT.fn = function(act)
-	if act.doer.components.steeringwheeluser ~= nil then
-	    act.doer.components.steeringwheeluser:SetSteeringWheel(nil)    
-	end
+    if act.doer.components.steeringwheeluser ~= nil then
+        act.doer.components.steeringwheeluser:SetSteeringWheel(nil)    
+    end
     return true
 end
 
 ACTIONS.CAST_NET.fn = function(act)
     if act.invobject and act.invobject.components.fishingnet then
-		local act_pos = act:GetActionPoint()
+        local act_pos = act:GetActionPoint()
         if act_pos == nil then
             local pos_x, pos_y, pos_z = act.target.Transform:GetWorldPosition()
             act.invobject.components.fishingnet:CastNet(pos_x, pos_z, act.doer)        
@@ -2823,39 +2861,39 @@ ACTIONS.CAST_NET.fn = function(act)
 end
 
 ACTIONS.GIVE_TACKLESKETCH.fn = function(act)
-	if act.invobject and act.target and
-		act.target.components.craftingstation ~= nil and
-		not act.target:HasTag("burnt") and
-		not (act.target.components.burnable and act.target.components.burnable:IsBurning()) then
+    if act.invobject and act.target and
+        act.target.components.craftingstation ~= nil and
+        not act.target:HasTag("burnt") and
+        not (act.target.components.burnable and act.target.components.burnable:IsBurning()) then
 
-		if act.target.components.craftingstation:KnowsItem(act.invobject:GetSpecificSketchPrefab()) then
-			return false, "DUPLICATE"
-		else
-			act.invobject.components.tacklesketch:Teach(act.target)
-			return true
-		end
-	end
-	return false
+        if act.target.components.craftingstation:KnowsItem(act.invobject:GetSpecificSketchPrefab()) then
+            return false, "DUPLICATE"
+        else
+            act.invobject.components.tacklesketch:Teach(act.target)
+            return true
+        end
+    end
+    return false
 end
 
 ACTIONS.REMOVE_FROM_TROPHYSCALE.fn = function(act)
-	if not act.target:HasTag("burnt") and
-		not act.target:HasTag("fire") and
-		act.target.components.trophyscale ~= nil and
-		act.target:HasTag("trophycanbetaken") then
+    if not act.target:HasTag("burnt") and
+        not act.target:HasTag("fire") and
+        act.target.components.trophyscale ~= nil and
+        act.target:HasTag("trophycanbetaken") then
 
-		if act.target.components.trophyscale.takeitemtestfn ~= nil then
-			local testresult, reason = act.target.components.trophyscale.takeitemtestfn(act.target, act.doer)
+        if act.target.components.trophyscale.takeitemtestfn ~= nil then
+            local testresult, reason = act.target.components.trophyscale.takeitemtestfn(act.target, act.doer)
 
-			if not testresult then
-				return testresult, reason
-			else
-				return act.target.components.trophyscale:TakeItem(act.doer)
-			end
-		else
-			return act.target.components.trophyscale:TakeItem(act.doer)
-		end
-	end
+            if not testresult then
+                return testresult, reason
+            else
+                return act.target.components.trophyscale:TakeItem(act.doer)
+            end
+        else
+            return act.target.components.trophyscale:TakeItem(act.doer)
+        end
+    end
 end
 
 ACTIONS.CYCLE.strfn = function(act)
@@ -2864,15 +2902,15 @@ ACTIONS.CYCLE.strfn = function(act)
 end
 
 ACTIONS.CYCLE.fn = function(act)
-	local tar = act.target
-	if tar.components.cyclable ~= nil then
-		if tar.components.cyclable.cancycle then
-			tar.components.cyclable:Cycle(act.doer)
-			return true
-		else
-			return false
-		end
-	end
+    local tar = act.target
+    if tar.components.cyclable ~= nil then
+        if tar.components.cyclable.cancycle then
+            tar.components.cyclable:Cycle(act.doer)
+            return true
+        else
+            return false
+        end
+    end
 end
 
 ACTIONS.OCEAN_TOSS.fn = function(act)
@@ -2896,8 +2934,8 @@ ACTIONS.OCEAN_TOSS.fn = function(act)
 end
 
 ACTIONS.WINTERSFEAST_FEAST.fn = function(act)
-	return true
-	-- Logic is handled from stategraph; action is never actually performed
+    return true
+    -- Logic is handled from stategraph; action is never actually performed
 end
 
 ACTIONS.BEGIN_QUEST.fn = function(act)
