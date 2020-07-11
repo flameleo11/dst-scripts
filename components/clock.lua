@@ -82,27 +82,27 @@ self._cycles = _cycles;
 --[[ Public member functions ]]
 --------------------------------------------------------------------------
 function self:GetTimeUntilPhase(phase)
-	local target_phase = nil
+    local target_phase = nil
     for i, p in pairs(PHASE_NAMES) do
         if p == phase then
-			target_phase = i
-			break
-		end
-	end
-	local cur_phase = _phase:value()
-	if target_phase ~= nil and target_phase ~= cur_phase then
-		local time = _remainingtimeinphase:value()
+            target_phase = i
+            break
+        end
+    end
+    local cur_phase = _phase:value()
+    if target_phase ~= nil and target_phase ~= cur_phase then
+        local time = _remainingtimeinphase:value()
 
-		cur_phase = (cur_phase % #PHASE_NAMES) + 1
-		while (cur_phase ~= target_phase) do
-			time = time + (_segs[cur_phase]:value() * TUNING.SEG_TIME)
-			cur_phase = (cur_phase % #PHASE_NAMES) + 1
-		end
+        cur_phase = (cur_phase % #PHASE_NAMES) + 1
+        while (cur_phase ~= target_phase) do
+            time = time + (_segs[cur_phase]:value() * TUNING.SEG_TIME)
+            cur_phase = (cur_phase % #PHASE_NAMES) + 1
+        end
 
-		return time
-	end
+        return time
+    end
 
-	return 0
+    return 0
 end
 
 --------------------------------------------------------------------------
@@ -254,12 +254,16 @@ inst:StartUpdatingComponent(self)
 
 function self:next_cycle_loop()
   -- local nextday = _cycles:value() + 1
-  local nextday = (_cycles:value() + 1) % 10
+  local cycles = _cycles:value();
+  local nextday = cycles + 1
   if (TheWorld and TheWorld.state) then
-    if (TheWorld.state.remainingdaysinseason <= 1) then
-        nextday = 0
+    if (  TheWorld.state.issummer 
+      and TheWorld.state.remainingdaysinseason == 1) then
+      nextday = 0
+      TheWorld.state.round = (TheWorld.state.round or 0) + 1
     end
   end
+print(".....next_cycle_loop....", TheWorld.state.round, cycles)
   _cycles:set(nextday)
 end
 
@@ -300,9 +304,9 @@ function self:OnUpdate(dt)
             if _phase:value() == 1 then
 
                 --Advance to next cycle
-                _cycles:set(_cycles:value() + 1)
+                -- _cycles:set(_cycles:value() + 1)
                 -- change by me
-                -- self:next_cycle_loop()
+                self:next_cycle_loop()
 
                 _world:PushEvent("ms_cyclecomplete", _cycles:value())
             --V2C: After waxing/waning changes, moon phase is
@@ -470,8 +474,8 @@ function self:Dump()
        print("total segs phase ",  _totaltimeinphase:value()/TUNING.SEG_TIME)
        print("remaining segs inphase ",  _remainingtimeinphase:value()/TUNING.SEG_TIME)
 
-	   local to_night =  _remainingtimeinphase:value() + (PHASE_NAMES[_phase:value()] == "day" and _segs[2]:value() or 0) * TUNING.SEG_TIME
-	   print("Time Until Night:", to_night, to_night/TUNING.SEG_TIME)
+       local to_night =  _remainingtimeinphase:value() + (PHASE_NAMES[_phase:value()] == "day" and _segs[2]:value() or 0) * TUNING.SEG_TIME
+       print("Time Until Night:", to_night, to_night/TUNING.SEG_TIME)
 end
 
 function self:GetDebugString()

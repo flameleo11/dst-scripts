@@ -935,7 +935,7 @@ xpcall(function ()
     -- xpcall(function ()
     --     ret = { f(unpack(args)) }
     -- end, errfunc)  
-    print("[myconsole] RPC:", fn, fnstr)
+    print("[myconsole] RPC:", fn)
     local status, r = pcall(fn)
     if not status then
         nolineprint(r)

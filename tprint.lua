@@ -100,9 +100,9 @@ end
 function t_ls(t)
 	print("---------<<<<<<<<", t)
 	for k,v in pairs(t) do
-		print(k,v, type(v))
+		print(type(v), k, v)
 	end
-	print(">>>>>>>>----------", t)
+	print("--------->>>>>>>>", t)
 end
 
 return tprint
