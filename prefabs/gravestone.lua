@@ -8,6 +8,7 @@ local prefabs =
 {
     "smallghost",
     "mound",
+    "ghost",
 }
 
 local function on_child_mound_dug(mound, data)
@@ -97,6 +98,41 @@ local function OnHaunt(inst)
     return true
 end
 
+local function costSanity(inst, delta)
+    if inst and inst.components
+      and inst.components.sanity 
+    then
+      inst.components.sanity:DoDelta(0-delta)
+    end
+end
+
+
+local function OnWorkFinished(inst, worker)
+  xpcall(function ()      
+print(2222, inst, worker)    
+    inst.components.lootdropper:DropLoot()
+    local x, y, z = inst.Transform:GetWorldPosition()
+    SpawnPrefab("rocks").Transform:SetPosition(x, y, z)
+
+    local ghost = SpawnAt("ghost", inst)
+    if (worker:HasTag("hostile") 
+        and worker and worker.components 
+        and worker.components.combat
+        and worker.components.combat.target) then
+        local target = worker.components.combat.target
+        costSanity(target, TUNING.SANITY_SMALL)    
+        ghost.components.combat:SetTarget(target)
+    else
+        costSanity(worker, TUNING.SANITY_SMALL)    
+    end    
+
+    local fx = SpawnPrefab("collapse_small")
+    fx.Transform:SetPosition(x, y, z)
+    fx:SetMaterial("stone")
+
+    inst:Remove()
+  end, print)            
+end
 local function fn()
     local inst = CreateEntity()
 
@@ -124,6 +160,15 @@ local function fn()
 
     inst:AddComponent("inspectable")
     inst.components.inspectable:SetDescription(STRINGS.EPITAPHS[math.random(#STRINGS.EPITAPHS)])
+
+xpcall(function ()    
+    inst:AddComponent("workable")
+    inst:AddComponent("lootdropper")
+    inst.components.workable:SetWorkAction(ACTIONS.HAMMER)
+    inst.components.workable:SetWorkLeft(3)
+    -- inst.components.workable:SetOnWorkCallback(onhit)
+    inst.components.workable:SetOnFinishCallback(OnWorkFinished)
+end, print)   
 
     inst.mound = inst:SpawnChild("mound")
     inst.mound.ghost_of_a_chance = 0.0

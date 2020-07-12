@@ -104,10 +104,10 @@ local function fn()
     inst:AddComponent("inspectable")
 
     inst:AddComponent("health")
-    inst.components.health:SetMaxHealth(TUNING.GHOST_HEALTH)
+    inst.components.health:SetMaxHealth(TUNING.GHOST_HEALTH * 3)
 
     inst:AddComponent("combat")
-    inst.components.combat.defaultdamage = TUNING.GHOST_DAMAGE
+    inst.components.combat.defaultdamage = TUNING.GHOST_DAMAGE * 3
     inst.components.combat.playerdamagepercent = TUNING.GHOST_DMG_PLAYER_PERCENT
     inst.components.combat:SetKeepTargetFunction(KeepTargetFn)
 
