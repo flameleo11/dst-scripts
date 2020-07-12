@@ -96,8 +96,8 @@ local function ShouldWake(inst)
 end
 
 local RETARGET_MUST_TAGS = { "_combat" }
-local RETARGET_CANT_TAGS = { "chess", "INLIMBO" }
-local RETARGET_ONEOF_TAGS = { "character", "monster" }
+local RETARGET_CANT_TAGS = { "hostile", "shadowchesspiece", "monster", "bat", "chess", "INLIMBO" }
+local RETARGET_ONEOF_TAGS = { "character", "player" }
 local function Retarget(inst)
     local homePos = inst.components.knownlocations:GetLocation("home")
     return not (homePos ~= nil and
@@ -184,6 +184,10 @@ local function rememberhome(inst)
     inst.components.knownlocations:RememberLocation("home", inst:GetPosition())
 end
 
+local function CalcSanityAura(inst, observer)
+    return -TUNING.SANITYAURA_SUPERHUGE
+end
+
 local function fn()
     local inst = CreateEntity()
 
@@ -232,6 +236,11 @@ local function fn()
 
     inst:SetBrain(brain)
 
+    ------------------
+    inst:AddComponent("sanityaura")
+    inst.components.sanityaura.aurafn = CalcSanityAura
+    ------------------
+
     inst:AddComponent("sleeper")
     inst.components.sleeper:SetWakeTest(ShouldWake)
     inst.components.sleeper:SetSleepTest(ShouldSleep)
@@ -240,8 +249,8 @@ local function fn()
     inst:AddComponent("combat")
     inst.components.combat.hiteffectsymbol = "spring"
     inst.components.combat:SetAttackPeriod(TUNING.MINOTAUR_ATTACK_PERIOD)
-    inst.components.combat:SetDefaultDamage(TUNING.MINOTAUR_DAMAGE)
-    inst.components.combat:SetRetargetFunction(3, Retarget)
+    inst.components.combat:SetDefaultDamage(TUNING.MINOTAUR_DAMAGE * 2.5)
+    inst.components.combat:SetRetargetFunction(1, Retarget)
     inst.components.combat:SetKeepTargetFunction(KeepTarget)
     inst.components.combat:SetRange(3, 4)
 
