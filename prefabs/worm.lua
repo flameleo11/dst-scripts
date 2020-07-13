@@ -197,6 +197,10 @@ local function IsWorm(dude)
 end
 
 local function onattacked(inst, data)
+    local target = data.attacker;
+    if (target:HasTag("epic")) then
+        return 
+    end
     if data.attacker ~= nil then
         inst.components.combat:SetTarget(data.attacker)
         inst.components.combat:ShareTarget(data.attacker, 40, IsWorm, 3)

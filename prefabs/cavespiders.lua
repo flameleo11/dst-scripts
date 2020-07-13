@@ -33,7 +33,7 @@ local prefabs =
     "monstermeat",
     "silk",
     "spider_web_spit",
-	"moonspider_spike",
+    "moonspider_spike",
 }
 
 local brain = require "brains/spiderbrain"
@@ -56,11 +56,11 @@ local function OnGetItemFromPlayer(inst, giver, item)
             inst.components.combat:SetTarget(nil)
         elseif giver.components.leader ~= nil and
             inst.components.follower ~= nil then
-			if giver.components.minigame_participator == nil then
-		        giver:PushEvent("makefriend")
-				giver.components.leader:AddFollower(inst)
-				playedfriendsfx = true
-			end
+            if giver.components.minigame_participator == nil then
+                giver:PushEvent("makefriend")
+                giver.components.leader:AddFollower(inst)
+                playedfriendsfx = true
+            end
             inst.components.follower:AddLoyaltyTime(item.components.edible:GetHunger() * TUNING.SPIDER_LOYALTY_PER_HUNGER)
         end
 
@@ -116,8 +116,26 @@ local function FindTarget(inst, radius)
     )
 end
 
+-- local function Retarget(inst)
+--     return FindTarget(inst, TUNING.SPIDER_WARRIOR_TARGET_DIST)
+-- end
+
+local RETARGET_MUST_TAGS = { "_combat" }
+local RETARGET_CANT_TAGS = { "hostile", "shadowchesspiece", "monster", "bat", "chess", "INLIMBO" }
+local RETARGET_ONEOF_TAGS = { "character", "player" }
 local function Retarget(inst)
-    return FindTarget(inst, TUNING.SPIDER_WARRIOR_TARGET_DIST)
+    return FindEntity(
+            inst,
+            TUNING.MINOTAUR_TARGET_DIST,
+            function(guy)
+                return not (inst.components.follower ~= nil and inst.components.follower.leader == guy)
+                       and inst.components.combat:CanTarget(guy)
+            end,
+            RETARGET_MUST_TAGS,
+            RETARGET_CANT_TAGS,
+            RETARGET_ONEOF_TAGS
+        )
+        or nil
 end
 
 local function keeptargetfn(inst, target)
@@ -182,6 +200,10 @@ local function SummonFriends(inst, attacker)
 end
 
 local function OnAttacked(inst, data)
+    local target = data.attacker;
+    if (target:HasTag("hostile")) then
+        return 
+    end
     inst.components.combat:SetTarget(data.attacker)
     inst.components.combat:ShareTarget(data.attacker, 30, function(dude)
         return dude:HasTag("spider")
@@ -215,18 +237,18 @@ local function MakeWeapon(inst)
 end
 
 local function HalloweenMoonMutate(inst, new_inst)
-	local leader = inst ~= nil and inst.components.follower ~= nil
-		and new_inst ~= nil and new_inst.components.follower ~= nil
-		and inst.components.follower:GetLeader()
-		or nil
+    local leader = inst ~= nil and inst.components.follower ~= nil
+        and new_inst ~= nil and new_inst.components.follower ~= nil
+        and inst.components.follower:GetLeader()
+        or nil
 
-	if leader ~= nil then
-		new_inst.components.follower:SetLeader(leader)
-		new_inst.components.follower:AddLoyaltyTime(
-			inst.components.follower:GetLoyaltyPercent()
-			* (new_inst.components.follower.maxfollowtime or inst.components.follower.maxfollowtime)
-		)
-	end
+    if leader ~= nil then
+        new_inst.components.follower:SetLeader(leader)
+        new_inst.components.follower:AddLoyaltyTime(
+            inst.components.follower:GetLoyaltyPercent()
+            * (new_inst.components.follower.maxfollowtime or inst.components.follower.maxfollowtime)
+        )
+    end
 end
 
 local function create_common(bank, build, tag, common_init)
@@ -264,9 +286,9 @@ local function create_common(bank, build, tag, common_init)
     inst.AnimState:SetBuild(build)
     inst.AnimState:PlayAnimation("idle")
 
-	if common_init ~= nil then
-		common_init(inst)
-	end
+    if common_init ~= nil then
+        common_init(inst)
+    end
 
     inst.entity:SetPristine()
 
@@ -376,9 +398,9 @@ local function create_hider()
 
     inst.components.sanityaura.aura = -TUNING.SANITYAURA_MED
 
-	inst:AddComponent("halloweenmoonmutable")
-	inst.components.halloweenmoonmutable:SetPrefabMutated("spider_moon")
-	inst.components.halloweenmoonmutable:SetOnMutateFn(HalloweenMoonMutate)
+    inst:AddComponent("halloweenmoonmutable")
+    inst.components.halloweenmoonmutable:SetPrefabMutated("spider_moon")
+    inst.components.halloweenmoonmutable:SetOnMutateFn(HalloweenMoonMutate)
 
     return inst
 end
@@ -406,9 +428,9 @@ local function create_spitter()
     inst.components.sanityaura.aura = -TUNING.SANITYAURA_MED
     MakeWeapon(inst)
 
-	inst:AddComponent("halloweenmoonmutable")
-	inst.components.halloweenmoonmutable:SetPrefabMutated("spider_moon")
-	inst.components.halloweenmoonmutable:SetOnMutateFn(HalloweenMoonMutate)
+    inst:AddComponent("halloweenmoonmutable")
+    inst.components.halloweenmoonmutable:SetPrefabMutated("spider_moon")
+    inst.components.halloweenmoonmutable:SetOnMutateFn(HalloweenMoonMutate)
 
     return inst
 end
@@ -432,9 +454,9 @@ local function create_dropper()
 
     inst.components.sanityaura.aura = -TUNING.SANITYAURA_MED
 
-	inst:AddComponent("halloweenmoonmutable")
-	inst.components.halloweenmoonmutable:SetPrefabMutated("spider_moon")
-	inst.components.halloweenmoonmutable:SetOnMutateFn(HalloweenMoonMutate)
+    inst:AddComponent("halloweenmoonmutable")
+    inst.components.halloweenmoonmutable:SetPrefabMutated("spider_moon")
+    inst.components.halloweenmoonmutable:SetOnMutateFn(HalloweenMoonMutate)
 
     return inst
 end
@@ -442,35 +464,35 @@ end
 local variations = {1, 2, 3, 4, 5}
 
 local function DoSpikeAttack(inst, pt)
-	local x, y, z = pt:Get()
-	local inital_r = 1
-	x = GetRandomWithVariance(x, inital_r)
-	z = GetRandomWithVariance(z, inital_r)
+    local x, y, z = pt:Get()
+    local inital_r = 1
+    x = GetRandomWithVariance(x, inital_r)
+    z = GetRandomWithVariance(z, inital_r)
 
-	shuffleArray(variations)
+    shuffleArray(variations)
 
-	local num = math.random(2, 4)
+    local num = math.random(2, 4)
     local dtheta = PI * 2 / num
     local thetaoffset = math.random() * PI * 2
     local delaytoggle = 0
-	for i = 1, num do
-		local r = 1.1 + math.random() * 1.75
-		local theta = i * dtheta + math.random() * dtheta * 0.8 + dtheta * 0.2
+    for i = 1, num do
+        local r = 1.1 + math.random() * 1.75
+        local theta = i * dtheta + math.random() * dtheta * 0.8 + dtheta * 0.2
         local x1 = x + r * math.cos(theta)
         local z1 = z + r * math.sin(theta)
         if TheWorld.Map:IsVisualGroundAtPoint(x1, 0, z1) and not TheWorld.Map:IsPointNearHole(Vector3(x1, 0, z1)) then
             local spike = SpawnPrefab("moonspider_spike")
             spike.Transform:SetPosition(x1, 0, z1)
-			spike:SetOwner(inst)
-			if variations[i + 1] ~= 1 then
-				spike.AnimState:OverrideSymbol("spike01", "spider_spike", "spike0"..tostring(variations[i + 1]))
-			end
+            spike:SetOwner(inst)
+            if variations[i + 1] ~= 1 then
+                spike.AnimState:OverrideSymbol("spike01", "spider_spike", "spike0"..tostring(variations[i + 1]))
+            end
         end
     end
 end
 
 local function spider_moon_common_init(inst)
-	inst.Transform:SetScale(1.25, 1.25, 1.25)
+    inst.Transform:SetScale(1.25, 1.25, 1.25)
 end
 
 local function create_moon()
@@ -480,7 +502,7 @@ local function create_moon()
         return inst
     end
 
-	inst.DoSpikeAttack = DoSpikeAttack
+    inst.DoSpikeAttack = DoSpikeAttack
 
     inst.components.health:SetMaxHealth(TUNING.SPIDER_MOON_HEALTH)
 
