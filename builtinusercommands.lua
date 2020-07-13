@@ -289,8 +289,8 @@ AddUserCommand("regenerate", {
     params = {},
     vote = true,
     votetimeout = 30,
-    voteminstartage = 20,
-    voteminpasscount = 3,
+    voteminstartage = 1,
+    voteminpasscount = 1,
     votecountvisible = true,
     voteallownotvoted = true,
     voteoptions = nil, --default to { "Yes", "No" }
