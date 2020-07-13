@@ -101,7 +101,7 @@ local RETARGET_ONEOF_TAGS = { "character", "player" }
 local function Retarget(inst)
     local homePos = inst.components.knownlocations:GetLocation("home")
     return not (homePos ~= nil and
-                inst:GetDistanceSqToPoint(homePos:Get()) >= MAX_CHASEAWAY_DIST_SQ)
+                inst:GetDistanceSqToPoint(homePos:Get()) >= SLEEP_DIST_FROMHOME_SQ)
         and FindEntity(
             inst,
             TUNING.MINOTAUR_TARGET_DIST,
