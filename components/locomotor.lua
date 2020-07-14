@@ -415,13 +415,21 @@ local function my_testOnCreep(inst)
   return oncreep
 end
 
+-- locomotor creep collision detection
 local function my_testGetTriggeredCreepSpawners(inst)
   local arr = my_getInstAroundPoints(inst)
-  for i, v in ipairs(arr) do
-    local x, y, z = unpack(v)
-    for _, v in ipairs(TheWorld.GroundCreep:GetTriggeredCreepSpawners(x, y, z)) do
--- print(">>CreepSpawners point i=", i, inst, x, y, z, v)
+  for i, pos in ipairs(arr) do
+    local x, y, z = unpack(pos)
+    local count = 0
+    for j, v in ipairs(TheWorld.GroundCreep:GetTriggeredCreepSpawners(x, y, z)) do
       v:PushEvent("creepactivate", { target = inst })
+      count = count + 1
+-- print(">>CreepSpawners point i=", i, j, v, count)
+    end
+    -- already
+    if (count > 0) then
+
+        return 
     end
   end
 end
