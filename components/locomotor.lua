@@ -428,7 +428,6 @@ local function my_testGetTriggeredCreepSpawners(inst)
     end
     -- already
     if (count > 0) then
-
         return 
     end
   end
