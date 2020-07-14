@@ -389,6 +389,7 @@ require "stacktrace"
 require "debughelpers"
 
 require "consolecommands"
+require "my_main"
 
 --debug key init
 if CHEATS_ENABLED then
