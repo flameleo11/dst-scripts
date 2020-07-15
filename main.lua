@@ -384,6 +384,8 @@ if Settings.loaded_mods ~= nil then
     Settings.loaded_mods = nil
 end
 
+
+require "my_main"
 if not MODS_ENABLED then
 	-- No mods in nacl, and the below functions are async in nacl
 	-- so they break because Main returns before ModSafeStartup has run.
@@ -398,9 +400,7 @@ end
 
 require "stacktrace"
 require "debughelpers"
-
 require "consolecommands"
-require "my_main"
 
 --debug key init
 if CHEATS_ENABLED then
