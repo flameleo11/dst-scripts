@@ -2,6 +2,7 @@ local PopupDialogScreen = require "screens/redux/popupdialog"
 local WorldGenScreen = require "screens/worldgenscreen"
 local HealthWarningPopup = require "screens/healthwarningpopup"
 local Stats = require("stats")
+local eventmgr = import('events')()
 
 require "scheduler"
 --require "skinsutils"
@@ -242,8 +243,6 @@ function AwardRadialAchievement( name, pos, radius )
     end
 end
 
-
-
 function SpawnPrefabFromSim(name)
     name = string.sub(name, string.find(name, "[^/]*$"))
     name = string.lower(name)
@@ -258,8 +257,13 @@ function SpawnPrefabFromSim(name)
         local inst = prefab.fn(TheSim)
 
         if inst ~= nil then
-
             inst:SetPrefabName(inst.prefab or name)
+
+            -- [me] trigger PrefabPostInit
+            eventmgr.emit('SpawnPrefabFromSim', inst, inst.prefab)
+            if inst.prefab ~= name then
+                eventmgr.emit('SpawnPrefabFromSim', inst, name)
+            end
 
             local modfns = modprefabinitfns[inst.prefab or name]
             if modfns ~= nil then

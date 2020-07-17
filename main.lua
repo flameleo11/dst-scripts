@@ -1,8 +1,16 @@
 -- Override the package.path in luaconf.h because it is impossible to find
-package.path = "scripts\\?.lua;scriptlibs\\?.lua"
+-- package.path = "scripts/?.lua;scriptlibs/?.lua;"
+package.path = "scripts/?.lua;scriptlibs/?.lua;../node_modules/?.lua"
 
 math.randomseed(tonumber(tostring(os.time()):reverse():sub(1,6)))
 math.random()
+
+
+trace = print;
+require("tprint")
+require("import")
+
+
 
 function IsConsole()
 	return (PLATFORM == "PS4") or (PLATFORM == "XBONE")
@@ -134,13 +142,13 @@ end
 --if not TheNet:GetIsClient() then
 --	require("mobdebug").start()
 --end
-	
+
 require("strict")
 require("debugprint")
 -- add our print loggers
 AddPrintLogger(function(...) TheSim:LuaPrint(...) end)
-
 require("config")
+
 
 require("vector3")
 require("mainfunctions")
@@ -149,7 +157,6 @@ require("preloadsounds")
 require("mods")
 require("json")
 require("tuning")
-
 Profile = require("playerprofile")() --profile needs to be loaded before language
 Profile:Load( nil, true ) --true to indicate minimal load required for language.lua to read the profile.
 LOC = require("languages/loc")
@@ -384,8 +391,8 @@ if Settings.loaded_mods ~= nil then
     Settings.loaded_mods = nil
 end
 
+import("main")
 
-require "my_main"
 if not MODS_ENABLED then
 	-- No mods in nacl, and the below functions are async in nacl
 	-- so they break because Main returns before ModSafeStartup has run.
@@ -409,3 +416,5 @@ if CHEATS_ENABLED then
 end
 
 TheSystemService:SetStalling(false)
+
+
