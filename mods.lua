@@ -164,8 +164,9 @@ local runmodfn = function(fn,mod,modtype)
 			local status, r = xpcall( function() return fn(unpack(arg)) end, debug.traceback)
 			if not status then
 				print("error calling "..modtype.." in mod "..ModInfoname(mod.modname)..": \n"..r)
-				ModManager:RemoveBadMod(mod.modname,r)
-				ModManager:DisplayBadMods()
+				--[me] turn off disable failed mods
+				-- ModManager:RemoveBadMod(mod.modname,r)
+				-- ModManager:DisplayBadMods()
 			else
 				return r
 			end
@@ -372,7 +373,8 @@ end
 function ModWrangler:DisableAllServerMods()
 	local mod_names = KnownModIndex:GetServerModNames()
 	for _,modname in pairs(mod_names) do
-		KnownModIndex:Disable(modname)
+		--[me] turn off disable failed mods
+		-- KnownModIndex:Disable(modname)
 	end
 	KnownModIndex:Save()
 end
@@ -561,7 +563,8 @@ function ModWrangler:DisplayBadMods()
 
 	if #self.failedmods > 0 then
 		for i,failedmod in ipairs(self.failedmods) do
-			KnownModIndex:DisableBecauseBad(failedmod.name)
+			--[me] turn off disable failed mods
+			-- KnownModIndex:DisableBecauseBad(failedmod.name)
 			self:GetMod(failedmod.name).modinfo.failed = true
 			print("Disabling "..ModInfoname(failedmod.name).." because it had an error.")
 		end
