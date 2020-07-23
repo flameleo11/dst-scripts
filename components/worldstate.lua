@@ -60,8 +60,6 @@ local function change_cycles(cycles)
     if (remain_day > last_remain_day) then
         day = 1 
     end
-    print(".....[change_cycles]..remain_day, last_remain_day, day, cycles: \n ...", 
-        remain_day, last_remain_day, day, cycles)
     last_remain_day = remain_day
   end
   return day
