@@ -79,7 +79,11 @@ function GiftReceiver:SetGiftMachine(inst)
 end
 
 function GiftReceiver:OpenNextGift()
-    if self.giftcount > 0 and self.giftmachine ~= nil then
+    -- changed by me , remove giftmachine check
+    -- if self.giftcount > 0 and self.giftmachine ~= nil then
+
+    if self.giftcount > 0 then
+
         self.inst:PushEvent("ms_opengift")
     end
 end
