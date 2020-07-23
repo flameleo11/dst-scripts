@@ -2881,7 +2881,7 @@ function Tune(overrides)
 		{
 		    DEFAULT =
 			{
-				WILSON = {},
+				WILSON = {"razor"},
 				WILLOW = {"lighter", "bernie_inactive"},
 				WENDY = {"abigail_flower"},
 				WOLFGANG = {},
@@ -2894,7 +2894,7 @@ function Tune(overrides)
 				WEBBER = {"spidereggsack", "monstermeat", "monstermeat"},
 				WINONA = {"sewing_tape", "sewing_tape", "sewing_tape"},
                 WORTOX = {"wortox_soul", "wortox_soul", "wortox_soul", "wortox_soul", "wortox_soul", "wortox_soul"},
-                WORMWOOD = {},
+                WORMWOOD = {"red_mushroom", "red_mushroom"},
                 WARLY = {"portablecookpot_item", "potato", "potato", "garlic"},
                 WURT = {},
                 WALTER = {"walterhat", "slingshot", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock"},

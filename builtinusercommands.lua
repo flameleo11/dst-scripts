@@ -251,7 +251,7 @@ AddUserCommand("rollback", {
     paramsoptional = {true},
     vote = true,
     votetimeout = 30,
-    voteminstartage = 20,
+    voteminstartage = 1,
     voteminpasscount = 3,
     votecountvisible = true,
     voteallownotvoted = true,
