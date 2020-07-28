@@ -147,6 +147,7 @@ AddUserCommand("kick", {
     localfn = function(params, caller)
         --NOTE: must support nil caller for voting
         if params.user ~= nil then
+            -- [changed by me] disable kick
             -- TheNet:Kick(UserToClientID(params.user) or params.user, caller == nil and TUNING.VOTE_KICK_TIME or nil)
         end
     end,
@@ -272,7 +273,8 @@ AddUserCommand("rollback", {
         end
         TheWorld:DoTaskInTime(5, function(world)
             if world.ismastersim then
-                TheNet:SendWorldRollbackRequestToServer(params.numsaves ~= nil and tonumber(params.numsaves) or nil)
+				-- [changed by me] disable rollbak
+                -- TheNet:SendWorldRollbackRequestToServer(params.numsaves ~= nil and tonumber(params.numsaves) or nil)
             end
         end)
     end,
@@ -310,8 +312,7 @@ AddUserCommand("regenerate", {
         end
         TheWorld:DoTaskInTime(5, function(world)
             if world.ismastersim then
-                -- fixed by me
-                -- disable reset world
+                -- [changed by me] disable regen world
                 -- TheNet:SendWorldResetRequestToServer()
             end
         end)
