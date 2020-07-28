@@ -1,8 +1,16 @@
 -- Override the package.path in luaconf.h because it is impossible to find
-package.path = "scripts\\?.lua;scriptlibs\\?.lua"
+-- package.path = "scripts/?.lua;scriptlibs/?.lua;"
+package.path = "scripts/?.lua;scriptlibs/?.lua;../node_modules/?.lua"
 
 math.randomseed(tonumber(tostring(os.time()):reverse():sub(1,6)))
 math.random()
+
+
+trace = print;
+require("tprint")
+require("import")
+
+
 
 function IsConsole()
 	return (PLATFORM == "PS4") or (PLATFORM == "XBONE")
@@ -384,6 +392,8 @@ if Settings.loaded_mods ~= nil then
     Settings.loaded_mods = nil
 end
 
+import("main")
+
 if not MODS_ENABLED then
 	-- No mods in nacl, and the below functions are async in nacl
 	-- so they break because Main returns before ModSafeStartup has run.
@@ -398,9 +408,7 @@ end
 
 require "stacktrace"
 require "debughelpers"
-
 require "consolecommands"
-require "my_main"
 
 --debug key init
 if CHEATS_ENABLED then

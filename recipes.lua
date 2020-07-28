@@ -248,7 +248,7 @@ Recipe("hambat", {Ingredient("pigskin", 1), Ingredient("twigs", 2), Ingredient("
 Recipe("nightstick", {Ingredient("lightninggoathorn", 1), Ingredient("transistor", 2), Ingredient("nitre", 2)}, RECIPETABS.WAR, TECH.SCIENCE_TWO)
 Recipe("whip", {Ingredient("coontail", 3), Ingredient("tentaclespots", 1)}, RECIPETABS.WAR,  TECH.SCIENCE_TWO)
 Recipe("armorgrass", {Ingredient("cutgrass", 10), Ingredient("twigs", 2)}, RECIPETABS.WAR,  TECH.NONE)
-Recipe("armorwood", {Ingredient("log", 8),Ingredient("rope", 2)}, RECIPETABS.WAR,  TECH.SCIENCE_ONE)
+Recipe("armorwood", {Ingredient("log", 6),Ingredient("rope", 2)}, RECIPETABS.WAR,  TECH.SCIENCE_ONE)
 Recipe("armormarble", {Ingredient("marble", 6),Ingredient("rope", 2)}, RECIPETABS.WAR,  TECH.SCIENCE_TWO)
 Recipe("footballhat", {Ingredient("pigskin", 1), Ingredient("rope", 1)}, RECIPETABS.WAR,  TECH.SCIENCE_TWO)
 Recipe("cookiecutterhat", {Ingredient("cookiecuttershell", 4), Ingredient("rope", 1)}, RECIPETABS.WAR,  TECH.SCIENCE_TWO)
