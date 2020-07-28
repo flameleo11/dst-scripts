@@ -381,7 +381,7 @@ end
 
 local function my_getInstAroundPoints(inst)
   local x, y, z = inst.Transform:GetWorldPosition()
-  local offset = 1.5
+  local offset = 1.2
   if (TUNING) then
     TUNING.FL_GROUNDCREEP_TEST_RANGE_OFFSET = TUNING.FL_GROUNDCREEP_TEST_RANGE_OFFSET or offset
     offset = TUNING.FL_GROUNDCREEP_TEST_RANGE_OFFSET
