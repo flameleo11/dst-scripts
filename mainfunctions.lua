@@ -2,6 +2,7 @@ local PopupDialogScreen = require "screens/redux/popupdialog"
 local WorldGenScreen = require "screens/worldgenscreen"
 local HealthWarningPopup = require "screens/healthwarningpopup"
 local Stats = require("stats")
+local eventmgr = import('events')()
 
 require "scheduler"
 --require "skinsutils"
@@ -260,6 +261,10 @@ function SpawnPrefabFromSim(name)
         if inst ~= nil then
 
             inst:SetPrefabName(inst.prefab or name)
+
+            -- [changed by me] trigger PrefabPostInit
+            eventmgr.emit('SpawnPrefabFromSim', inst, inst.prefab or name)
+
 
             local modfns = modprefabinitfns[inst.prefab or name]
             if modfns ~= nil then
