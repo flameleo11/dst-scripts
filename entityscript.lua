@@ -1,4 +1,5 @@
 require("class")
+local eventmgr = import('events')()
 
 local BehaviourTrees = {}
 local StateGraphs = {}
@@ -533,6 +534,8 @@ function EntityScript:AddComponent(name)
     local loadedcmp = cmp(self)
     self.components[name] = loadedcmp
     self.lower_components_shadow[lower_name] = true
+    -- [changed by me] trigger PrefabPostInit
+    eventmgr.emit('AddComponent', name, loadedcmp, self)
 
     local postinitfns = ModManager:GetPostInitFns("ComponentPostInit", name)
 
@@ -1063,6 +1066,10 @@ end
 
 function EntityScript:GetPosition()
     return Point(self.Transform:GetWorldPosition())
+end
+
+function EntityScript:SetPosition(pt)
+    return self.Transform:SetPosition(pt:Get())
 end
 
 function EntityScript:GetRotation()
