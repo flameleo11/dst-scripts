@@ -63,13 +63,12 @@ return{
             NO_RACERS = "Now that's quite the trick, invisible racing Carrats!",
         },
         
-        --warly specific action
---fallback to speech_wilson.lua 		DISMANTLE =
---fallback to speech_wilson.lua 		{
---fallback to speech_wilson.lua 			COOKING = "only_used_by_warly",
---fallback to speech_wilson.lua 			INUSE = "only_used_by_warly",
---fallback to speech_wilson.lua 			NOTEMPTY = "only_used_by_warly",
---fallback to speech_wilson.lua         },
+		DISMANTLE =
+		{
+			COOKING = "TODO",
+			INUSE = "Another soul has use of it right now.",
+			NOTEMPTY = "TODO",
+        },
         FISH_OCEAN =
 		{
 			TOODEEP = "Stop, abort! My line's too short!",
@@ -227,6 +226,10 @@ return{
 --fallback to speech_wilson.lua 			NOT_NIGHT = "only_used_by_walter",
 --fallback to speech_wilson.lua 			NO_FIRE = "only_used_by_walter",
 		},
+        SING_FAIL =
+        {
+--fallback to speech_wilson.lua             SAMESONG = "only_used_by_wathgrithr",
+        },
 	},
 	ACTIONFAIL_GENERIC = "No, no, no.",
 	ANNOUNCE_BOAT_LEAK = "Now this ride's getting fun!",
@@ -577,6 +580,10 @@ return{
 --fallback to speech_wilson.lua 		LEVEL2 = "only_used_by_wendy",
 --fallback to speech_wilson.lua 		LEVEL3 = "only_used_by_wendy",
 	},
+
+--fallback to speech_wilson.lua     ANNOUNCE_NOINSPIRATION = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "only_used_by_wathgrithr",
 
 	BATTLECRY =
 	{
@@ -1085,7 +1092,6 @@ return{
         SPIDERHOLE_ROCK = "All webbed up!",
         STALAGMITE = "It's just a rock.",
         STALAGMITE_TALL = "It's just a rock.",
-        TREASURECHEST_TRAP = "What have we here?",
 
         TURF_CARPETFLOOR = "Floor or ceiling, depending on your perspective.",
         TURF_CHECKERFLOOR = "Floor or ceiling, depending on your perspective.",
@@ -1397,6 +1403,7 @@ return{
             "We've established a stone moose truce.",
         },
         CHESSPIECE_DRAGONFLY = "Bye bye, dear dragonfly.",
+		CHESSPIECE_MINOTAUR = "It's as though the Minotaur met Medusa.",
         CHESSPIECE_BUTTERFLY = "It does not float, nor does it sting.",
         CHESSPIECE_ANCHOR = "So heavy, heavy, dreary, dreary.",
         CHESSPIECE_MOON = "The mortals thought it was made of cheese! Hyuyu!",
@@ -1615,6 +1622,7 @@ return{
 		FEATHER_ROBIN_WINTER = "A keepsake of a gentle blue friend.",
 		FEATHER_CANARY = "A token, to remember its sweet song by.",
 		FEATHERPENCIL = "Use this quill, I will, I will.",
+        COOKBOOK = "Oh what shall I cook up next? Hyuyu!",
 		FEM_PUPPET = "Greetings and salutations, ma'am.",
 		FIREFLIES =
 		{
@@ -2776,9 +2784,6 @@ return{
 		QUAGMIRE_SALMON_COOKED = "So long, sweet fish soul.",
 		QUAGMIRE_CRABMEAT = "The humans like it, they do, they do!",
 		QUAGMIRE_CRABMEAT_COOKED = "They like it more like this, I hear!",
-        QUAGMIRE_POT = "Mortals don't like it when you burn the things inside.",
-        QUAGMIRE_POT_SMALL = "A little vessel for mortal food.",
-        QUAGMIRE_POT_HANGER_ITEM = "We need to build that, yes indeed.",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "Fweehee, what a special tree!",
@@ -3289,6 +3294,9 @@ return{
             GENERIC = "I fear it's only a shell of it's former self.",
             LOCKED = "We need a key for this gift from the sea!",
         },
+        
+        HERMIT_BUNDLE = "A bundle of goodies for our good deeds!",
+        HERMIT_BUNDLE_SHELLS = "Oh swell, a bundle of shells.",
 
         RESKIN_TOOL = "Oooh, the pranks I could pull with this!",
         MOON_FISSURE_PLUGGED = "Hyuyu! Can you not get out, little ones?",
@@ -3319,6 +3327,15 @@ return{
         PORTABLETENT = "So many pranks to pull! Do I push it in the lake? Toss in a snake?",
         PORTABLETENT_ITEM = "Round and round, tent goes up and then comes down!",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "Singing is good for the soul.",
+        BATTLESONG_HEALTHGAIN = "Singing is good for the soul.",
+        BATTLESONG_SANITYGAIN = "Singing is good for the soul.",
+        BATTLESONG_SANITYAURA = "Singing is good for the soul.",
+        BATTLESONG_FIRERESISTANCE = "Singing is good for the soul.",
+        BATTLESONG_INSTANT_TAUNT = "Oooh, yay! Are we putting on a play?",
+        BATTLESONG_INSTANT_PANIC = "Oooh, yay! Are we putting on a play?",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "Hyuyu! Someone's getting crafty!",
 		GHOSTLYELIXIR_FASTREGEN = "Hyuyu! Someone's getting crafty!",

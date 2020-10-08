@@ -403,17 +403,32 @@ function ApplySpecialEvent(event)
     end
 end
 
-
-
 local inventoryItemAtlasLookup = {}
 
-function GetInventoryItemAtlas(imagename)
+function RegisterInventoryItemAtlas(atlas, imagename)
+	if atlas ~= nil and imagename ~= nil then
+		if inventoryItemAtlasLookup[imagename] ~= nil then
+			if inventoryItemAtlasLookup[imagename] ~= atlas then
+				print("RegisterInventoryItemAtlas: Image '" .. imagename .. "' is already registered to atlas '" .. atlas .."'")
+			end
+		else
+			inventoryItemAtlasLookup[imagename] = atlas
+		end
+	end
+end
+
+function GetInventoryItemAtlas(imagename, no_fallback)
 	local atlas = inventoryItemAtlasLookup[imagename]
 	if atlas then
 		return atlas
 	end
 	local base_atlas = "images/inventoryimages1.xml"
-	atlas = TheSim:AtlasContains(base_atlas, imagename) and base_atlas or "images/inventoryimages2.xml"
-	inventoryItemAtlasLookup[imagename] = atlas
+	local alt_atlas = "images/inventoryimages2.xml"
+	atlas = TheSim:AtlasContains(base_atlas, imagename) and base_atlas 
+			or (not no_fallback or TheSim:AtlasContains(alt_atlas, imagename)) and alt_atlas
+			or nil
+	if atlas ~= nil then
+		inventoryItemAtlasLookup[imagename] = atlas
+	end
 	return atlas
 end

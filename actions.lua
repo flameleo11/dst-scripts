@@ -287,6 +287,9 @@ ACTIONS =
     BEGIN_QUEST = Action(),
     ABANDON_QUEST = Action(),
 
+    SING = Action({ rmb=true, mount_valid=true }),
+    SING_FAIL = Action({ rmb=true, mount_valid=true }),
+
     --Quagmire
     TILL = Action({ distance=0.5 }),
     PLANTSOIL = Action(),
@@ -529,7 +532,7 @@ ACTIONS.RUMMAGE.fn = function(act)
             return false, "INUSE"
         elseif targ.components.container.canbeopened then
             local owner = targ.components.inventoryitem ~= nil and targ.components.inventoryitem:GetGrandOwner() or nil
-            if owner ~= nil and targ.components.quagmire_stewer ~= nil then
+            if owner ~= nil and (targ.components.quagmire_stewer ~= nil or targ.components.container.droponopen) then
                 if owner == act.doer then
                     owner.components.inventory:DropItem(targ, true, true)
                 elseif owner.components.container ~= nil and owner.components.container:IsOpenedBy(act.doer) then
@@ -604,12 +607,14 @@ end
 
 ACTIONS.READ.fn = function(act)
     local targ = act.target or act.invobject
-    if targ ~= nil and
-        act.doer ~= nil and
-        targ.components.book ~= nil and
-        act.doer.components.reader ~= nil then
-        return act.doer.components.reader:Read(targ)
-    end
+    if targ ~= nil and act.doer ~= nil then
+		if targ.components.book ~= nil and act.doer.components.reader ~= nil then
+	        return act.doer.components.reader:Read(targ)
+		elseif targ.components.simplebook ~= nil then
+			targ.components.simplebook:Read(act.doer)
+			return true
+		end
+	end
 end
 
 ACTIONS.ROW_FAIL.fn = function(act)
@@ -1072,7 +1077,7 @@ ACTIONS.COOK.fn = function(act)
         elseif not act.target.components.stewer:CanCook() then
             return false
         end
-        act.target.components.stewer:StartCooking()
+        act.target.components.stewer:StartCooking(act.doer)
         return true
     elseif act.target.components.cookable ~= nil
         and act.invobject ~= nil
@@ -2900,6 +2905,36 @@ ACTIONS.ABANDON_QUEST.fn = function(act)
         local success, message = act.target.components.questowner:AbandonQuest(act.doer)
         return (success ~= false), message
     end
+end
+
+ACTIONS.SING.fn = function(act)
+    local singinginspiration = act.doer.components.singinginspiration
+    if act.invobject and singinginspiration ~= nil then
+        
+        local songdata = act.invobject.songdata
+        if songdata ~= nil then
+
+            if singinginspiration:IsSongActive(songdata) then --we need this test incase the client asks to do this action due to lag.
+                return true
+            end
+
+            if singinginspiration:CanAddSong(songdata) then
+                act.invobject.components.singable:Sing(act.doer)
+            end
+        end
+
+        return true
+    end
+
+    return false
+end
+
+ACTIONS.SING_FAIL.fn = function(act)
+    return true
+end
+
+ACTIONS.SING_FAIL.stroverridefn = function(act) 
+    return STRINGS.ACTIONS.SING
 end
 
 ACTIONS.REPLATE.fn = function(act)

@@ -63,13 +63,12 @@ return{
             NO_RACERS = "Find friends for race",
         },
         
-        --warly specific action
---fallback to speech_wilson.lua 		DISMANTLE =
---fallback to speech_wilson.lua 		{
---fallback to speech_wilson.lua 			COOKING = "only_used_by_warly",
---fallback to speech_wilson.lua 			INUSE = "only_used_by_warly",
---fallback to speech_wilson.lua 			NOTEMPTY = "only_used_by_warly",
---fallback to speech_wilson.lua         },
+		DISMANTLE =
+		{
+			COOKING = "TODO",
+			INUSE = "Someone else using it",
+			NOTEMPTY = "TODO",
+        },
         FISH_OCEAN =
 		{
 			TOODEEP = "Can't reach Glub Glub",
@@ -227,6 +226,10 @@ return{
 --fallback to speech_wilson.lua 			NOT_NIGHT = "only_used_by_walter",
 --fallback to speech_wilson.lua 			NO_FIRE = "only_used_by_walter",
 		},
+        SING_FAIL =
+        {
+--fallback to speech_wilson.lua             SAMESONG = "only_used_by_wathgrithr",
+        },
 	},
 	ACTIONFAIL_GENERIC = "Nope",
 	ANNOUNCE_BOAT_LEAK = "Water! Water coming!",
@@ -577,6 +580,10 @@ return{
 --fallback to speech_wilson.lua 		LEVEL3 = "only_used_by_wendy",
 	},
 
+--fallback to speech_wilson.lua     ANNOUNCE_NOINSPIRATION = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "only_used_by_wathgrithr",
+
 	BATTLECRY =
 	{
 		GENERIC = "Attack!",
@@ -649,7 +656,7 @@ return{
         PLAYER =
         {
             GENERIC = "Hello, %s!",
-            ATTACKER = "Bad! Bad &s!",
+            ATTACKER = "Bad! Bad %s!",
             MURDERER = "Killing bad!",
             REVIVER = "Good helper",
             GHOST = "Need help?",
@@ -1084,7 +1091,6 @@ return{
         SPIDERHOLE_ROCK = "What's in there?",
         STALAGMITE = "Rocks",
         STALAGMITE_TALL = "Rock",
-        TREASURECHEST_TRAP = "Hmm...",
 
         TURF_CARPETFLOOR = "Not dirt",
         TURF_CHECKERFLOOR = "Not dirt",
@@ -1395,6 +1401,7 @@ return{
             "Oh. Tweeter can't tweet now",
         },
         CHESSPIECE_DRAGONFLY = "Only stone fire now",
+		CHESSPIECE_MINOTAUR = "Scary",
         CHESSPIECE_BUTTERFLY = "Can't fly like that",
         CHESSPIECE_ANCHOR = "Heavy",
         CHESSPIECE_MOON = "Night Ball broken",
@@ -1613,6 +1620,7 @@ return{
 		FEATHER_ROBIN_WINTER = "Snow Tweeter clothes",
 		FEATHER_CANARY = "Tweeter clothes",
 		FEATHERPENCIL = "Draws pretty pictures",
+        COOKBOOK = "Belly things",
 		FEM_PUPPET = "Friend?",
 		FIREFLIES =
 		{
@@ -2774,9 +2782,6 @@ return{
 		QUAGMIRE_SALMON_COOKED = "Sky Belly will like it",
 		QUAGMIRE_CRABMEAT = "Branch from Ground Pinchy",
 		QUAGMIRE_CRABMEAT_COOKED = "Pinchy makes good belly stuff",
-        QUAGMIRE_POT = "BIG bubbly water place",
-        QUAGMIRE_POT_SMALL = "Hoo! Makes water bubbly!",
-        QUAGMIRE_POT_HANGER_ITEM = "Needs fire",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "Sweet Friend!",
@@ -3287,6 +3292,9 @@ return{
             GENERIC = "Shell stuff",
             LOCKED = "Oh. Locked",
         },
+        
+        HERMIT_BUNDLE = "Thank you!",
+        HERMIT_BUNDLE_SHELLS = "Shells shell",
 
         RESKIN_TOOL = "Dusty changer",
         MOON_FISSURE_PLUGGED = "Can't hear them",
@@ -3317,6 +3325,15 @@ return{
         PORTABLETENT = "Soft house",
         PORTABLETENT_ITEM = "Not done yet",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "Biiiig mouth sounds",
+        BATTLESONG_HEALTHGAIN = "Biiiig mouth sounds",
+        BATTLESONG_SANITYGAIN = "Biiiig mouth sounds",
+        BATTLESONG_SANITYAURA = "Biiiig mouth sounds",
+        BATTLESONG_FIRERESISTANCE = "Biiiig mouth sounds",
+        BATTLESONG_INSTANT_TAUNT = "Funny words",
+        BATTLESONG_INSTANT_PANIC = "Funny words",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "For ghost friend",
 		GHOSTLYELIXIR_FASTREGEN = "For ghost friend",

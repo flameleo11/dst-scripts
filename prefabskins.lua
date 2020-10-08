@@ -43,6 +43,7 @@ PREFAB_SKINS = {
 	{
 		"armor_marble_chainmail",
 		"armor_marble_rockabs",
+		"armor_marble_valkyrie",
 	},
 	armorruins = 
 	{
@@ -71,6 +72,7 @@ PREFAB_SKINS = {
 	},
 	backpack = 
 	{
+		"backpack_babybeef",
 		"backpack_basic_blue_catcoon",
 		"backpack_basic_green_olive",
 		"backpack_bat",
@@ -105,6 +107,7 @@ PREFAB_SKINS = {
 	{
 		"bedroll_furry_quilt_blue_frost",
 		"bedroll_furry_quilt_green_hunters",
+		"bedroll_furry_quilt_red_redbird",
 		"bedroll_furry_quilt_white_ivory",
 	},
 	beebox = 
@@ -352,6 +355,10 @@ PREFAB_SKINS = {
 		"footballhat_hockey",
 		"hat_dog_helm",
 	},
+	gemsocket = 
+	{
+		"gemsocket_crystal",
+	},
 	goldenaxe = 
 	{
 		"goldenaxe_northern",
@@ -559,6 +566,7 @@ PREFAB_SKINS = {
 	},
 	shovel = 
 	{
+		"shovel_feathered",
 		"shovel_northern",
 		"shovel_victorian",
 	},
@@ -569,12 +577,14 @@ PREFAB_SKINS = {
 		"spear_forge_lance",
 		"spear_hockey",
 		"spear_northern",
+		"spear_ragged",
 		"spear_rose",
 		"spear_simple",
 	},
 	spear_wathgrithr = 
 	{
 		"spear_wathgrithr_northern",
+		"spear_wathgrithr_valkyrie",
 		"spear_wathgrithr_wrestle",
 	},
 	strawhat = 
@@ -582,6 +592,14 @@ PREFAB_SKINS = {
 		"strawhat_bonnet",
 		"strawhat_cowboy",
 		"strawhat_floppy",
+	},
+	telebase = 
+	{
+		"telebase_crystal",
+	},
+	telestaff = 
+	{
+		"telestaff_crystal",
 	},
 	tent = 
 	{
@@ -679,20 +697,26 @@ PREFAB_SKINS = {
 		"wathgrithr_deerclops",
 		"wathgrithr_deerclops_d",
 		"wathgrithr_formal",
+		"wathgrithr_formalp",
 		"wathgrithr_gladiator",
 		"wathgrithr_magma",
 		"wathgrithr_nature",
 		"wathgrithr_none",
 		"wathgrithr_rose",
+		"wathgrithr_rosep",
 		"wathgrithr_scarecrow",
 		"wathgrithr_shadow",
+		"wathgrithr_shadowp",
 		"wathgrithr_survivor",
+		"wathgrithr_survivorp",
+		"wathgrithr_valkyrie",
 		"wathgrithr_victorian",
 		"wathgrithr_wrestler",
 		"wathgrithr_yule",
 	},
 	wathgrithrhat = 
 	{
+		"wathgrithrhat_valkyrie",
 		"wathgrithrhat_wrestle",
 	},
 	waxwell = 
@@ -730,6 +754,19 @@ PREFAB_SKINS = {
 		"webber_survivor",
 		"webber_victorian",
 		"webber_wrestler",
+	},
+	webber_beard = 
+	{
+		"webber_beard_bat",
+		"webber_beard_formal",
+		"webber_beard_gladiator",
+		"webber_beard_ice",
+		"webber_beard_magma",
+		"webber_beard_punk",
+		"webber_beard_rose",
+		"webber_beard_shadow",
+		"webber_beard_survivor",
+		"webber_beard_wrestler",
 	},
 	wendy = 
 	{
@@ -832,7 +869,12 @@ PREFAB_SKINS = {
 	wilson_beard = 
 	{
 		"wilson_beard_formal",
+		"wilson_beard_gladiator",
 		"wilson_beard_ice",
+		"wilson_beard_madscience",
+		"wilson_beard_magma",
+		"wilson_beard_nature",
+		"wilson_beard_pigguard",
 		"wilson_beard_rose",
 		"wilson_beard_shadow",
 		"wilson_beard_survivor",

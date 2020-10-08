@@ -63,13 +63,12 @@ return{
             NO_RACERS = "Can't start yet! Need veggie rats!",
         },
         
-        --warly specific action
---fallback to speech_wilson.lua 		DISMANTLE =
---fallback to speech_wilson.lua 		{
---fallback to speech_wilson.lua 			COOKING = "only_used_by_warly",
---fallback to speech_wilson.lua 			INUSE = "only_used_by_warly",
---fallback to speech_wilson.lua 			NOTEMPTY = "only_used_by_warly",
---fallback to speech_wilson.lua         },
+		DISMANTLE =
+		{
+			COOKING = "TODO",
+			INUSE = "Gotta wait.",
+			NOTEMPTY = "TODO",
+        },
         FISH_OCEAN =
 		{
 			TOODEEP = "Come closer, fishes! Won't hurt you!",
@@ -227,6 +226,10 @@ return{
 --fallback to speech_wilson.lua 			NOT_NIGHT = "only_used_by_walter",
 --fallback to speech_wilson.lua 			NO_FIRE = "only_used_by_walter",
 		},
+        SING_FAIL =
+        {
+--fallback to speech_wilson.lua             SAMESONG = "only_used_by_wathgrithr",
+        },
 	},
 	ACTIONFAIL_GENERIC = "Grrr... can't do it, florpt.",
 	ANNOUNCE_BOAT_LEAK = "Yay! Boat getting wetter!",
@@ -572,6 +575,10 @@ return{
 --fallback to speech_wilson.lua 		LEVEL2 = "only_used_by_wendy",
 --fallback to speech_wilson.lua 		LEVEL3 = "only_used_by_wendy",
 	},
+
+--fallback to speech_wilson.lua     ANNOUNCE_NOINSPIRATION = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "only_used_by_wathgrithr",
 
 	BATTLECRY =
 	{
@@ -1080,7 +1087,6 @@ return{
         SPIDERHOLE_ROCK = "All webby...",
         STALAGMITE = "Cave rock.",
         STALAGMITE_TALL = "Big cave rock",
-        TREASURECHEST_TRAP = "Treasure!",
 
         TURF_CARPETFLOOR = "Fuzzy ground.",
         TURF_CHECKERFLOOR = "Ground bit.",
@@ -1391,6 +1397,7 @@ return{
             "Ha ha! Her face!",
         },
         CHESSPIECE_DRAGONFLY = "It all buggy-eyed.",
+		CHESSPIECE_MINOTAUR = "It good for scratching scales against.",
         CHESSPIECE_BUTTERFLY = "It so ugly.",
         CHESSPIECE_ANCHOR = "Why made anchor for land, florpt?",
         CHESSPIECE_MOON = "It look just like real thing!",
@@ -1609,6 +1616,7 @@ return{
 		FEATHER_ROBIN_WINTER = "Snowy bird feather.",
 		FEATHER_CANARY = "Yellow birdy feather.",
 		FEATHERPENCIL = "For fancy writing, florp.",
+        COOKBOOK = "Like this one, has pictures of food!",
 		FEM_PUPPET = "You stuck?",
 		FIREFLIES =
 		{
@@ -2770,9 +2778,6 @@ return{
 		QUAGMIRE_SALMON_COOKED = "Nooooooo!!",
 		QUAGMIRE_CRABMEAT = "(Sniff) poor crab...",
 		QUAGMIRE_CRABMEAT_COOKED = "Glurph... can't look.",
-        QUAGMIRE_POT = "Is just normal pot.",
-        QUAGMIRE_POT_SMALL = "Bitty pot.",
-        QUAGMIRE_POT_HANGER_ITEM = "It help for cooking.",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "There sweet stuff inside!",
@@ -3283,6 +3288,9 @@ return{
             GENERIC = "Seashell is good for hiding things, florpt!",
             LOCKED = "Grrr, open up!",
         },
+        
+        HERMIT_BUNDLE = "Presents!",
+        HERMIT_BUNDLE_SHELLS = "Full of pretty shells!",
 
         RESKIN_TOOL = "Change things to... different things!",
         MOON_FISSURE_PLUGGED = "Bad moon things can't get out, florp!",
@@ -3313,6 +3321,15 @@ return{
         PORTABLETENT = "Is sleeping place.",
         PORTABLETENT_ITEM = "Building something, florp?",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "Someone drew bunch of flies stuck in Spiderfolk webs, florpt.",
+        BATTLESONG_HEALTHGAIN = "Someone drew bunch of flies stuck in Spiderfolk webs, florpt.",
+        BATTLESONG_SANITYGAIN = "Someone drew bunch of flies stuck in Spiderfolk webs, florpt.",
+        BATTLESONG_SANITYAURA = "Someone drew bunch of flies stuck in Spiderfolk webs, florpt.",
+        BATTLESONG_FIRERESISTANCE = "Someone drew bunch of flies stuck in Spiderfolk webs, florpt.",
+        BATTLESONG_INSTANT_TAUNT = "Glurgh... these words really hard...",
+        BATTLESONG_INSTANT_PANIC = "Glurgh... these words really hard...",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "Ooooh! Me wanna make some too, florp!",
 		GHOSTLYELIXIR_FASTREGEN = "Ooooh! Me wanna make some too, florp!",

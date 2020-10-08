@@ -503,8 +503,10 @@ local actionhandlers =
     ActionHandler(ACTIONS.ADDWETFUEL, "doshortaction"),
     ActionHandler(ACTIONS.REPAIR, "dolongaction"),
     ActionHandler(ACTIONS.READ, 
-        function(inst) 
-            return inst:HasTag("aspiring_bookworm") and "book_peruse" or "book"
+        function(inst, action) 
+            return	(action.invobject ~= nil and action.invobject.components.simplebook ~= nil) and "cookbook_open"
+					or inst:HasTag("aspiring_bookworm") and "book_peruse" 
+					or "book"
         end),
     ActionHandler(ACTIONS.MAKEBALLOON, "makeballoon"),
     ActionHandler(ACTIONS.DEPLOY, "doshortaction"),
@@ -691,6 +693,8 @@ local actionhandlers =
         function(inst, action)
             return action.invobject ~= nil and action.invobject:HasTag("abigail_flower") and "commune_with_abigail" or "dolongaction"
         end),
+    ActionHandler(ACTIONS.SING, "sing_pre"),
+    ActionHandler(ACTIONS.SING_FAIL, "sing_fail"),
     ActionHandler(ACTIONS.COMBINESTACK, "doshortaction"),
     ActionHandler(ACTIONS.FEED, "dolongaction"),
     ActionHandler(ACTIONS.ATTACK,
@@ -4608,6 +4612,66 @@ local states =
     },
 
     State{
+        name = "cookbook_open",
+        tags = { "doing" },
+
+        onenter = function(inst)
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:OverrideSymbol("book_cook", "cookbook", "book_cook")
+            inst.AnimState:PlayAnimation("action_uniqueitem_pre")
+            inst.AnimState:PushAnimation("reading_in", false)
+            inst.AnimState:PushAnimation("reading_loop", true)
+        end,
+
+        timeline =
+        {
+            TimeEvent(8 * FRAMES, function(inst)
+                inst:PerformBufferedAction()
+            end),
+        },
+
+		onupdate = function(inst)
+			if not CanEntitySeeTarget(inst, inst) then
+                inst.sg:GoToState("cookbook_close")
+			end
+		end,
+
+        events =
+        {
+            EventHandler("ms_closecookbookscreen", function(inst)
+				inst.sg.statemem.closing = true
+                inst.sg:GoToState("cookbook_close")
+            end),
+        },
+
+        onexit = function(inst)
+		    inst:ShowCookbookPopUp(false)
+			if not inst.sg.statemem.closing then
+                inst:PushEvent("ms_closecookbookscreen")
+			end
+        end,
+    },
+
+    State{
+        name = "cookbook_close",
+        tags = { "idle", "nodangle" },
+
+        onenter = function(inst)
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("reading_pst")
+        end,
+
+        events =
+        {
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+					inst.sg:GoToState(inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) ~= nil and "item_out" or "idle")
+                end
+            end),
+        },
+    },
+
+    State{
         name = "talk",
         tags = { "idle", "talking" },
 
@@ -5705,7 +5769,6 @@ local states =
             inst.components.locomotor:Stop()
             inst.AnimState:PlayAnimation("hornblow_pre")
             inst.AnimState:PushAnimation("hornblow", false)
-            inst.AnimState:Show("ARM_normal")
         end,
 
         timeline =
@@ -5732,13 +5795,6 @@ local states =
                 end
             end),
         },
-
-        onexit = function(inst)
-            if inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) then
-                inst.AnimState:Show("ARM_carry")
-                inst.AnimState:Hide("ARM_normal")
-            end
-        end,
     },
 
     State
@@ -5969,7 +6025,6 @@ local states =
             inst.AnimState:PushAnimation("strum", false)
 
             inst.AnimState:OverrideSymbol("swap_trident", "swap_trident", "swap_trident")
-            inst.AnimState:Show("ARM_normal")
         end,
 
         timeline =
@@ -5997,13 +6052,6 @@ local states =
                 end
             end),
         },
-
-        onexit = function(inst)
-            if inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) then
-                inst.AnimState:Show("ARM_carry")
-                inst.AnimState:Hide("ARM_normal")
-            end
-        end,
     },
 
     State
@@ -6235,27 +6283,8 @@ local states =
             inst.components.locomotor:Stop()
             inst.AnimState:PlayAnimation("action_uniqueitem_pre")
             inst.AnimState:PushAnimation("peruse", false)
-            --V2C: NOTE that these are now used in onexit to clear skinned symbols
-            --Moved to player_common because these symbols are never cleared
-            --inst.AnimState:OverrideSymbol("book_open", "player_actions_uniqueitem", "book_open")
-            --inst.AnimState:OverrideSymbol("book_closed", "player_actions_uniqueitem", "book_closed")
-            --inst.AnimState:OverrideSymbol("book_open_pages", "player_actions_uniqueitem", "book_open_pages")
-            --inst.AnimState:Hide("ARM_carry")
-            inst.AnimState:Show("ARM_normal")
-
-            local book = inst.bufferedaction ~= nil and (inst.bufferedaction.target or inst.bufferedaction.invobject) or nil
-            if book ~= nil then
-                inst.components.inventory:ReturnActiveActionItem(book)
-                local skin_build = book:GetSkinBuild()
-                if skin_build ~= nil then
-                    inst.sg.statemem.skinned = true
-                    inst.AnimState:OverrideItemSkinSymbol("book_open", skin_build, "book_open", book.GUID, "player_actions_uniqueitem")
-                    inst.AnimState:OverrideItemSkinSymbol("book_closed", skin_build, "book_closed", book.GUID, "player_actions_uniqueitem")
-                    inst.AnimState:OverrideItemSkinSymbol("book_open_pages", skin_build, "book_open_pages", book.GUID, "player_actions_uniqueitem")
-                end               
-            end
-
-            --inst.sg.statemem.castsound = book ~= nil and book.castsound or "dontstarve/common/book_spell"
+			inst.AnimState:Show("ARM_normal")
+            inst.components.inventory:ReturnActiveActionItem(inst.bufferedaction ~= nil and inst.bufferedaction.invobject or nil)
         end,
 
         timeline =
@@ -6264,40 +6293,25 @@ local states =
             TimeEvent(25 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve/common/use_book")
             end),
-            TimeEvent(73 * FRAMES, function(inst)
+            TimeEvent(68 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve/characters/actions/page_turn")
             end),
-            TimeEvent(105 * FRAMES, function(inst)
-                --inst.SoundEmitter:PlaySound(inst.sg.statemem.castsound)
+            TimeEvent(98 * FRAMES, function(inst)
                 inst:PerformBufferedAction()
-
             end),
         },
         events =
         {
             EventHandler("animqueueover", function(inst)
                 if inst.AnimState:AnimDone() then
-                    inst.sg:GoToState("idle")
+                    inst.sg:GoToState(inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) ~= nil and "item_out" or "idle")
                 end
             end),
         },
 
         onexit = function(inst)
-            local item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-            if item ~= nil and not item:HasTag("book") then
-                inst.AnimState:Show("ARM_carry")
+            if inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) then
                 inst.AnimState:Hide("ARM_normal")
-            end
-            if inst.sg.statemem.skinned then
-                inst.AnimState:OverrideSymbol("book_open", "player_actions_uniqueitem", "book_open")
-                inst.AnimState:OverrideSymbol("book_closed", "player_actions_uniqueitem", "book_closed")
-                inst.AnimState:OverrideSymbol("book_open_pages", "player_actions_uniqueitem", "book_open_pages")
-            end
-            if inst.sg.statemem.book_fx ~= nil and inst.sg.statemem.book_fx:IsValid() then
-                inst.sg.statemem.book_fx:Remove()
-            end
-            if inst.sg.statemem.targetfx ~= nil and inst.sg.statemem.targetfx:IsValid() then
-                OnRemoveCleanupTargetFX(inst)
             end
         end,
     },
@@ -8398,6 +8412,7 @@ local states =
         {
             TimeEvent(13*FRAMES, function(inst) 
                 inst.SoundEmitter:PlaySound("dontstarve/common/fishingpole_cast")
+                inst.SoundEmitter:PlaySound("dontstarve/common/fishingpole_cast_ocean")
                 inst.sg:RemoveStateTag("prefish")
                 inst:PerformBufferedAction()
             end),
@@ -8438,22 +8453,40 @@ local states =
             rod = (rod ~= nil and rod.components.oceanfishingrod ~= nil) and rod or nil
             local target = rod ~= nil and rod.components.oceanfishingrod.target or nil
             if target ~= nil then
-                if target.components.oceanfishinghook ~= nil or rod.components.oceanfishingrod:IsLineTensionLow() then
-                    if not inst.AnimState:IsCurrentAnimation("hooked_loose_idle") then
-                        inst.SoundEmitter:KillSound("unreel_loop")
-                        inst.AnimState:PlayAnimation("hooked_loose_idle", true)
-                    end
-                elseif rod.components.oceanfishingrod:IsLineTensionGood() then
-                    if not inst.AnimState:IsCurrentAnimation("hooked_good_idle") then
-                        inst.SoundEmitter:KillSound("unreel_loop")
-                        inst.AnimState:PlayAnimation("hooked_good_idle", true)
-                    end
-                elseif not inst.AnimState:IsCurrentAnimation("hooked_tight_idle") then
-                    inst.SoundEmitter:KillSound("unreel_loop")
-                    --inst.SoundEmitter:PlaySound("dontstarve/common/fishpole_reel_in1_LP", "unreel_loop") -- SFX WIP
-                        inst.AnimState:PlayAnimation("hooked_tight_idle", true)
-                    end
-                end
+                if target.components.oceanfishinghook ~= nil then
+					inst.SoundEmitter:KillSound("unreel_loop")
+					if not inst.AnimState:IsCurrentAnimation("hooked_loose_idle") then
+						inst.AnimState:PlayAnimation("hooked_loose_idle", true)
+					end
+				else
+					if rod.components.oceanfishingrod:IsLineTensionLow() then
+						inst.SoundEmitter:KillSound("unreel_loop")
+						if not inst.AnimState:IsCurrentAnimation("hooked_loose_idle") then
+							inst.AnimState:PlayAnimation("hooked_loose_idle", true)
+						end
+					elseif rod.components.oceanfishingrod:IsLineTensionGood() then
+						if target.components.oceanfishable ~= nil and target.components.oceanfishable:IsStruggling() then
+							if not inst.SoundEmitter:PlayingSound("unreel_loop") then
+								inst.SoundEmitter:PlaySound("dontstarve/common/fishpole_strain", "unreel_loop")
+							end
+			                inst.SoundEmitter:SetParameter("unreel_loop", "tension", 0.0)
+						else
+							inst.SoundEmitter:KillSound("unreel_loop")
+						end
+						if not inst.AnimState:IsCurrentAnimation("hooked_good_idle") then
+							inst.AnimState:PlayAnimation("hooked_good_idle", true)
+						end
+					else
+						if not inst.SoundEmitter:PlayingSound("unreel_loop") then
+							inst.SoundEmitter:PlaySound("dontstarve/common/fishpole_strain", "unreel_loop")
+						end
+		                inst.SoundEmitter:SetParameter("unreel_loop", "tension", 1.0)
+						if not inst.AnimState:IsCurrentAnimation("hooked_tight_idle") then
+							inst.AnimState:PlayAnimation("hooked_tight_idle", true)
+						end
+					end
+				end
+			end
         end,
 
         ontimeout = function(inst)
@@ -8486,21 +8519,24 @@ local states =
             else
                 if inst:PerformBufferedAction() then
                     if target.components.oceanfishinghook ~= nil or rod.components.oceanfishingrod:IsLineTensionLow() then
+                        inst.SoundEmitter:KillSound("reel_loop")
+						inst.SoundEmitter:PlaySound("dontstarve/common/fishpole_reel_in1_LP", "reel_loop")
                         if not inst.AnimState:IsCurrentAnimation("hooked_loose_reeling") then
-                            inst.SoundEmitter:KillSound("reel_loop")
                             inst.AnimState:PlayAnimation("hooked_loose_reeling", true)
                         end
                     elseif rod.components.oceanfishingrod:IsLineTensionGood() then
+                        inst.SoundEmitter:KillSound("reel_loop")
+						inst.SoundEmitter:PlaySound("dontstarve/common/fishpole_reel_in2_LP", "reel_loop")
                         if not inst.AnimState:IsCurrentAnimation("hooked_good_reeling") then
-                            inst.SoundEmitter:KillSound("reel_loop")
-                            --inst.SoundEmitter:PlaySound("dontstarve/common/fishpole_reel_in2", "reel_loop")
                             inst.AnimState:PlayAnimation("hooked_good_reeling", true)
                         end
-                    elseif not inst.AnimState:IsCurrentAnimation("hooked_tight_reeling") then
-                            inst.SoundEmitter:KillSound("reel_loop")
-                        --inst.SoundEmitter:PlaySound("dontstarve/common/fishpole_reel_in3_LP", "reel_loop") -- SFX WIP
+                    else
+                        inst.SoundEmitter:KillSound("reel_loop")
+						inst.SoundEmitter:PlaySound("dontstarve/common/fishpole_reel_in3_LP", "reel_loop")
+						if not inst.AnimState:IsCurrentAnimation("hooked_tight_reeling") then
                             inst.AnimState:PlayAnimation("hooked_tight_reeling", true)
                         end
+					end
 
                     inst.sg:SetTimeout(inst.AnimState:GetCurrentAnimationLength())
                 end
@@ -8532,7 +8568,7 @@ local states =
             inst:AddTag("fishing_idle")
             inst.components.locomotor:Stop()
 
-            --inst.SoundEmitter:PlaySound("dontstarve/common/fishpole_reel_in1_LP", "sethook_loop") -- SFX WIP
+            --inst.SoundEmitter:PlaySound("dontstarve/common/fishingpole_fishcaught_ocean")
             inst.AnimState:PlayAnimation("fishing_ocean_bite_heavy_pre")
             inst.AnimState:PushAnimation("fishing_ocean_bite_heavy_loop", false)
 
@@ -12805,7 +12841,7 @@ local states =
     },
 
     --------------------------------------------------------------------------
-    --Wormwood
+    -- Wormwood
 
     State{
         name = "form_log",
@@ -12928,7 +12964,127 @@ local states =
     },
 
     --------------------------------------------------------------------------
+    -- Wigfrid
 
+    State{
+        name = "sing_pre",
+        tags = { "busy", "nointerrupt" },
+
+        onenter = function(inst)
+            inst.components.locomotor:Stop()
+            
+            inst.AnimState:PlayAnimation("sing_pre", false) 
+        end,
+
+        events = {
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+            
+                    local buffaction = inst:GetBufferedAction()
+                    local songdata = buffaction and buffaction.invobject.songdata or nil
+                    local singinginspiration = inst.components.singinginspiration
+
+                    if singinginspiration and songdata then
+                        if singinginspiration:IsSongActive(songdata) then
+                            inst:ClearBufferedAction()
+                            inst.components.talker:Say(GetActionFailString(inst, "SING_FAIL", "SAMESONG"))
+                            inst.sg:GoToState("idle")
+                        elseif singinginspiration:CanAddSong(songdata) then
+                            inst.sg:GoToState("sing")
+                        else
+                            inst.sg:GoToState("cantsing")
+                        end
+                    else
+                        inst.sg:GoToState("idle")
+                    end
+                end
+            end),
+        },
+    },
+
+    State{
+        name = "sing_fail",
+        tags = { "busy" },
+
+        onenter = function(inst)
+            inst:PerformBufferedAction()
+
+            inst.sg:GoToState("idle")
+            inst.components.talker:Say(GetActionFailString(inst, "SING_FAIL", "SAMESONG"))
+        end,     
+    },
+
+    State{
+        name = "sing",
+        tags = { "busy", "nointerrupt" },
+        
+        onenter = function(inst)
+            local buffaction = inst:GetBufferedAction()
+            local songdata = buffaction and buffaction.invobject.songdata or nil
+
+            if songdata ~= nil then
+                inst.AnimState:PushAnimation(songdata.INSTANT and "quote" or "sing", false)
+                if songdata.INSTANT then
+                    inst.components.talker:Say(GetString(inst, "ANNOUNCE_" .. string.upper(songdata.NAME)), nil, true)
+                end
+            end
+        end,
+
+        timeline =
+        {
+            TimeEvent(3 * FRAMES, function(inst)
+                local buffaction = inst:GetBufferedAction()
+                local songdata = buffaction and buffaction.invobject.songdata or nil
+                if songdata then
+                    inst.SoundEmitter:PlaySound(songdata.SOUND or ("dontstarve_DLC001/characters/wathgrithr/"..(songdata.INSTANT and "quote" or "sing")))
+                end
+            end),
+
+            TimeEvent(24 * FRAMES, function(inst)      
+                inst:PerformBufferedAction()
+            end),
+            TimeEvent(34 * FRAMES, function(inst)      
+                inst.sg:RemoveStateTag("busy")
+                inst.sg:RemoveStateTag("nointerrupt")
+            end),
+        },
+
+        events = 
+        {
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.sg:GoToState("idle")
+                end
+            end),
+        },
+    },
+
+    State{
+        name = "cantsing",
+        tags = {},
+        
+        onenter = function(inst)
+            inst:ClearBufferedAction()
+
+            inst.components.talker:Say(GetString(inst, "ANNOUNCE_NOINSPIRATION"), nil, true)
+
+            inst.AnimState:PlayAnimation("sing_fail", false)
+
+            inst.SoundEmitter:PlaySound("dontstarve_DLC001/characters/wathgrithr/fail")
+        end,
+
+        events = 
+        {
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.sg:GoToState("idle")
+                end
+            end),
+        }
+    },
+
+
+    --------------------------------------------------------------------------
     -- sail anims
 
     State{

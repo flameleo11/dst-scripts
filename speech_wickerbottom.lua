@@ -63,13 +63,12 @@ return{
             NO_RACERS = "I can't gather any data with no subjects.",
         },
         
-        --warly specific action
---fallback to speech_wilson.lua 		DISMANTLE =
---fallback to speech_wilson.lua 		{
---fallback to speech_wilson.lua 			COOKING = "only_used_by_warly",
---fallback to speech_wilson.lua 			INUSE = "only_used_by_warly",
---fallback to speech_wilson.lua 			NOTEMPTY = "only_used_by_warly",
---fallback to speech_wilson.lua         },
+		DISMANTLE =
+		{
+			COOKING = "TODO",
+			INUSE = "It's already in use.",
+			NOTEMPTY = "TODO",
+        },
         FISH_OCEAN =
 		{
 			TOODEEP = "Those fish are far too deep.",
@@ -227,6 +226,10 @@ return{
 --fallback to speech_wilson.lua 			NOT_NIGHT = "only_used_by_walter",
 --fallback to speech_wilson.lua 			NO_FIRE = "only_used_by_walter",
 		},
+        SING_FAIL =
+        {
+--fallback to speech_wilson.lua             SAMESONG = "only_used_by_wathgrithr",
+        },
 	},
 	ACTIONFAIL_GENERIC = "It seems I can't do that.",
 	ANNOUNCE_BOAT_LEAK = "The boat has fallen into dangerous disrepair.",
@@ -572,6 +575,10 @@ return{
 --fallback to speech_wilson.lua 		LEVEL2 = "only_used_by_wendy",
 --fallback to speech_wilson.lua 		LEVEL3 = "only_used_by_wendy",
 	},
+
+--fallback to speech_wilson.lua     ANNOUNCE_NOINSPIRATION = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "only_used_by_wathgrithr",
 
 	BATTLECRY =
 	{
@@ -1080,7 +1087,6 @@ return{
         SPIDERHOLE_ROCK = "This is the source of the spider infestation.",
         STALAGMITE = "A strange rock formation.",
         STALAGMITE_TALL = "Another stalagmite.",
-        TREASURECHEST_TRAP = "Looks suspicious...",
 
         TURF_CARPETFLOOR = "The ground. You step on it.",
         TURF_CHECKERFLOOR = "The ground. You step on it.",
@@ -1391,6 +1397,7 @@ return{
             "Bust of Alces canadensis.",
         },
         CHESSPIECE_DRAGONFLY = "Artist's interpretation of mythical Diptera.",
+		CHESSPIECE_MINOTAUR = "A rather convincing likeness.",
         CHESSPIECE_BUTTERFLY = "Carved in the lunar moth's likeness.",
         CHESSPIECE_ANCHOR = "Artists tend to reference what they're familiar with.",
         CHESSPIECE_MOON = "The missing chunk is a recent development.",
@@ -1609,6 +1616,7 @@ return{
 		FEATHER_ROBIN_WINTER = "It looks like a feather of Cardinalis, but white.",
 		FEATHER_CANARY = "Feather of Canaria.",
 		FEATHERPENCIL = "Oh, how I missed proper writing implements!",
+        COOKBOOK = "A collection of culinary observations.",
 		FEM_PUPPET = "Poor girl.",
 		FIREFLIES =
 		{
@@ -2770,9 +2778,6 @@ return{
 		QUAGMIRE_SALMON_COOKED = "Seared oncorhynchus nerka.",
 		QUAGMIRE_CRABMEAT = "Raw Paralithodes meat.",
 		QUAGMIRE_CRABMEAT_COOKED = "It no longer presents a threat of salmonellosis.",
-        QUAGMIRE_POT = "A larger pot takes longer to boil.",
-        QUAGMIRE_POT_SMALL = "Hmmm, what shall we make next?",
-        QUAGMIRE_POT_HANGER_ITEM = "The old fashioned way to cook over a fire.",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "What unique coloring. I should like to press its leaves in my books!",
@@ -3283,6 +3288,9 @@ return{
             GENERIC = "A mollusk of exceptional size and functionality.",
             LOCKED = "Oh dear. I believe this will require a key.",
         },
+        
+        HERMIT_BUNDLE = "How very welcome!",
+        HERMIT_BUNDLE_SHELLS = "How very welcome!",
 
         RESKIN_TOOL = "We're well past due for a spring cleaning around here.",
         MOON_FISSURE_PLUGGED = "Goodness, that must have required some tenacity!",
@@ -3313,6 +3321,15 @@ return{
         PORTABLETENT = "It's a lovely tent, but I'm afraid I don't have much use for it.",
         PORTABLETENT_ITEM = "How very practical.",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "Musical notation, if I'm not mistaken.",
+        BATTLESONG_HEALTHGAIN = "Musical notation, if I'm not mistaken.",
+        BATTLESONG_SANITYGAIN = "Musical notation, if I'm not mistaken.",
+        BATTLESONG_SANITYAURA = "Musical notation, if I'm not mistaken.",
+        BATTLESONG_FIRERESISTANCE = "Musical notation, if I'm not mistaken.",
+        BATTLESONG_INSTANT_TAUNT = "Oh my, those are some rather colorful turns of phrase.",
+        BATTLESONG_INSTANT_PANIC = "Ah, how I love the classics!",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "Color-coded and clearly labeled. Well done!",
 		GHOSTLYELIXIR_FASTREGEN = "Color-coded and clearly labeled. Well done!",

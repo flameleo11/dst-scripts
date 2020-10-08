@@ -282,6 +282,12 @@ GESTURE_ROTATE_LEFT = 902
 GESTURE_ROTATE_RIGHT = 903
 GESTURE_MAX = 904
 
+SCREEN_FLASH_SCALING =
+{
+	0.9, -- default
+	0.6, -- dim
+	0.3, -- dimmest
+}
 
 BACKEND_PREFABS = { "forest", "cave", "lavaarena", "quagmire" }
 FRONTEND_PREFABS = { "frontend" }
@@ -343,14 +349,14 @@ CHARACTER_VIDEOS =
 	wes = {"https://www.youtube.com/watch?v=Nf2Stngxj0U&list=PLXtRs5MEBxEiuAIG26uLmh3yR-ACXBfYW"},
 	waxwell = {"https://youtu.be/8BUcTVIV5y0"},
 	woodie = {"https://www.youtube.com/watch?v=d0r0WfV2y5s&list=PLXtRs5MEBxEiuAIG26uLmh3yR-ACXBfYW"},
---	wathgrithr = {},
+	wathgrithr = {"https://www.youtube.com/watch?v=G16-w-hMKTU&list=PLXtRs5MEBxEiuAIG26uLmh3yR-ACXBfYW"},
 --	webber = {},
 	winona = {"https://www.youtube.com/watch?v=G-Kn9tgO0mQ&list=PLXtRs5MEBxEiuAIG26uLmh3yR-ACXBfYW"},
     wortox = {"https://www.youtube.com/watch?v=tcYbA7ohJLM&list=PLXtRs5MEBxEiuAIG26uLmh3yR-ACXBfYW"},
     wormwood = {"https://www.youtube.com/watch?v=4hugrMLgDsQ&list=PLXtRs5MEBxEiuAIG26uLmh3yR-ACXBfYW"},
     warly = {"https://www.youtube.com/watch?v=SH1VebvIOSk&list=PLXtRs5MEBxEiuAIG26uLmh3yR-ACXBfYW"},
     wurt = {"https://www.youtube.com/watch?v=jG2euiPFkbg&list=PLXtRs5MEBxEiuAIG26uLmh3yR-ACXBfYW"},
-	walter = {"https://www.youtube.com/watch?v=14ou18F8bhw"},
+	walter = {"https://www.youtube.com/watch?v=14ou18F8bhw&list=PLXtRs5MEBxEiuAIG26uLmh3yR-ACXBfYW"},
 }
 
 
@@ -834,7 +840,8 @@ end
 FE_MUSIC =
     (FESTIVAL_EVENT_MUSIC[WORLD_FESTIVAL_EVENT] ~= nil and FESTIVAL_EVENT_MUSIC[WORLD_FESTIVAL_EVENT].sound) or
     (SPECIAL_EVENT_MUSIC[WORLD_SPECIAL_EVENT] ~= nil and SPECIAL_EVENT_MUSIC[WORLD_SPECIAL_EVENT].sound) or
-    "dontstarve/music/music_FE"
+    "dontstarve_DLC001/music/music_wigfrid_FE"
+    --"dontstarve/music/music_FE"
 
 
 ---------------------------------------------------------
@@ -1107,12 +1114,13 @@ RECIPETABS =
 
 CUSTOM_RECIPETABS =
 {
-    BOOKS =         { str = "BOOKS",			sort = 999, icon = "tab_book.tex",          owner_tag = "bookbuilder" },
-    SHADOW =        { str = "SHADOW",			sort = 999, icon = "tab_shadow.tex",        owner_tag = "shadowmagic" },
-    ENGINEERING =   { str = "ENGINEERING",		sort = 999, icon = "tab_engineering.tex",   owner_tag = "handyperson" },
+    BOOKS         = { str = "BOOKS",			sort = 999, icon = "tab_book.tex",          owner_tag = "bookbuilder"  },
+    SHADOW        = { str = "SHADOW",			sort = 999, icon = "tab_shadow.tex",        owner_tag = "shadowmagic"  },
+    ENGINEERING   = { str = "ENGINEERING",		sort = 999, icon = "tab_engineering.tex",   owner_tag = "handyperson"  },
 	ELIXIRBREWING = { str = "ELIXIRBREWING",	sort = 999, icon = "tab_elixirbrewing.tex", owner_tag = "elixirbrewer" },
-    NATURE =        { str = "NATURE",			sort = 999, icon = "tab_nature.tex",        owner_tag = "plantkin" },
-	SLINGSHOTAMMO =	{ str = "SLINGSHOTAMMO",	sort = 999, icon = "tab_slingshot.tex",	owner_tag = "pebblemaker"},
+    BATTLESONGS   = { str = "BATTLESONGS",      sort = 999, icon = "tab_battlesongs.tex",   owner_tag = "battlesinger", icon_atlas = "images/hud2.xml" },
+    NATURE        = { str = "NATURE",			sort = 999, icon = "tab_nature.tex",        owner_tag = "plantkin"     },
+	SLINGSHOTAMMO =	{ str = "SLINGSHOTAMMO",	sort = 999, icon = "tab_slingshot.tex",	    owner_tag = "pebblemaker"  },
 }
 
 QUAGMIRE_RECIPETABS =
@@ -1121,8 +1129,8 @@ QUAGMIRE_RECIPETABS =
     QUAGMIRE_TRADER_ELDER = { str = "QUAGMIRE_TRADER_ELDER", sort = 0, icon = "tab_quagmire_swampigelder.tex", icon_atlas = "images/quagmire_hud.xml", crafting_station = true, shop = true },
     QUAGMIRE_TRADER_MERM1 = { str = "QUAGMIRE_TRADER_MERM1", sort = 0, icon = "tab_quagmire_trader_merm1.tex", icon_atlas = "images/quagmire_hud.xml", crafting_station = true, shop = true },
     QUAGMIRE_TRADER_MERM2 = { str = "QUAGMIRE_TRADER_MERM2", sort = 0, icon = "tab_quagmire_trader_merm2.tex", icon_atlas = "images/quagmire_hud.xml", crafting_station = true, shop = true },
-    QUAGMIRE_TRADER_MUM =   { str = "QUAGMIRE_TRADER_MUM",   sort = 0, icon = "tab_quagmire_trader_mum.tex", icon_atlas = "images/quagmire_hud.xml", crafting_station = true, shop = true },
-    QUAGMIRE_TRADER_KID =   { str = "QUAGMIRE_TRADER_KID",   sort = 0, icon = "tab_quagmire_trader_kid.tex", icon_atlas = "images/quagmire_hud.xml", crafting_station = true, shop = true },
+    QUAGMIRE_TRADER_MUM =   { str = "QUAGMIRE_TRADER_MUM",   sort = 0, icon = "tab_quagmire_trader_mum.tex",   icon_atlas = "images/quagmire_hud.xml", crafting_station = true, shop = true },
+    QUAGMIRE_TRADER_KID =   { str = "QUAGMIRE_TRADER_KID",   sort = 0, icon = "tab_quagmire_trader_kid.tex",   icon_atlas = "images/quagmire_hud.xml", crafting_station = true, shop = true },
 }
 
 VERBOSITY =
@@ -1960,7 +1968,8 @@ INVENTORY_PROGRESS =
 	CHECK_EVENT = 2,
 	CHECK_DLC = 3,
 	CHECK_DAILY_GIFT = 4,
-	CHECK_INVENTORY = 5,
+	CHECK_COOKBOOK = 5,
+	CHECK_INVENTORY = 6,
 }
 
 CURRENT_BETA = 1 -- set to 0 if there is no beta. Note: release builds wont use this so only staging and dev really care

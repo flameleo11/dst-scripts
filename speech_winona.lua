@@ -63,13 +63,12 @@ return{
             NO_RACERS = "Whoever heard of a race with no racers?",
         },
         
-        --warly specific action
---fallback to speech_wilson.lua 		DISMANTLE =
---fallback to speech_wilson.lua 		{
---fallback to speech_wilson.lua 			COOKING = "only_used_by_warly",
---fallback to speech_wilson.lua 			INUSE = "only_used_by_warly",
---fallback to speech_wilson.lua 			NOTEMPTY = "only_used_by_warly",
---fallback to speech_wilson.lua         },
+		DISMANTLE =
+		{
+			COOKING = "TODO",
+			INUSE = "No rush.",
+			NOTEMPTY = "TODO",
+        },
         FISH_OCEAN =
 		{
 			TOODEEP = "I'll need a tougher rod to reel in one of those whoppers!",
@@ -227,6 +226,10 @@ return{
 --fallback to speech_wilson.lua 			NOT_NIGHT = "only_used_by_walter",
 --fallback to speech_wilson.lua 			NO_FIRE = "only_used_by_walter",
 		},
+        SING_FAIL =
+        {
+--fallback to speech_wilson.lua             SAMESONG = "only_used_by_wathgrithr",
+        },
 	},
 	ACTIONFAIL_GENERIC = "I sure gummed the works there.",
 	ANNOUNCE_BOAT_LEAK = "We gotta repair this ol'girl!",
@@ -578,6 +581,10 @@ return{
 --fallback to speech_wilson.lua 		LEVEL2 = "only_used_by_wendy",
 --fallback to speech_wilson.lua 		LEVEL3 = "only_used_by_wendy",
 	},
+
+--fallback to speech_wilson.lua     ANNOUNCE_NOINSPIRATION = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "only_used_by_wathgrithr",
 
 	BATTLECRY =
 	{
@@ -1086,7 +1093,6 @@ return{
         SPIDERHOLE_ROCK = "A rock filled with spiders. Great.",
         STALAGMITE = "Yep, yep. It's a rock.",
         STALAGMITE_TALL = "Ah! A rock.",
-        TREASURECHEST_TRAP = "I don't need to be concerned about that.",
 
         TURF_CARPETFLOOR = "That's a chunk of ground.",
         TURF_CHECKERFLOOR = "That's a chunk of ground.",
@@ -1397,6 +1403,7 @@ return{
             "It looks like it's hollerin'.",
         },
         CHESSPIECE_DRAGONFLY = "My pals and I can't be beat.",
+		CHESSPIECE_MINOTAUR = "What a stone-faced brute.",
         CHESSPIECE_BUTTERFLY = "I feel like it's lookin' at me.",
         CHESSPIECE_ANCHOR = "I'm fond'a this one.",
         CHESSPIECE_MOON = "That statue's moonin' me! HA!",
@@ -1615,6 +1622,7 @@ return{
 		FEATHER_ROBIN_WINTER = "If only I had a cap to put it in.",
 		FEATHER_CANARY = "That's not a good sign.",
 		FEATHERPENCIL = "I've got ugly handwriting.",
+        COOKBOOK = "Havin' a blueprint sure makes cooking easier!",
 		FEM_PUPPET = "She doesn't look none too happy.",
 		FIREFLIES =
 		{
@@ -2776,9 +2784,6 @@ return{
 		QUAGMIRE_SALMON_COOKED = "Fancy dining.",
 		QUAGMIRE_CRABMEAT = "I get crabby when I'm hungry. Ha!",
 		QUAGMIRE_CRABMEAT_COOKED = "It's a big lump of cooked crab.",
-        QUAGMIRE_POT = "Could make a real big stew in that pot.",
-        QUAGMIRE_POT_SMALL = "I only ever made stew before this.",
-        QUAGMIRE_POT_HANGER_ITEM = "Ready for assembly.",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "It's a big, pink tree.",
@@ -3289,6 +3294,9 @@ return{
             GENERIC = "Here's hoping I never have to tussle with a live one.",
             LOCKED = "Can't seem to get it open.",
         },
+        
+        HERMIT_BUNDLE = "Aw, she didn't have to give me anything...",
+        HERMIT_BUNDLE_SHELLS = "Not sure what came over me to buy these knicknacks.",
 
         RESKIN_TOOL = "Is this one of Max's magic doo-hickeys?",
         MOON_FISSURE_PLUGGED = "That old lady's more resourceful than I gave her credit for.",
@@ -3319,6 +3327,15 @@ return{
         PORTABLETENT = "Aw, this reminds me of campin' with Charlie when we were little...",
         PORTABLETENT_ITEM = "Need any help settin' that up?",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "Opera's a bit hoity-toity for me.",
+        BATTLESONG_HEALTHGAIN = "Opera's a bit hoity-toity for me.",
+        BATTLESONG_SANITYGAIN = "Opera's a bit hoity-toity for me.",
+        BATTLESONG_SANITYAURA = "Opera's a bit hoity-toity for me.",
+        BATTLESONG_FIRERESISTANCE = "Opera's a bit hoity-toity for me.",
+        BATTLESONG_INSTANT_TAUNT = "This kind of stuff was more Charlie's thing...",
+        BATTLESONG_INSTANT_PANIC = "This kind of stuff was more Charlie's thing...",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "I don't think that's safe to drink...",
 		GHOSTLYELIXIR_FASTREGEN = "I don't think that's safe to drink...",

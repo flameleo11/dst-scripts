@@ -9,6 +9,7 @@ BASE_TORSO_TUCK = {}
 
 BASE_ALTERNATE_FOR_BODY = {}
 BASE_ALTERNATE_FOR_SKIRT = {}
+ONE_PIECE_SKIRT = {}
 
 BASE_LEGS_SIZE = {}
 BASE_FEET_SIZE = {}
@@ -163,9 +164,6 @@ beehat_clear_fn = function(inst) basic_clear_fn(inst, "hat_bee" ) end
 watermelonhat_init_fn = function(inst, build_name) basic_init_fn(inst, build_name, "hat_watermelon" ) end
 watermelonhat_clear_fn = function(inst) basic_clear_fn(inst, "hat_watermelon" ) end
 
-wathgrithrhat_init_fn = function(inst, build_name) basic_init_fn(inst, build_name, "hat_wathgrithr" ) end
-wathgrithrhat_clear_fn = function(inst) basic_clear_fn(inst, "hat_wathgrithr" ) end
-
 beefalohat_init_fn = function(inst, build_name) basic_init_fn(inst, build_name, "hat_beefalo" ) end
 beefalohat_clear_fn = function(inst) basic_clear_fn(inst, "hat_beefalo" ) end
 
@@ -249,6 +247,30 @@ grass_umbrella_clear_fn = function(inst) basic_clear_fn(inst, "parasol" ) end
 
 saltbox_init_fn = function(inst, build_name) basic_init_fn(inst, build_name, "saltbox" ) end
 saltbox_clear_fn = function(inst) basic_clear_fn(inst, "saltbox" ) end
+
+
+
+
+
+--------------------------------------------------------------------------
+--[[ Wigfrid helmet skin functions ]]
+--------------------------------------------------------------------------
+wathgrithrhat_init_fn = function(inst, build_name, opentop)
+    basic_init_fn(inst, build_name, "hat_wathgrithr" )
+    
+    if opentop then
+        inst:AddTag("open_top_hat")
+        inst.components.equippable:SetOnEquip(inst._opentop_onequip)
+    end
+end
+wathgrithrhat_clear_fn = function(inst)
+    basic_clear_fn(inst, "hat_wathgrithr" )
+    
+    inst:RemoveTag("open_top_hat")
+    inst.components.equippable:SetOnEquip(inst._onequip)
+end
+
+
 
 
 --------------------------------------------------------------------------
@@ -606,6 +628,53 @@ function minisign_clear_fn(inst)
     inst.linked_skinname = nil
     inst.linked_skinname_drawn = nil
     inst.AnimState:SetBuild("sign_mini")
+end
+
+
+--------------------------------------------------------------------------
+--[[ wall_ruins skin functions ]]
+--------------------------------------------------------------------------
+function wall_ruins_item_init_fn(inst, build_name)
+    inst.linked_skinname = build_name --hack that relies on the build name to match the linked skinname
+    inst.AnimState:SetSkin(build_name, "wall_ruins_build") --same hack is used here by the deployable code in player controller
+    inst.components.inventoryitem:ChangeImageName(inst:GetSkinName())
+end
+function wall_ruins_item_clear_fn(inst)
+    inst.linked_skinname = nil
+    inst.AnimState:SetBuild("wall_ruins")
+    inst.components.inventoryitem:ChangeImageName()
+end
+function wall_ruins_init_fn(inst, build_name)
+    if inst.components.placer == nil and not TheWorld.ismastersim then
+        return
+    end
+    inst.AnimState:SetSkin(build_name, "wall_ruins")
+end
+function wall_ruins_clear_fn(inst)
+    inst.AnimState:SetBuild("wall_ruins")
+end
+
+--------------------------------------------------------------------------
+--[[ wall_stone skin functions ]]
+--------------------------------------------------------------------------
+function wall_stone_item_init_fn(inst, build_name)
+    inst.linked_skinname = build_name --hack that relies on the build name to match the linked skinname
+    inst.AnimState:SetSkin(build_name, "wall_stone_build") --same hack is used here by the deployable code in player controller
+    inst.components.inventoryitem:ChangeImageName(inst:GetSkinName())
+end
+function wall_stone_item_clear_fn(inst)
+    inst.linked_skinname = nil
+    inst.AnimState:SetBuild("wall_stone")
+    inst.components.inventoryitem:ChangeImageName()
+end
+function wall_stone_init_fn(inst, build_name)
+    if inst.components.placer == nil and not TheWorld.ismastersim then
+        return
+    end
+    inst.AnimState:SetSkin(build_name, "wall_stone")
+end
+function wall_stone_clear_fn(inst)
+    inst.AnimState:SetBuild("wall_stone")
 end
 
 --------------------------------------------------------------------------
@@ -998,7 +1067,8 @@ icestaff_init_fn = staff_init_fn
 icestaff_clear_fn = staff_clear_fn
 greenstaff_init_fn = staff_init_fn
 greenstaff_clear_fn = staff_clear_fn
-
+telestaff_init_fn = staff_init_fn
+telestaff_clear_fn = staff_clear_fn
 
 --------------------------------------------------------------------------
 --[[ Thermal Stone skin functions ]]
@@ -1350,6 +1420,41 @@ function icebox_clear_fn(inst)
     icebox_closed(inst)
 end
 
+--------------------------------------------------------------------------
+--[[ Tele focus skin functions ]]
+--------------------------------------------------------------------------
+function telebase_init_fn(inst, build_name)
+    if inst.components.placer ~= nil then
+        --Placers can run this on clients as well as servers
+        inst.AnimState:SetSkin(build_name, "staff_purple_base_ground")
+
+        for _,decor in pairs(inst.components.placer.linked ) do
+            decor.AnimState:SetSkin(build_name, "staff_purple_base_ground")
+        end
+        return
+    elseif not TheWorld.ismastersim then
+        return
+    end
+
+    inst.AnimState:SetSkin(build_name, "staff_purple_base_ground")
+
+    inst.linked_skinname = string.gsub(build_name, "telebase", "gemsocket")
+end
+function telebase_clear_fn(inst)
+    inst.AnimState:SetBuild("staff_purple_base_ground")
+    inst.linked_skinname = nil
+end
+
+function gemsocket_init_fn(inst, build_name)
+    if not TheWorld.ismastersim then
+        return
+    end
+    inst.AnimState:SetSkin(build_name, "staff_purple_base")
+end
+function gemsocket_clear_fn(inst)
+    inst.AnimState:SetBuild("staff_purple_base")
+end
+
 
 --------------------------------------------------------------------------
 
@@ -1406,6 +1511,12 @@ function CreatePrefabSkin(name, info)
     if info.has_alternate_for_skirt ~= nil then
         for _,base_skin in pairs(info.has_alternate_for_skirt) do
             BASE_ALTERNATE_FOR_SKIRT[base_skin] = true
+        end
+    end 
+    
+    if info.one_piece_skirt_builds ~= nil then
+        for _,base_skin in pairs(info.one_piece_skirt_builds) do
+            ONE_PIECE_SKIRT[base_skin] = true
         end
     end
 

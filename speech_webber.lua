@@ -63,13 +63,12 @@ return{
             NO_RACERS = "We need to find some Carrats!",
         },
         
-        --warly specific action
---fallback to speech_wilson.lua 		DISMANTLE =
---fallback to speech_wilson.lua 		{
---fallback to speech_wilson.lua 			COOKING = "only_used_by_warly",
---fallback to speech_wilson.lua 			INUSE = "only_used_by_warly",
---fallback to speech_wilson.lua 			NOTEMPTY = "only_used_by_warly",
---fallback to speech_wilson.lua         },
+		DISMANTLE =
+		{
+			COOKING = "TODO",
+			INUSE = "Oops. Someone else is using that.",
+			NOTEMPTY = "TODO",
+        },
         FISH_OCEAN =
 		{
 			TOODEEP = "We can't reach the fish with this rod!",
@@ -227,6 +226,10 @@ return{
 --fallback to speech_wilson.lua 			NOT_NIGHT = "only_used_by_walter",
 --fallback to speech_wilson.lua 			NO_FIRE = "only_used_by_walter",
 		},
+        SING_FAIL =
+        {
+--fallback to speech_wilson.lua             SAMESONG = "only_used_by_wathgrithr",
+        },
 	},
 	ACTIONFAIL_GENERIC = "Mom told me never to do that.",
 	ANNOUNCE_BOAT_LEAK = "The boat is crying!",
@@ -572,6 +575,10 @@ return{
 --fallback to speech_wilson.lua 		LEVEL2 = "only_used_by_wendy",
 --fallback to speech_wilson.lua 		LEVEL3 = "only_used_by_wendy",
 	},
+
+--fallback to speech_wilson.lua     ANNOUNCE_NOINSPIRATION = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "only_used_by_wathgrithr",
 
 	BATTLECRY =
 	{
@@ -1080,7 +1087,6 @@ return{
         SPIDERHOLE_ROCK = "We could stand to live there.",
         STALAGMITE = "Rocks, underground?! Shocking.",
         STALAGMITE_TALL = "Pointy rocks, underground?! Simply stunning.",
-        TREASURECHEST_TRAP = "It couldn't hurt to take a peek inside...",
 
         TURF_CARPETFLOOR = "Carpets! Just like in our old house.",
         TURF_CHECKERFLOOR = "Fancy.",
@@ -1391,6 +1397,7 @@ return{
             "She doesn't look so mean.",
         },
         CHESSPIECE_DRAGONFLY = "We can practically feel the fire!",
+		CHESSPIECE_MINOTAUR = "We feel a bit bad for stealing their treasure.",
         CHESSPIECE_BUTTERFLY = "It looks kinda yummy, doesn't it?",
         CHESSPIECE_ANCHOR = "Anchors away!",
         CHESSPIECE_MOON = "Almost as pretty as the real thing.",
@@ -1609,6 +1616,7 @@ return{
 		FEATHER_ROBIN_WINTER = "Feather of white.",
 		FEATHER_CANARY = "Feather of yellow.",
 		FEATHERPENCIL = "Haha! It tickles!",
+        COOKBOOK = "Now we'll never forget a recipe!",
 		FEM_PUPPET = "She's locked up!",
 		FIREFLIES =
 		{
@@ -2770,9 +2778,6 @@ return{
 		QUAGMIRE_SALMON_COOKED = "Smells good!",
 		QUAGMIRE_CRABMEAT = "Crabs kinda look like spiders.",
 		QUAGMIRE_CRABMEAT_COOKED = "We don't want to eat it.",
-        QUAGMIRE_POT = "This pot's a bit bigger than the other one.",
-        QUAGMIRE_POT_SMALL = "You cook stuff in it.",
-        QUAGMIRE_POT_HANGER_ITEM = "We should put it together.",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "I wonder why the people left this nice place.",
@@ -3283,6 +3288,9 @@ return{
             GENERIC = "Whew... we thought there might be an angry clam inside.",
             LOCKED = "It won't let us in!",
         },
+        
+        HERMIT_BUNDLE = "It's always fun to unwrap a package!",
+        HERMIT_BUNDLE_SHELLS = "We have so many shells to play with!",
 
         RESKIN_TOOL = "Awww do we have to clean?",
         MOON_FISSURE_PLUGGED = "Woah! Why didn't we think of that?",
@@ -3313,6 +3321,15 @@ return{
         PORTABLETENT = "Yay, we're camping!",
         PORTABLETENT_ITEM = "Let us help!",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "We like singing songs!",
+        BATTLESONG_HEALTHGAIN = "We like singing songs!",
+        BATTLESONG_SANITYGAIN = "We like singing songs!",
+        BATTLESONG_SANITYAURA = "We like singing songs!",
+        BATTLESONG_FIRERESISTANCE = "We like singing songs!",
+        BATTLESONG_INSTANT_TAUNT = "We probably shouldn't repeat this one. It sounds rude.",
+        BATTLESONG_INSTANT_PANIC = "The characters talk just like Wigfrid!",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "Hey, you didn't tell me you were making crafts!",
 		GHOSTLYELIXIR_FASTREGEN = "Hey, you didn't tell me you were making crafts!",

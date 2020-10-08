@@ -63,13 +63,12 @@ return{
             NO_RACERS = "I suppose I'll have to go find some Carrats...",
         },
         
-        --warly specific action
---fallback to speech_wilson.lua 		DISMANTLE =
---fallback to speech_wilson.lua 		{
---fallback to speech_wilson.lua 			COOKING = "only_used_by_warly",
---fallback to speech_wilson.lua 			INUSE = "only_used_by_warly",
---fallback to speech_wilson.lua 			NOTEMPTY = "only_used_by_warly",
---fallback to speech_wilson.lua         },
+		DISMANTLE =
+		{
+			COOKING = "TODO",
+			INUSE = "Someone's in there.",
+			NOTEMPTY = "TODO",
+        },
         FISH_OCEAN =
 		{
 			TOODEEP = "I can't catch anything out here with this flimsy rod.",
@@ -227,6 +226,10 @@ return{
 --fallback to speech_wilson.lua 			NOT_NIGHT = "only_used_by_walter",
 --fallback to speech_wilson.lua 			NO_FIRE = "only_used_by_walter",
 		},
+        SING_FAIL =
+        {
+--fallback to speech_wilson.lua             SAMESONG = "only_used_by_wathgrithr",
+        },
 	},
 	ACTIONFAIL_GENERIC = "I can't do anything right.",
 	ANNOUNCE_BOAT_LEAK = "Our boat weeps salty tears.",
@@ -576,6 +579,10 @@ return{
 		LEVEL2 = "You seem to have brightened up a bit, Abigail.",
 		LEVEL3 = "Abigail has always been my guiding light in the darkness...",
 	},
+
+--fallback to speech_wilson.lua     ANNOUNCE_NOINSPIRATION = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "only_used_by_wathgrithr",
 
 	BATTLECRY =
 	{
@@ -1084,7 +1091,6 @@ return{
         SPIDERHOLE_ROCK = "It is infested.",
         STALAGMITE = "The earth gives up its bounty.",
         STALAGMITE_TALL = "The earth reaches up.",
-        TREASURECHEST_TRAP = "Every once in awhile, things go my way.",
 
         TURF_CARPETFLOOR = "Some ground.",
         TURF_CHECKERFLOOR = "Some ground.",
@@ -1395,6 +1401,7 @@ return{
             "Such expression in her eyes.",
         },
         CHESSPIECE_DRAGONFLY = "She now lies, cold as stone.",
+		CHESSPIECE_MINOTAUR = "A testament to a lifetime spent alone in the dark.",
         CHESSPIECE_BUTTERFLY = "But a simulacrum of life. Sigh.",
         CHESSPIECE_ANCHOR = "Why did we sculpt an anchor.",
         CHESSPIECE_MOON = "I'd prefer to look at this over the real thing.",
@@ -1613,6 +1620,7 @@ return{
 		FEATHER_ROBIN_WINTER = "A snowbird feather, white as the light at the end of the tunnel.",
 		FEATHER_CANARY = "A canary feather, golden as the gilded cage.",
 		FEATHERPENCIL = "M...maybe I'll doodle something... When no one's looking.",
+        COOKBOOK = "What's the point of filling my stomach when my heart remains empty...",
 		FEM_PUPPET = "I wonder what she did.",
 		FIREFLIES =
 		{
@@ -2774,9 +2782,6 @@ return{
 		QUAGMIRE_SALMON_COOKED = "Not so lively now.",
 		QUAGMIRE_CRABMEAT = "Its insides are as horrid as its outsides.",
 		QUAGMIRE_CRABMEAT_COOKED = "It's ready now.",
-        QUAGMIRE_POT = "We cook to stave off death.",
-        QUAGMIRE_POT_SMALL = "We will cook, or we will die.",
-        QUAGMIRE_POT_HANGER_ITEM = "It's for hanging the pot over the fire.",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "It has a sickly beauty.",
@@ -3287,6 +3292,9 @@ return{
             GENERIC = "No treasure could replace what I've lost.",
             LOCKED = "Of course. It's locked.",
         },
+        
+        HERMIT_BUNDLE = "For once I'm rewarded for my efforts.",
+        HERMIT_BUNDLE_SHELLS = "Abigail likes the shells.",
 
         RESKIN_TOOL = "Change is... not always terrible.",
         MOON_FISSURE_PLUGGED = "They're trapped... for now.",
@@ -3317,6 +3325,15 @@ return{
         PORTABLETENT = "It makes no difference where I rest my head, my nights are filled with bad dreams.",
         PORTABLETENT_ITEM = "Abigail and I set up a tent in our backyard once. It was... fun.",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "My heart has no desire to sing.",
+        BATTLESONG_HEALTHGAIN = "My heart has no desire to sing.",
+        BATTLESONG_SANITYGAIN = "My heart has no desire to sing.",
+        BATTLESONG_SANITYAURA = "My heart has no desire to sing.",
+        BATTLESONG_FIRERESISTANCE = "My heart has no desire to sing.",
+        BATTLESONG_INSTANT_TAUNT = "I only like tragedies.",
+        BATTLESONG_INSTANT_PANIC = "I only like tragedies.",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "It's all I can do to help...",
 		GHOSTLYELIXIR_FASTREGEN = "You have to take your medicine, Abigail.",

@@ -708,12 +708,6 @@ local COMPONENT_ACTIONS =
             end
         end,
 
-		ghostlyelixir = function(inst, doer, target, actions)
-			if target:HasTag("ghostlyelixirable") then
-                table.insert(actions, ACTIONS.GIVE)
-			end
-		end,
-
 		halloweenpotionmoon = function(inst, doer, target, actions)
 			if not target:HasTag("DECOR") then
 				table.insert(actions, ACTIONS.HALLOWEENMOONMUTATE)
@@ -1604,6 +1598,10 @@ local COMPONENT_ACTIONS =
             end
         end,
 
+        simplebook = function(inst, doer, actions)
+            table.insert(actions, ACTIONS.READ)
+        end,
+
         sleepingbag = function(inst, doer, actions)
             if doer:HasTag("player") and not doer:HasTag("insomniac") and not inst:HasTag("hassleeper") then
                 table.insert(actions, ACTIONS.SLEEPIN)
@@ -1628,6 +1626,35 @@ local COMPONENT_ACTIONS =
 			elseif doer:HasTag("ghostfriend_summoned") then
 				table.insert(actions, ACTIONS.COMMUNEWITHSUMMONED)
 			end
+        end,
+
+        singable = function(inst, doer, actions, right)
+            local songdata = inst.songdata
+            if doer:HasTag("battlesinger") and songdata then
+                --this really belongs in a replica like object, but this is the only usage that would need it.
+                --if this is needed in the future, don't copy the code, write either a client component, or a replica.
+                local cansing = false
+                if doer.components.singinginspiration then
+                    cansing = songdata.INSTANT or not doer.components.singinginspiration:IsSongActive(songdata)
+                else
+                    local issongactive = false
+                    if doer.player_classified then
+                        for i, v in ipairs(doer.player_classified.inspirationsongs) do
+                            if v:value() == songdata.battlesong_netid then
+                                issongactive = true
+                                break
+                            end
+                        end
+                    end
+                    cansing = songdata.INSTANT or not issongactive
+                end
+
+                if cansing then
+                    table.insert(actions, ACTIONS.SING)
+                else
+                    table.insert(actions, ACTIONS.SING_FAIL)
+                end
+            end
         end,
 
         talkable = function(inst, doer, actions)

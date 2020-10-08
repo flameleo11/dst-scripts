@@ -63,13 +63,12 @@ return{
             NO_RACERS = "Wolfgang must find leggy carrots for race!",
         },
         
-        --warly specific action
---fallback to speech_wilson.lua 		DISMANTLE =
---fallback to speech_wilson.lua 		{
---fallback to speech_wilson.lua 			COOKING = "only_used_by_warly",
---fallback to speech_wilson.lua 			INUSE = "only_used_by_warly",
---fallback to speech_wilson.lua 			NOTEMPTY = "only_used_by_warly",
---fallback to speech_wilson.lua         },
+		DISMANTLE =
+		{
+			COOKING = "TODO",
+			INUSE = "Wolfgang would like to use after you, if okay.",
+			NOTEMPTY = "TODO",
+        },
         FISH_OCEAN =
 		{
 			TOODEEP = "Wolfgang can't reach fish with tiny rod!",
@@ -227,6 +226,10 @@ return{
 --fallback to speech_wilson.lua 			NOT_NIGHT = "only_used_by_walter",
 --fallback to speech_wilson.lua 			NO_FIRE = "only_used_by_walter",
 		},
+        SING_FAIL =
+        {
+--fallback to speech_wilson.lua             SAMESONG = "only_used_by_wathgrithr",
+        },
 	},
 	ACTIONFAIL_GENERIC = "I am not mighty enough to do that.",
 	ANNOUNCE_BOAT_LEAK = "Drippy drops is come through boat!",
@@ -573,6 +576,10 @@ return{
 --fallback to speech_wilson.lua 		LEVEL2 = "only_used_by_wendy",
 --fallback to speech_wilson.lua 		LEVEL3 = "only_used_by_wendy",
 	},
+
+--fallback to speech_wilson.lua     ANNOUNCE_NOINSPIRATION = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "only_used_by_wathgrithr",
 
 	BATTLECRY =
 	{
@@ -1081,7 +1088,6 @@ return{
         SPIDERHOLE_ROCK = "Spiders everywhere.",
         STALAGMITE = "Is pointy.",
         STALAGMITE_TALL = "Rock, reaching for the roof.",
-        TREASURECHEST_TRAP = "Raagh!",
 
         TURF_CARPETFLOOR = "Step stones.",
         TURF_CHECKERFLOOR = "Step stones.",
@@ -1392,6 +1398,7 @@ return{
             "Bad monster made of stone.",
         },
         CHESSPIECE_DRAGONFLY = "Is fiery killbeast, but stone.",
+		CHESSPIECE_MINOTAUR = "Strong beast made from strong stone!",
         CHESSPIECE_BUTTERFLY = "Is look like little flutterby, but bigger!",
         CHESSPIECE_ANCHOR = "Is big. And heavy. Wolfgang would like to lift.",
         CHESSPIECE_MOON = "Is look just like sky cheese!",
@@ -1610,6 +1617,7 @@ return{
 		FEATHER_ROBIN_WINTER = "Is feather of bird white.",
 		FEATHER_CANARY = "Is feather of bird yellow.",
 		FEATHERPENCIL = "Wolfgang must stick pinky out when holding it.",
+        COOKBOOK = "Is book of things to fill Wolfgang's mighty belly!",
 		FEM_PUPPET = "Scary chair scares her!",
 		FIREFLIES =
 		{
@@ -2771,9 +2779,6 @@ return{
 		QUAGMIRE_SALMON_COOKED = "Fish is cooked now.",
 		QUAGMIRE_CRABMEAT = "Is meat of tiny pincher.",
 		QUAGMIRE_CRABMEAT_COOKED = "Yummy, yummy pincher.",
-        QUAGMIRE_POT = "Wolfgang put this over fire.",
-        QUAGMIRE_POT_SMALL = "Friends, do not look! Pot needs to boil.",
-        QUAGMIRE_POT_HANGER_ITEM = "Is make pot hang over fire.",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "Is little tree of yummy goop.",
@@ -3284,6 +3289,9 @@ return{
             GENERIC = "Is filled with treasure things, yes?",
             LOCKED = "Wolfgang... can't... pry... open!",
         },
+        
+        HERMIT_BUNDLE = "Mighty Wolfgang was happy to help frail old lady!",
+        HERMIT_BUNDLE_SHELLS = "Wolfgang like the plink-plonk shells.",
 
         RESKIN_TOOL = "Is like magic show!",
         MOON_FISSURE_PLUGGED = "Why is ground stuffed with stinky shells?",
@@ -3314,6 +3322,15 @@ return{
         PORTABLETENT = "Is good, solid tent!",
         PORTABLETENT_ITEM = "Wolfgang will set up tent. Make it strong!",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "Stronglady have voice as powerful as her muscles!",
+        BATTLESONG_HEALTHGAIN = "Stronglady have voice as powerful as her muscles!",
+        BATTLESONG_SANITYGAIN = "Stronglady have voice as powerful as her muscles!",
+        BATTLESONG_SANITYAURA = "Stronglady have voice as powerful as her muscles!",
+        BATTLESONG_FIRERESISTANCE = "Stronglady have voice as powerful as her muscles!",
+        BATTLESONG_INSTANT_TAUNT = "Wolfgang will stick to lifting and punching.",
+        BATTLESONG_INSTANT_PANIC = "Wolfgang will stick to lifting and punching.",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "Wolfgang not trust tiny bottles made by creepy girl.",
 		GHOSTLYELIXIR_FASTREGEN = "Wolfgang not trust tiny bottles made by creepy girl.",

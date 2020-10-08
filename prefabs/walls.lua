@@ -104,8 +104,8 @@ function MakeWallType(data)
 
     local function ondeploywall(inst, pt, deployer)
         --inst.SoundEmitter:PlaySound("dontstarve/creatures/spider/spider_egg_sack")
-        local wall = SpawnPrefab("wall_"..data.name) 
-        if wall ~= nil then 
+        local wall = SpawnPrefab("wall_"..data.name, inst.linked_skinname, inst.skin_id) 
+        if wall ~= nil then
             local x = math.floor(pt.x) + .5
             local z = math.floor(pt.z) + .5
             wall.Physics:SetCollides(false)
@@ -227,6 +227,12 @@ function MakeWallType(data)
         inst.Physics:SetDontRemoveOnSleep(true)
 
         --inst.Transform:SetScale(1.3,1.3,1.3)
+        
+        if data.name == "hay" then
+        	--roughly try to match the grass colouring
+            local s = 0.9
+            inst.AnimState:SetMultColour(s, s, s, 1)
+        end
 
         inst:AddTag("wall")
         inst:AddTag("noauradamage")

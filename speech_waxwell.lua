@@ -63,13 +63,12 @@ return{
             NO_RACERS = "This race seems to be decidedly lacking in racers.",
         },
         
-        --warly specific action
---fallback to speech_wilson.lua 		DISMANTLE =
---fallback to speech_wilson.lua 		{
---fallback to speech_wilson.lua 			COOKING = "only_used_by_warly",
---fallback to speech_wilson.lua 			INUSE = "only_used_by_warly",
---fallback to speech_wilson.lua 			NOTEMPTY = "only_used_by_warly",
---fallback to speech_wilson.lua         },
+		DISMANTLE =
+		{
+			COOKING = "TODO",
+			INUSE = "It's occupied.",
+			NOTEMPTY = "TODO",
+        },
         FISH_OCEAN =
 		{
 			TOODEEP = "Blast! This is hopeless.",
@@ -227,6 +226,10 @@ return{
 --fallback to speech_wilson.lua 			NOT_NIGHT = "only_used_by_walter",
 --fallback to speech_wilson.lua 			NO_FIRE = "only_used_by_walter",
 		},
+        SING_FAIL =
+        {
+--fallback to speech_wilson.lua             SAMESONG = "only_used_by_wathgrithr",
+        },
 	},
 	ACTIONFAIL_GENERIC = "That didn't work.",
 	ANNOUNCE_BOAT_LEAK = "We've sprung a leak!",
@@ -572,6 +575,10 @@ return{
 --fallback to speech_wilson.lua 		LEVEL2 = "only_used_by_wendy",
 --fallback to speech_wilson.lua 		LEVEL3 = "only_used_by_wendy",
 	},
+
+--fallback to speech_wilson.lua     ANNOUNCE_NOINSPIRATION = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "only_used_by_wathgrithr",
 
 	BATTLECRY =
 	{
@@ -1080,7 +1087,6 @@ return{
         SPIDERHOLE_ROCK = "How did that get down here?",
         STALAGMITE = "Rocks. How dull.",
         STALAGMITE_TALL = "Stalagmite. How dull.",
-        TREASURECHEST_TRAP = "Hmmm. Looks suspicious.",
 
         TURF_CARPETFLOOR = "That's a quality, high-pile carpet sample!",
         TURF_CHECKERFLOOR = "That's my natural habitat.",
@@ -1391,6 +1397,7 @@ return{
             "What an imbecilic expression.",
         },
         CHESSPIECE_DRAGONFLY = "It never stood a chance.",
+		CHESSPIECE_MINOTAUR = "Always keep things close to the chest, right pal?",
         CHESSPIECE_BUTTERFLY = "Rather elegant, I'd say.",
         CHESSPIECE_ANCHOR = "How kitsch.",
         CHESSPIECE_MOON = "I'm fairly partial to this one.",
@@ -1609,6 +1616,7 @@ return{
 		FEATHER_ROBIN_WINTER = "Grey is the color of pain.",
 		FEATHER_CANARY = "Yellow is the color of naivety.",
 		FEATHERPENCIL = "Not as elegant as a quill and inkwell, but it'll do.",
+        COOKBOOK = "Very well. If I can master the dark arts, how hard could cooking be?",
 		FEM_PUPPET = "Better her than me.",
 		FIREFLIES =
 		{
@@ -2770,9 +2778,6 @@ return{
 		QUAGMIRE_SALMON_COOKED = "I do enjoy a good smoked salmon.",
 		QUAGMIRE_CRABMEAT = "Ah, how refined.",
 		QUAGMIRE_CRABMEAT_COOKED = "Perfect with a bit of butter.",
-        QUAGMIRE_POT = "Magic could bring it to a boil faster, you know.",
-        QUAGMIRE_POT_SMALL = "I shalln't let it speak with the kettle.",
-        QUAGMIRE_POT_HANGER_ITEM = "Well I'M not setting it up.",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "A sickly sweet aroma wafts from its branches.",
@@ -3283,6 +3288,9 @@ return{
             GENERIC = "How whimsical.",
             LOCKED = "How annoying. It's locked.",
         },
+        
+        HERMIT_BUNDLE = "How... quaint.",
+        HERMIT_BUNDLE_SHELLS = "Nautical decor was never my style.",
 
         RESKIN_TOOL = "Presto change-o! Ahem... old habit.",
         MOON_FISSURE_PLUGGED = "It's almost genius in its simplicity... but it does smell.",
@@ -3313,6 +3321,15 @@ return{
         PORTABLETENT = "Oh, how I miss sleeping indoors.",
         PORTABLETENT_ITEM = "Surely someone else can set it up.",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "No. I do NOT sing.",
+        BATTLESONG_HEALTHGAIN = "No. I do NOT sing.",
+        BATTLESONG_SANITYGAIN = "No. I do NOT sing.",
+        BATTLESONG_SANITYAURA = "No. I do NOT sing.",
+        BATTLESONG_FIRERESISTANCE = "No. I do NOT sing.",
+        BATTLESONG_INSTANT_TAUNT = "My acts were always a bit more improvisational.",
+        BATTLESONG_INSTANT_PANIC = "My acts were always a bit more improvisational.",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "It appears someone has been toying with the dark arts and crafts.",
 		GHOSTLYELIXIR_FASTREGEN = "It appears someone has been toying with the dark arts and crafts.",

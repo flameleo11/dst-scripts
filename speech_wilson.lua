@@ -72,12 +72,11 @@ return {
             NO_RACERS = "I think I'm missing something here.",
         },
         
-        --warly specific action
 		DISMANTLE =
 		{
-			COOKING = "only_used_by_warly",
-			INUSE = "only_used_by_warly",
-			NOTEMPTY = "only_used_by_warly",
+			COOKING = "TODO",
+			INUSE = "Science says I have to wait my turn.",
+			NOTEMPTY = "TODO",
         },
         FISH_OCEAN =
 		{
@@ -236,6 +235,10 @@ return {
 			NOT_NIGHT = "only_used_by_walter",
 			NO_FIRE = "only_used_by_walter",
 		},
+        SING_FAIL =
+        {
+            SAMESONG = "only_used_by_wathgrithr",
+        },
 	},
 	ACTIONFAIL_GENERIC = "I can't do that.",
 	ANNOUNCE_BOAT_LEAK = "We're taking on a lot of water.",
@@ -581,6 +584,10 @@ return {
 		LEVEL2 = "only_used_by_wendy",
 		LEVEL3 = "only_used_by_wendy",
 	},
+
+    ANNOUNCE_NOINSPIRATION = "only_used_by_wathgrithr",
+    ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "only_used_by_wathgrithr",
+    ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "only_used_by_wathgrithr",
 
 	BATTLECRY =
 	{
@@ -1089,7 +1096,6 @@ return {
         SPIDERHOLE_ROCK = "It's encrusted with old webbing.",
         STALAGMITE = "Looks like a rock to me.",
         STALAGMITE_TALL = "Rocks, rocks, rocks, rocks...",
-        TREASURECHEST_TRAP = "How convenient!",
 
         TURF_CARPETFLOOR = "It's surprisingly scratchy.",
         TURF_CHECKERFLOOR = "These are pretty snazzy.",
@@ -1400,6 +1406,7 @@ return {
             "Eurgh. It's so lifelike.",
         },
         CHESSPIECE_DRAGONFLY = "Ah, that brings back memories. Bad ones.",
+		CHESSPIECE_MINOTAUR = "Now you're the one scared stiff!",
         CHESSPIECE_BUTTERFLY = "It looks nice, doesn't it?",
         CHESSPIECE_ANCHOR = "It's as heavy as it looks.",
         CHESSPIECE_MOON = "I've been feeling pretty inspired lately.",
@@ -1618,6 +1625,7 @@ return {
 		FEATHER_ROBIN_WINTER = "A snowbird feather.",
 		FEATHER_CANARY = "A canary feather.",
 		FEATHERPENCIL = "The feather increases the scientific properties of the writing.",
+        COOKBOOK = "I've always been hungry for knowledge.",
 		FEM_PUPPET = "She's trapped!",
 		FIREFLIES =
 		{
@@ -2779,9 +2787,6 @@ return {
 		QUAGMIRE_SALMON_COOKED = "Ready for the dinner table.",
 		QUAGMIRE_CRABMEAT = "No imitations here.",
 		QUAGMIRE_CRABMEAT_COOKED = "I can put a meal together in a pinch.",
-        QUAGMIRE_POT = "This one holds more ingredients.",
-        QUAGMIRE_POT_SMALL = "Let's get cooking!",
-        QUAGMIRE_POT_HANGER_ITEM = "For suspension-based cookery.",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "It's full of delicious, delicious sap.",
@@ -3292,6 +3297,9 @@ return {
             GENERIC = "The real treasure is the treasure we found along the way.",
             LOCKED = "It's clammed right up!",
         },
+        
+        HERMIT_BUNDLE = "She shore shells out a lot of these.",
+        HERMIT_BUNDLE_SHELLS = "She DOES sell sea shells!",
 
         RESKIN_TOOL = "I like the dust! It feels scholarly!",
         MOON_FISSURE_PLUGGED = "It's not very scientific... but pretty effective.",
@@ -3322,6 +3330,15 @@ return {
         PORTABLETENT = "I feel like I haven't had a proper night's sleep in ages!",
         PORTABLETENT_ITEM = "This requires some a-tent-tion.",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "Theater makes me fidgety.",
+        BATTLESONG_HEALTHGAIN = "Theater makes me fidgety.",
+        BATTLESONG_SANITYGAIN = "Theater makes me fidgety.",
+        BATTLESONG_SANITYAURA = "Theater makes me fidgety.",
+        BATTLESONG_FIRERESISTANCE = "I once burned my vest before seeing a play. I call that dramatic ironing.",
+        BATTLESONG_INSTANT_TAUNT = "I'm afraid I'm not a licensed poetic.",
+        BATTLESONG_INSTANT_PANIC = "I'm afraid I'm not a licensed poetic.",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "Ah yes. Very science-y.",
 		GHOSTLYELIXIR_FASTREGEN = "Ah yes. Very science-y.",

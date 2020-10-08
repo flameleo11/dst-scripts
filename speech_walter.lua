@@ -63,13 +63,12 @@ return{
             NO_RACERS = "Oh. I forgot the racers!",
         },
         
-        --warly specific action
---fallback to speech_wilson.lua 		DISMANTLE =
---fallback to speech_wilson.lua 		{
---fallback to speech_wilson.lua 			COOKING = "only_used_by_warly",
---fallback to speech_wilson.lua 			INUSE = "only_used_by_warly",
---fallback to speech_wilson.lua 			NOTEMPTY = "only_used_by_warly",
---fallback to speech_wilson.lua         },
+		DISMANTLE =
+		{
+			COOKING = "TODO",
+			INUSE = "Guess I have to wait.",
+			NOTEMPTY = "TODO",
+        },
         FISH_OCEAN =
 		{
 			TOODEEP = "A Pinetree Pioneer knows to use the right equipment. And this isn't it.",
@@ -227,6 +226,10 @@ return{
 			NOT_NIGHT = "I should wait until it's dark, for maximum spookiness.",
 			NO_FIRE = "I need a fire, it adds to the atmosphere!",
 		},
+        SING_FAIL =
+        {
+--fallback to speech_wilson.lua             SAMESONG = "only_used_by_wathgrithr",
+        },
 	},
 	ACTIONFAIL_GENERIC = "It won't work.",
 	ANNOUNCE_BOAT_LEAK = "Um. That might be a problem.",
@@ -572,6 +575,10 @@ return{
 --fallback to speech_wilson.lua 		LEVEL2 = "only_used_by_wendy",
 --fallback to speech_wilson.lua 		LEVEL3 = "only_used_by_wendy",
 	},
+
+--fallback to speech_wilson.lua     ANNOUNCE_NOINSPIRATION = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "only_used_by_wathgrithr",
 
 	BATTLECRY =
 	{
@@ -1080,7 +1087,6 @@ return{
         SPIDERHOLE_ROCK = "Someone needs to dust more often, everything's covered in cobwebs!",
         STALAGMITE = "People get stalagmites and stalactites confused, but I know which is which!",
         STALAGMITE_TALL = "It's a really tall... one of these!",
-        TREASURECHEST_TRAP = "There might be cursed pirate gold inside!",
 
         TURF_CARPETFLOOR = "This reminds me of my living room back home.",
         TURF_CHECKERFLOOR = "A patch of ground.",
@@ -1391,6 +1397,7 @@ return{
             "It's a shame things had to end the way they did.",
         },
         CHESSPIECE_DRAGONFLY = "If only we could've gotten along.",
+		CHESSPIECE_MINOTAUR = "This statue is... a-maze-ing! Get it?",
         CHESSPIECE_BUTTERFLY = "It's not quite as good as a real bug collection, but close!",
         CHESSPIECE_ANCHOR = "Technically this could still work as a real anchor.",
         CHESSPIECE_MOON = "It tells folks to be-were! Get it?",
@@ -1609,6 +1616,7 @@ return{
 		FEATHER_ROBIN_WINTER = "Looks like a snowbird feather.",
 		FEATHER_CANARY = "Looks like a canary feather.",
 		FEATHERPENCIL = "I feel like I should write something poetic with this...",
+        COOKBOOK = "Looks like I've got a new guide to memorize!",
 		FEM_PUPPET = "Don't worry, a Pinetree Pioneer always helps those in need!",
 		FIREFLIES =
 		{
@@ -2770,9 +2778,6 @@ return{
 		QUAGMIRE_SALMON_COOKED = "Ready for the dinner table.",
 		QUAGMIRE_CRABMEAT = "No imitations here.",
 		QUAGMIRE_CRABMEAT_COOKED = "I can put a meal together in a pinch.",
-        QUAGMIRE_POT = "This pot holds more ingredients.",
-        QUAGMIRE_POT_SMALL = "Let's get cooking!",
-        QUAGMIRE_POT_HANGER_ITEM = "For suspension-based cookery.",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "It's full of delicious, delicious sap.",
@@ -3283,6 +3288,9 @@ return{
             GENERIC = "How did this clam get so big?",
             LOCKED = "I can't get it open.",
         },
+        
+        HERMIT_BUNDLE = "I think she's really warming up to us, Woby!",
+        HERMIT_BUNDLE_SHELLS = "More for the shell collection!",
 
         RESKIN_TOOL = "It changes how things look, but they're still the same deep down.",
         MOON_FISSURE_PLUGGED = "She trapped all the moon ghosts in their holes.",
@@ -3313,6 +3321,15 @@ return{
         PORTABLETENT = "Nice and sturdy!",
         PORTABLETENT_ITEM = "I'll have this set up lickety-split!",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "This seems a bit more complicated than the songs I learned in the Pioneers.",
+        BATTLESONG_HEALTHGAIN = "This seems a bit more complicated than the songs I learned in the Pioneers.",
+        BATTLESONG_SANITYGAIN = "This seems a bit more complicated than the songs I learned in the Pioneers.",
+        BATTLESONG_SANITYAURA = "This seems a bit more complicated than the songs I learned in the Pioneers.",
+        BATTLESONG_FIRERESISTANCE = "This seems a bit more complicated than the songs I learned in the Pioneers.",
+        BATTLESONG_INSTANT_TAUNT = "This story could use a few more monsters.",
+        BATTLESONG_INSTANT_PANIC = "This story could use a few more monsters.",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "Ghosts can drink potions? Uh, of course I knew that!",
 		GHOSTLYELIXIR_FASTREGEN = "Ghosts can drink potions? Uh, of course I knew that!",

@@ -152,7 +152,7 @@ local search_match = function( search, str )
     str = str:gsub(" ", "")
 
     --Simple find in strings for multi word search
-    if string.find( str, search ) ~= nil then
+    if string.find( str, search, 1, true ) ~= nil then
         return true
     end
     local sub_len = string.len(search)
@@ -186,13 +186,32 @@ function FilterBar:AddSearch( thin )
     searchbox.textbox:SetHelpTextEdit("")
     searchbox.textbox:SetHelpTextApply(STRINGS.UI.WARDROBESCREEN.SEARCH)
     searchbox.textbox.OnTextEntered = function()
+        if self.search_delay then
+            self.search_delay:Cancel()
+            self.search_delay = nil
+        end
+
         if not self.no_refresh_picker then
             self.picker:RefreshItems(self:_ConstructFilter())
         end
         if IsNotConsole() then
             searchbox.textbox:SetEditing(true)
         end
+        self.entered_string = searchbox.textbox:GetString() --just used for filter on input below, so we can avoid triggering a second refresh
     end
+    searchbox.textbox.OnTextInputted = function()
+        if self.search_delay then
+            self.search_delay:Cancel()
+            self.search_delay = nil
+        end
+
+        if self.entered_string ~= searchbox.textbox:GetString() then
+            self.search_delay = self.inst:DoTaskInTime(0.25, function() 
+                searchbox.textbox:OnTextEntered()
+            end)
+        end
+    end
+
 
     self.filters["SEARCH"] = function(item_key)
         local search_str = TrimString(string.upper(searchbox.textbox:GetString()))
@@ -239,6 +258,7 @@ function FilterBar:HideFilter(id)
     for _,v in ipairs(self.filter_btns) do
         if v.btnid==id then
             v.widget:Hide()
+            break
         end
     end
 
@@ -249,6 +269,7 @@ function FilterBar:ShowFilter(id)
     for _,v in ipairs(self.filter_btns) do
         if v.btnid==id then
             v.widget:Show()
+            break
         end
     end
     self:_UpdatePositions()

@@ -63,13 +63,12 @@ return{
             NO_RACERS = "Just who's racing against who, eh?",
         },
         
-        --warly specific action
---fallback to speech_wilson.lua 		DISMANTLE =
---fallback to speech_wilson.lua 		{
---fallback to speech_wilson.lua 			COOKING = "only_used_by_warly",
---fallback to speech_wilson.lua 			INUSE = "only_used_by_warly",
---fallback to speech_wilson.lua 			NOTEMPTY = "only_used_by_warly",
---fallback to speech_wilson.lua         },
+		DISMANTLE =
+		{
+			COOKING = "TODO",
+			INUSE = "Sorry! I'll wait til you're finished there.",
+			NOTEMPTY = "TODO",
+        },
         FISH_OCEAN =
 		{
 			TOODEEP = "This little rod won't do me much good.",
@@ -227,6 +226,10 @@ return{
 --fallback to speech_wilson.lua 			NOT_NIGHT = "only_used_by_walter",
 --fallback to speech_wilson.lua 			NO_FIRE = "only_used_by_walter",
 		},
+        SING_FAIL =
+        {
+--fallback to speech_wilson.lua             SAMESONG = "only_used_by_wathgrithr",
+        },
 	},
 	ACTIONFAIL_GENERIC = "Sorry, I can't do that.",
 	ANNOUNCE_BOAT_LEAK = "All this water is making me very anxious.",
@@ -573,6 +576,10 @@ return{
 --fallback to speech_wilson.lua 		LEVEL2 = "only_used_by_wendy",
 --fallback to speech_wilson.lua 		LEVEL3 = "only_used_by_wendy",
 	},
+
+--fallback to speech_wilson.lua     ANNOUNCE_NOINSPIRATION = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "only_used_by_wathgrithr",
+--fallback to speech_wilson.lua     ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "only_used_by_wathgrithr",
 
 	BATTLECRY =
 	{
@@ -1081,7 +1088,6 @@ return{
         SPIDERHOLE_ROCK = "I should skedaddle before they come out of there.",
         STALAGMITE = "I'm not too interested in rocks.",
         STALAGMITE_TALL = "I'm not too interested in rocks.",
-        TREASURECHEST_TRAP = "Something is not quite right aboot that chest.",
 
         TURF_CARPETFLOOR = "Too classy for my tastes.",
         TURF_CHECKERFLOOR = "Looks like one of those city-people outhouses.",
@@ -1392,6 +1398,7 @@ return{
             "Looks sturdy.",
         },
         CHESSPIECE_DRAGONFLY = "Good stonework.",
+		CHESSPIECE_MINOTAUR = "Gotta say I prefer it to the original.",
         CHESSPIECE_BUTTERFLY = "Reminds me of nature.",
         CHESSPIECE_ANCHOR = "Looks good to me.",
         CHESSPIECE_MOON = "Someone did a good job on this.",
@@ -1400,7 +1407,7 @@ return{
         CHESSPIECE_CRABKING = "That's nicely made.",
         CHESSPIECE_TOADSTOOL = "Structurally sound.",
         CHESSPIECE_STALKER = "Nothin' wrong with it now.",
-        CHESSPIECE_KLAUS = "Can't complain about that worksmanship.",
+        CHESSPIECE_KLAUS = "Can't complain aboot that worksmanship.",
         CHESSPIECE_BEEQUEEN = "Some nice detail on that.",
         CHESSPIECE_ANTLION = "Looks almost real, eh?",
         CHESSJUNK1 = "Dead metal.",
@@ -1610,6 +1617,7 @@ return{
 		FEATHER_ROBIN_WINTER = "A stupid feather.",
 		FEATHER_CANARY = "A grody feather.",
 		FEATHERPENCIL = "The bird murder wasn't even necessary. Heh.",
+        COOKBOOK = "Pretty handy. Luce, how aboot you read off the ingredients while I cook?",
 		FEM_PUPPET = "She's trapped!",
 		FIREFLIES =
 		{
@@ -2310,16 +2318,16 @@ return{
         TRINKET_46 = "I prefer to let mine air dry.", -- Hairdryer ONI trinket
 
         -- The numbers align with the trinket numbers above.
-        LOST_TOY_1  = "There's something unnatural about that thing... wouldn't ya say, Luce?",
-        LOST_TOY_2  = "There's something unnatural about that thing... wouldn't ya say, Luce?",
-        LOST_TOY_7  = "There's something unnatural about that thing... wouldn't ya say, Luce?",
-        LOST_TOY_10 = "There's something unnatural about that thing... wouldn't ya say, Luce?",
-        LOST_TOY_11 = "There's something unnatural about that thing... wouldn't ya say, Luce?",
-        LOST_TOY_14 = "There's something unnatural about that thing... wouldn't ya say, Luce?",
-        LOST_TOY_18 = "There's something unnatural about that thing... wouldn't ya say, Luce?",
-        LOST_TOY_19 = "There's something unnatural about that thing... wouldn't ya say, Luce?",
-        LOST_TOY_42 = "There's something unnatural about that thing... wouldn't ya say, Luce?",
-        LOST_TOY_43 = "There's something unnatural about that thing... wouldn't ya say, Luce?",
+        LOST_TOY_1  = "There's something unnatural aboot that thing... wouldn't ya say, Luce?",
+        LOST_TOY_2  = "There's something unnatural aboot that thing... wouldn't ya say, Luce?",
+        LOST_TOY_7  = "There's something unnatural aboot that thing... wouldn't ya say, Luce?",
+        LOST_TOY_10 = "There's something unnatural aboot that thing... wouldn't ya say, Luce?",
+        LOST_TOY_11 = "There's something unnatural aboot that thing... wouldn't ya say, Luce?",
+        LOST_TOY_14 = "There's something unnatural aboot that thing... wouldn't ya say, Luce?",
+        LOST_TOY_18 = "There's something unnatural aboot that thing... wouldn't ya say, Luce?",
+        LOST_TOY_19 = "There's something unnatural aboot that thing... wouldn't ya say, Luce?",
+        LOST_TOY_42 = "There's something unnatural aboot that thing... wouldn't ya say, Luce?",
+        LOST_TOY_43 = "There's something unnatural aboot that thing... wouldn't ya say, Luce?",
         
         HALLOWEENCANDY_1 = "Even the stick is delicious.",
         HALLOWEENCANDY_2 = "Don't worry, I'll eat enough for the both of us, Lucy.",
@@ -2771,9 +2779,6 @@ return{
 		QUAGMIRE_SALMON_COOKED = "Tastes like home.",
 		QUAGMIRE_CRABMEAT = "That'll cook up real good.",
 		QUAGMIRE_CRABMEAT_COOKED = "I wouldn't mind a taste of that.",
-        QUAGMIRE_POT = "What do ya wanna make, Lucy?",
-        QUAGMIRE_POT_SMALL = "I only know a handful of recipes, but I'm real good at them.",
-        QUAGMIRE_POT_HANGER_ITEM = "Gotta hang the pot on the fire somehow.",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "It's beautiful!",
@@ -3284,6 +3289,9 @@ return{
             GENERIC = "I think I prefer cedar chests.",
             LOCKED = "Dangit, this lock won't budge!",
         },
+        
+        HERMIT_BUNDLE = "I think that old hardshell's going soft on us, eh Lucy?",
+        HERMIT_BUNDLE_SHELLS = "A shell full of shells, eh?",
 
         RESKIN_TOOL = "A change of scenery might be nice, eh?",
         MOON_FISSURE_PLUGGED = "Guess sometimes stubbornness pays off, eh Lucy?",
@@ -3314,6 +3322,15 @@ return{
         PORTABLETENT = "I always sleep better in a tent.",
         PORTABLETENT_ITEM = "A portable tent! Why didn't we think of that, Luce?",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "Don't recognize the song. Maybe it wasn't released in Canada.",
+        BATTLESONG_HEALTHGAIN = "Don't recognize the song. Maybe it wasn't released in Canada.",
+        BATTLESONG_SANITYGAIN = "Don't recognize the song. Maybe it wasn't released in Canada.",
+        BATTLESONG_SANITYAURA = "Don't recognize the song. Maybe it wasn't released in Canada.",
+        BATTLESONG_FIRERESISTANCE = "Don't recognize the song. Maybe it wasn't released in Canada.",
+        BATTLESONG_INSTANT_TAUNT = "I can't sit and watch a play when there's wood to be chopped!",
+        BATTLESONG_INSTANT_PANIC = "I can't sit and watch a play when there's wood to be chopped!",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "Whoof, smells like week-old sockeye!",
 		GHOSTLYELIXIR_FASTREGEN = "Whoof, smells like week-old sockeye!",

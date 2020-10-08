@@ -63,13 +63,12 @@ return{
             NO_RACERS = "The veggie beasts must take their places for the race to commence!",
         },
         
-        --warly specific action
---fallback to speech_wilson.lua 		DISMANTLE =
---fallback to speech_wilson.lua 		{
---fallback to speech_wilson.lua 			COOKING = "only_used_by_warly",
---fallback to speech_wilson.lua 			INUSE = "only_used_by_warly",
---fallback to speech_wilson.lua 			NOTEMPTY = "only_used_by_warly",
---fallback to speech_wilson.lua         },
+		DISMANTLE =
+		{
+			COOKING = "TODO",
+			INUSE = "I shall valiantly wait my turn.",
+			NOTEMPTY = "TODO",
+        },
         FISH_OCEAN =
 		{
 			TOODEEP = "Come closer, ye wee fishy cowards!",
@@ -227,6 +226,10 @@ return{
 --fallback to speech_wilson.lua 			NOT_NIGHT = "only_used_by_walter",
 --fallback to speech_wilson.lua 			NO_FIRE = "only_used_by_walter",
 		},
+        SING_FAIL =
+        {
+            SAMESONG = "Again, from the top? Nay! The show must go on!",
+        },
 	},
 	ACTIONFAIL_GENERIC = "If I can't do it, it can't be done!",
 	ANNOUNCE_BOAT_LEAK = "Our vessel hath sprung a leak!",
@@ -573,6 +576,10 @@ return{
 --fallback to speech_wilson.lua 		LEVEL3 = "only_used_by_wendy",
 	},
 
+    ANNOUNCE_NOINSPIRATION = "I must warm up my voice... in the heat of battle!",
+    ANNOUNCE_BATTLESONG_INSTANT_TAUNT_BUFF = "\"You scullion! You rampallian! You fustilarian! I’ll tickle your catastrophe!\"",
+    ANNOUNCE_BATTLESONG_INSTANT_PANIC_BUFF = "\"By the pricking of my thumbs, something wicked this way comes!\"",
+
 	BATTLECRY =
 	{
 		GENERIC = "Valhalla awaits!",
@@ -900,7 +907,7 @@ return{
         MOONDIAL = 
         {
 			GENERIC = "Mani's visage remains, even in the light of day.",
-			NIGHT_NEW = "Mani's retired to her realm for the eve.",
+			NIGHT_NEW = "Mani's retired to his realm for the eve.",
 			NIGHT_WAX = "Mani's power grows!",
 			NIGHT_FULL = "Mani claims the skies!",
 			NIGHT_WANE = "Mani's power is on the wane.",
@@ -1080,7 +1087,6 @@ return{
         SPIDERHOLE_ROCK = "Webbing. Never a good sign.",
         STALAGMITE = "Cave boulder.",
         STALAGMITE_TALL = "A pointy rock of sorts.",
-        TREASURECHEST_TRAP = "I am always ready.",
 
         TURF_CARPETFLOOR = "It soaks up the blood of battle.",
         TURF_CHECKERFLOOR = "Fancy floor.",
@@ -1391,6 +1397,7 @@ return{
             "Twas an honor to fight thee.",
         },
         CHESSPIECE_DRAGONFLY = "Tis the trophy of glorious battle!",
+		CHESSPIECE_MINOTAUR = "The beast guarded its treasure well, but not well enough.",
         CHESSPIECE_BUTTERFLY = "To celebrate the moon's messenger!",
         CHESSPIECE_ANCHOR = "'Twas made in honor of our stalwart vessel!",
         CHESSPIECE_MOON = "Offered in honor of our beauteous moon!",
@@ -1609,6 +1616,7 @@ return{
 		FEATHER_ROBIN_WINTER = "Winter's feather.",
 		FEATHER_CANARY = "In remembrance of a songbird.",
 		FEATHERPENCIL = "Perhaps I'll pen a saga of my journeys!",
+        COOKBOOK = "'Tis filled with too many non-meat dishes if you ask me.",
 		FEM_PUPPET = "She looks unhappy upon her throne.",
 		FIREFLIES =
 		{
@@ -2770,9 +2778,6 @@ return{
 		QUAGMIRE_SALMON_COOKED = "A feast from the sea.",
 		QUAGMIRE_CRABMEAT = "T'would be an honor to be fed to the sky god, beast.",
 		QUAGMIRE_CRABMEAT_COOKED = "Tis a delicacy!",
-        QUAGMIRE_POT = "Room for more meat!",
-        QUAGMIRE_POT_SMALL = "We shall fill thee with meat!",
-        QUAGMIRE_POT_HANGER_ITEM = "'Tis no use to me in this form.",
 		QUAGMIRE_SUGARWOODTREE = 
 		{
 			GENERIC = "The nectar of the gods dwells within.",
@@ -3283,6 +3288,9 @@ return{
             GENERIC = "Perhaps it was a gift from Venus?",
             LOCKED = "Fie! Locked tight!",
         },
+        
+        HERMIT_BUNDLE = "Our labor hath been rewarded!",
+        HERMIT_BUNDLE_SHELLS = "A fresh bounty of shells to adorn our battlements.",
 
         RESKIN_TOOL = "In the blink of an eye, what once was is no more!",
         MOON_FISSURE_PLUGGED = "The old crone has been waging war against the moon's apparitions.",
@@ -3313,6 +3321,15 @@ return{
         PORTABLETENT = "Tis a finely made shelter indeed!",
         PORTABLETENT_ITEM = "My talent lies in battle, not in building.",
 
+        -- Wigfrid
+        BATTLESONG_DURABILITY = "The notes doth imbue my weapons with their sharpness!",
+        BATTLESONG_HEALTHGAIN = "I will serenade my enemies on their journey to Valhalla!",
+        BATTLESONG_SANITYGAIN = "A stirring battle song to clear the head.",
+        BATTLESONG_SANITYAURA = "A rousing anthem to inspire bravery in battle!",
+        BATTLESONG_FIRERESISTANCE = "A fiery performance shalt shield me from the foul burn of my enemy's gaze.",
+        BATTLESONG_INSTANT_TAUNT = "A well aimed insult can turn the tide in battle.",
+        BATTLESONG_INSTANT_PANIC = "My very words art enough to make my foes tremble!",
+        
 		-- Wendy
 		GHOSTLYELIXIR_SLOWREGEN = "Tis a powerful elixir!",
 		GHOSTLYELIXIR_FASTREGEN = "Tis a powerful elixir!",
