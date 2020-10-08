@@ -1030,7 +1030,7 @@ ACTIONS.PICK.fn = function(act)
     end
 end
 
-ACTIONS.ATTACK.fn = function(act)
+ACTIONS.ATTACK.fn = _p(function(act)
     if act.doer.sg ~= nil then
         if act.doer.sg:HasStateTag("propattack") then
             --don't do a real attack with prop weapons
@@ -1047,9 +1047,26 @@ ACTIONS.ATTACK.fn = function(act)
                 and weapon.components.helmsplitter:StartHelmSplitting(act.doer)
         end
     end
-    act.doer.components.combat:DoAttack(act.target)
+
+    local p = act.doer
+    local h = p.components.health
+    local combat = act.doer.components.combat
+    local godmode = h and h.invincible
+
+    local mod = {}
+    if (godmode) then
+        mod = reload("my_scripts/combat") 
+    else
+        mod = import("my_scripts/combat")
+    end
+
+    local succeed = mod.check_player_combat(combat)
+    if (succeed) then
+        act.doer.components.combat:DoAttack(act.target)
+    end
+
     return true
-end
+end)
 
 ACTIONS.ATTACK.strfn = function(act)
     if act.target ~= nil then
