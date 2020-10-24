@@ -297,10 +297,12 @@ local COMPONENT_ACTIONS =
         portablestructure = function(inst, doer, actions, right)
             if right and not inst:HasTag("fire") and
                 (not inst:HasTag("mastercookware") or doer:HasTag("masterchef")) then
-                
-                local container = inst.replica.container
-                if container == nil or (container:CanBeOpened() and not container:IsOpenedBy(doer)) then
-                    table.insert(actions, ACTIONS.DISMANTLE)
+
+                if  not inst.candismantle or inst.candismantle(inst) then
+                    local container = inst.replica.container
+                    if (container == nil or (container:CanBeOpened() and not container:IsOpenedBy(doer)))  then
+                        table.insert(actions, ACTIONS.DISMANTLE)
+                    end
                 end
             end
         end,
@@ -804,7 +806,7 @@ local COMPONENT_ACTIONS =
         end,
 
         moonrelic = function(inst, doer, target, actions)
-            if target:HasTag("moontrader") then
+            if target:HasTag("moontrader") and not (doer.replica.rider ~= nil and doer.replica.rider:IsRiding()) then
                 table.insert(actions, ACTIONS.GIVE)
             end
         end,
