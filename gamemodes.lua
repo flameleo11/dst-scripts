@@ -15,7 +15,8 @@ GAME_MODES =
         ghost_sanity_drain = true,
         ghost_enabled = true,
         portal_rez = true,
-        reset_time = nil,
+        -- reset_time = nil,
+        reset_time = { time = 30, loadingtime = 45 },
         invalid_recipes = nil,
     },
     wilderness =

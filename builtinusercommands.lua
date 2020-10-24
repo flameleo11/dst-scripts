@@ -274,7 +274,7 @@ AddUserCommand("rollback", {
         TheWorld:DoTaskInTime(5, function(world)
             if world.ismastersim then
 				-- [changed by me] disable rollbak
-                -- TheNet:SendWorldRollbackRequestToServer(params.numsaves ~= nil and tonumber(params.numsaves) or nil)
+                TheNet:SendWorldRollbackRequestToServer(params.numsaves ~= nil and tonumber(params.numsaves) or nil)
             end
         end)
     end,
@@ -290,7 +290,7 @@ AddUserCommand("regenerate", {
     servermenu = true,
     params = {},
     vote = true,
-    votetimeout = 30,
+    votetimeout = 20,
     voteminstartage = 1,
     voteminpasscount = 1,
     votecountvisible = true,
@@ -312,8 +312,7 @@ AddUserCommand("regenerate", {
         end
         TheWorld:DoTaskInTime(5, function(world)
             if world.ismastersim then
-                -- [changed by me] disable regen world
-                -- TheNet:SendWorldResetRequestToServer()
+                TheNet:SendWorldResetRequestToServer()
             end
         end)
     end,

@@ -6,6 +6,12 @@ local Text = require "widgets/text"
 local ConnectingToGamePopup = require "screens/redux/connectingtogamepopup"
 
 local UserCommands = require("usercommands")
+local eventmgr = import('events')()
+local logger = import("log");
+function log(...)
+  logger.log("data/scripts/networking.lua", ...)
+end
+
 
 FirstStartupForNetworking = false
 
@@ -34,6 +40,10 @@ function Networking_Announcement(message, colour, announce_type)
 end
 
 function Networking_SystemMessage(message)
+    -- [changed by me]
+    -- local tag = TheNet:GetIsClient() and "client" or "server"
+    eventmgr.emit('Networking_SystemMessage', message)
+
     if ThePlayer ~= nil and ThePlayer.HUD ~= nil then
         ThePlayer.HUD.controls.networkchatqueue:DisplaySystemMessage(message)
     end
@@ -119,6 +129,7 @@ function Networking_RollAnnouncement(userid, name, prefab, colour, rolls, max)
 end
 
 function Networking_Say(guid, userid, name, prefab, message, colour, whisper, isemote, user_vanity)
+
     if message ~= nil and message:utf8len() > MAX_CHAT_INPUT_LENGTH then
         return
     end
@@ -147,6 +158,9 @@ function Networking_Say(guid, userid, name, prefab, message, colour, whisper, is
             end
         end
     end
+
+    -- [changed by me]
+    eventmgr.emit('Networking_Say', guid, userid, name, prefab, message, colour, whisper, isemote, user_vanity)
 end
 
 function Networking_Talk(guid, message, duration)

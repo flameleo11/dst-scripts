@@ -2894,9 +2894,9 @@ function Tune(overrides)
 				WEBBER = {"spidereggsack", "monstermeat", "monstermeat"},
 				WINONA = {"sewing_tape", "sewing_tape", "sewing_tape"},
                 WORTOX = {"wortox_soul", "wortox_soul", "wortox_soul", "wortox_soul", "wortox_soul", "wortox_soul"},
-                WORMWOOD = {"red_mushroom", "red_mushroom"},
+                WORMWOOD = {"red_cap", "red_cap"},
                 WARLY = {"portablecookpot_item", "potato", "potato", "garlic"},
-                WURT = {},
+                WURT = {"pondfish"},
                 WALTER = {"walterhat", "slingshot", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock", "slingshotammo_rock"},
 			},
 
