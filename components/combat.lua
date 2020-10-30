@@ -99,7 +99,7 @@ function Combat:GetCooldown()
 end
 
 function Combat:ResetCooldown()
-    self.laststartattacktime = nil
+    self.laststartattacktime = 0
 end
 
 function Combat:RestartCooldown()
@@ -589,7 +589,7 @@ function Combat:StartAttack()
 end
 
 function Combat:CancelAttack()
-    self.laststartattacktime = nil
+    self.laststartattacktime = 0
 end
 
 function Combat:CanTarget(target)

@@ -54,7 +54,7 @@ local chest_loot =
     {item = {"thulecite_pieces"}, count = {4, 8}},
 
     {item = {"redgem", "bluegem", "purplegem"}, count = {3, 5}},
-    -- {item = {"yellowgem", "orangegem", "greengem"}, count = {1, 3}},
+    {item = {"yellowgem", "orangegem", "greengem"}, count = {1, 3}},
     -- {item = {"nightmarefuel"}, count = {5, 8}},
     -- {item = {"gears"}, count = {3, 6}},
     {item = {"nightmarefuel"}, count = {3, 6}},

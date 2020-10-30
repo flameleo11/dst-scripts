@@ -14,6 +14,7 @@ function Tune(overrides)
     local dusk_segs = 4
     local night_segs = 2
 
+
     --default day composition. changes in winter, etc
     local day_time = seg_time * day_segs
     local dusk_time = seg_time * dusk_segs

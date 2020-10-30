@@ -439,7 +439,8 @@ xpcall(function ()
   local x, y, z = self.inst.Transform:GetWorldPosition()
   local oncreep = self.triggerscreep and my_testOnCreep(inst)
   if oncreep then
-    -- if this ever needs to happen when self.enablegroundspeedmultiplier is set, need to move the check for self.enablegroundspeedmultiplier above
+    -- if this ever needs to happen when self.enablegroundspeedmultiplier is set, 
+    -- need to move the check for self.enablegroundspeedmultiplier above
     if not self.wasoncreep then
         my_testGetTriggeredCreepSpawners(inst)
         self.wasoncreep = true
