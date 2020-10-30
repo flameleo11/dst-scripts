@@ -586,7 +586,7 @@ Recipe("turf_fungus_green", {Ingredient("cutlichen", 1), Ingredient("spore_small
 
 ----UNCRAFTABLE----
 --NOTE: These recipes are not supposed to be craftable!
-Recipe("pighead",  {Ingredient("pigskin", 4), 	   Ingredient("twigs", 4)}, nil, TECH.LOST, nil, nil, true)
+Recipe("pighead",  {Ingredient("pigskin", 2), 	   Ingredient("twigs", 2)}, nil, TECH.LOST, nil, nil, true)
 Recipe("mermhead", {Ingredient("pondfish", 1), Ingredient("spoiled_food", 4), Ingredient("twigs", 4)}, nil, TECH.LOST, nil, nil, true)
 Recipe("sunkenchest", {Ingredient("slurtle_shellpieces", 5)}, nil, TECH.LOST, nil, nil, true)
 Recipe("mastupgrade_lamp", {Ingredient("boards", 1), Ingredient("rope", 2), Ingredient("flint", 4)}, nil, TECH.LOST, nil, nil, true)

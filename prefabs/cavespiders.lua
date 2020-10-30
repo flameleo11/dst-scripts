@@ -201,7 +201,8 @@ end
 
 local function OnAttacked(inst, data)
     local target = data.attacker;
-    if (target:HasTag("hostile")) then
+    if (not target) then return end
+    if (target and target:HasTag("hostile")) then
         return 
     end
     inst.components.combat:SetTarget(data.attacker)
