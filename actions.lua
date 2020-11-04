@@ -5,6 +5,8 @@ require 'util'
 require 'vecutil'
 require ("components/embarker")
 
+local my_combat = import("my_scripts/combat")
+
 local _p = function (f)
     return function (...)
         local args = {...}
@@ -1048,19 +1050,8 @@ ACTIONS.ATTACK.fn = _p(function(act)
         end
     end
 
-    local p = act.doer
-    local h = p.components.health
     local combat = act.doer.components.combat
-    local godmode = h and h.invincible
-
-    local mod = {}
-    if (godmode) then
-        mod = reload("my_scripts/combat") 
-    else
-        mod = import("my_scripts/combat")
-    end
-
-    local succeed = mod.check_player_combat(combat)
+    local succeed = my_combat.check_player_combat(combat)
     if (succeed) then
         act.doer.components.combat:DoAttack(act.target)
     end

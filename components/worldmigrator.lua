@@ -1,3 +1,5 @@
+local my_worldmigrator = import("my_scripts/worldmigrator")
+
 local STATUS = {
     ACTIVE = 0,
     INACTIVE = 1,
@@ -108,7 +110,9 @@ function WorldMigrator:SetID(id)
 end
 
 function WorldMigrator:IsDestinationForPortal(otherWorld, otherPortal)
-    return  self.linkedWorld == otherWorld and self.receivedPortal == otherPortal
+    -- return self.linkedWorld == otherWorld and self.receivedPortal == otherPortal
+  -- [change by me] dont check which world come
+  return self.receivedPortal == otherPortal
 end
 
 function WorldMigrator:IsAvailableForLinking()
@@ -129,6 +133,12 @@ end
 
 function WorldMigrator:Activate(doer)
     print("Activating portal["..self.id.."] to "..(self.linkedWorld or "<nil>"))
+
+    local inst = self.inst
+    if (inst.prefab == "critterlab") then
+        return my_worldmigrator.ActivateForCritterlab(self, doer) 
+    end
+
     if self.linkedWorld == nil then
         -- TODO
         --if not doer.admin then print("NOT ADMIN")return end
@@ -138,7 +148,7 @@ function WorldMigrator:Activate(doer)
     end
 
     self.inst:PushEvent("migration_activate")
-    TheWorld:PushEvent("ms_playerdespawnandmigrate", { player = doer, portalid = self.id, worldid = self.linkedWorld })
+    TheWorld:PushEvent("ms_playerdespawnandmigrate", { player = doer, portalid = self.receivedPortal, worldid = self.linkedWorld })
     return true
 end
 
